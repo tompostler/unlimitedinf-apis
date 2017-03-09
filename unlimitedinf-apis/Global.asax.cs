@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Routing;
 
-namespace unlimitedinf_apis
+namespace Unlimitedinf.Apis
 {
     public class WebApiApplication : System.Web.HttpApplication
     {

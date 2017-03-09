@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace unlimitedinf_apis.Tests
+namespace Unlimitedinf.Apis.Tests
 {
     [TestClass]
     public class UnitTest1
