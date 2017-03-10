@@ -1,6 +1,8 @@
-﻿using Microsoft.Web.Http.Versioning;
+﻿using Microsoft.ApplicationInsights.Extensibility;
+using Microsoft.Web.Http.Versioning;
 using System.Net.Http.Formatting;
 using System.Web.Http;
+using System.Web.Http.ExceptionHandling;
 
 namespace Unlimitedinf.Apis
 {
@@ -12,6 +14,7 @@ namespace Unlimitedinf.Apis
             config.Formatters.Clear();
             config.Formatters.Add(new JsonMediaTypeFormatter());
 
+            // API versioning and custom routing
             config.MapHttpAttributeRoutes();
             config.AddApiVersioning(o =>
             {
@@ -20,10 +23,15 @@ namespace Unlimitedinf.Apis
                 o.ReportApiVersions = true;
             });
 
+            // Default routing
             config.Routes.MapHttpRoute(
                 name: "AllApis",
                 routeTemplate: "api/{controller}"
             );
+
+            // Custom ApplicationInsights things
+            TelemetryConfiguration.Active.TelemetryInitializers.Add(new AiTelemetryConfig());
+            config.Services.Add(typeof(IExceptionLogger), new AiExceptionConfig());
         }
     }
 }

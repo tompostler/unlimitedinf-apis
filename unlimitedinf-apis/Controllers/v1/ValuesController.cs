@@ -4,9 +4,11 @@ using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace Unlimitedinf.Apis.Controllers.V1
@@ -44,7 +46,7 @@ namespace Unlimitedinf.Apis.Controllers.V1
         }
 
         // POST api/values
-        public void Post([FromBody]string value)
+        public async Task Post([FromBody]string value)
         {
             // Retrieve the storage account from the connection string.
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(
@@ -56,19 +58,18 @@ namespace Unlimitedinf.Apis.Controllers.V1
             // Retrieve a reference to the table.
             CloudTable table = tableClient.GetTableReference("demobutt");
 
-            // Check how many we've got
-            if (table.Exists())
+            // 10% chance of dropping the table
+            if (new Random().Next() % 10 == 0)
             {
-                TableQuery<DemoButt> query = new TableQuery<DemoButt>();
-                if (table.ExecuteQuery(query).Count() > 10)
-                    table.DeleteIfExists();
+                Trace.TraceInformation("Dropping table");
+                await table.DeleteIfExistsAsync();
             }
 
             // Create the table if it doesn't exist.
-            table.CreateIfNotExists();
+            await table.CreateIfNotExistsAsync();
 
             TableOperation insert = TableOperation.Insert(new DemoButt());
-            table.Execute(insert);
+            await table.ExecuteAsync(insert);
         }
 
         public class DemoButt : TableEntity
