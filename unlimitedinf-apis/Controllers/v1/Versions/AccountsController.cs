@@ -13,7 +13,7 @@ namespace Unlimitedinf.Apis.Controllers.v1.Versions
     [RoutePrefix("version/accounts")]
     public class AccountsController : ApiController
     {
-        [Route, HttpPost, ValidateViewModel]
+        [Route, HttpPost]
         public IHttpActionResult RegisterNewUser(Models.Versions.AccountApi account)
         {
             return Ok();

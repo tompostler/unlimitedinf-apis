@@ -23,11 +23,8 @@ namespace Unlimitedinf.Apis
                 o.ReportApiVersions = true;
             });
 
-            // Default routing
-            //config.Routes.MapHttpRoute(
-            //    name: "AllApis",
-            //    routeTemplate: "api/{controller}"
-            //);
+            // Validate everything
+            config.Filters.Add(new Filters.ValidateViewModelAttribute());
 
             // Custom ApplicationInsights things
             TelemetryConfiguration.Active.TelemetryInitializers.Add(new AiTelemetryConfig());
