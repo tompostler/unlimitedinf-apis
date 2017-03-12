@@ -1,10 +1,6 @@
 ﻿using Microsoft.WindowsAzure.Storage.Table;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace Unlimitedinf.Apis.Models.Versions
 {
@@ -23,6 +19,8 @@ namespace Unlimitedinf.Apis.Models.Versions
             }
         }
 
+        public string Email { get; set; }
+
         public AccountEntity()
         {
             this.PartitionKey = "Users";
@@ -32,28 +30,33 @@ namespace Unlimitedinf.Apis.Models.Versions
         {
             return new AccountApi
             {
-                username = entity.Username
+                username = entity.Username,
+                email = entity.Email
             };
         }
     }
 
     public class AccountApi
     {
-        [StringLength(1000), CustomValidation(typeof(AccountValidator), nameof(AccountValidator.Validate))]
+        [Required, StringLength(100), CustomValidation(typeof(AccountValidator), nameof(AccountValidator.Username))]
         public string username { get; set; }
+
+        [Required, EmailAddress]
+        public string email { get; set; }
 
         public static implicit operator AccountEntity(AccountApi api)
         {
             return new AccountEntity
             {
-                Username = api.username
+                Username = api.username,
+                Email = api.email
             };
         }
     }
 
     public class AccountValidator
     {
-        public static ValidationResult Validate(string username, ValidationContext context)
+        public static ValidationResult Username(string username, ValidationContext context)
         {
             if (username.Equals("Users"))
                 return new ValidationResult("Username cannot be 'Users'");
