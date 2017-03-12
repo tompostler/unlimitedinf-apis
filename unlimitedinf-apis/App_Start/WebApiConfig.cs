@@ -24,10 +24,10 @@ namespace Unlimitedinf.Apis
             });
 
             // Default routing
-            config.Routes.MapHttpRoute(
-                name: "AllApis",
-                routeTemplate: "api/{controller}"
-            );
+            //config.Routes.MapHttpRoute(
+            //    name: "AllApis",
+            //    routeTemplate: "api/{controller}"
+            //);
 
             // Custom ApplicationInsights things
             TelemetryConfiguration.Active.TelemetryInitializers.Add(new AiTelemetryConfig());

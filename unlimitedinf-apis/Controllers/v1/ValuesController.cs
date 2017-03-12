@@ -5,18 +5,18 @@ using Microsoft.WindowsAzure.Storage.Table;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Unlimitedinf.Apis.Auth;
 
-namespace Unlimitedinf.Apis.Controllers.V1
+namespace Unlimitedinf.Apis.Controllers.v1
 {
-    [ApiVersion("1.0")]
+    [RequireHttps, ApiVersion("1.0")]
+    [RoutePrefix("api/values")]
     public class ValuesController : ApiController
     {
         // GET api/values
+        [Route, HttpGet]
         public IEnumerable<DemoButt> Get()
         {
             // Retrieve the storage account from the connection string.
@@ -39,14 +39,19 @@ namespace Unlimitedinf.Apis.Controllers.V1
             return new List<DemoButt>();
         }
 
+        private static List<DateTime> LetsSeeHowLongThisLasts = new List<DateTime>();
+
         // GET api/values/5
-        public string Get(int id)
+        [Route, HttpGet]
+        public List<DateTime> Get(int id)
         {
-            return id.ToString();
+            LetsSeeHowLongThisLasts.Add(DateTime.Now);
+            return LetsSeeHowLongThisLasts;
         }
 
         // POST api/values
-        public async Task Post([FromBody]string value)
+        [Route, HttpPost]
+        public async Task Post(DemoButt value)
         {
             // Retrieve the storage account from the connection string.
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(
@@ -82,16 +87,6 @@ namespace Unlimitedinf.Apis.Controllers.V1
             }
 
             public DateTime Insertion { get; set; }
-        }
-
-        // PUT api/values/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/values/5
-        public void Delete(int id)
-        {
         }
     }
 }
