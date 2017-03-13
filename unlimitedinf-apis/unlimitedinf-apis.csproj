@@ -173,6 +173,7 @@
     <Compile Include="App_Start\AiTelemetryConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Auth\RequireHttpsAttribute.cs" />
+    <Compile Include="Controllers\PingController.cs" />
     <Compile Include="Controllers\TeapotController.cs" />
     <Compile Include="Controllers\v1\Versions\AccountsController.cs" />
     <Compile Include="Controllers\v1\ValuesController.cs" />
