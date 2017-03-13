@@ -1,29 +1,33 @@
 ﻿using Microsoft.WindowsAzure.Storage.Table;
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
+using Unlimitedinf.Tools;
 
 namespace Unlimitedinf.Apis.Models.Versions
 {
     public class AccountEntity : TableEntity
-    { 
-        [JsonIgnore]
+    {
+        private string _Username;
         public string Username
         {
             get
             {
-                return this.RowKey;
+                return this._Username;
             }
             set
             {
-                this.RowKey = value;
+                this._Username = value;
+                this.RowKey = value.ToLowerInvariant();
             }
         }
 
         public string Email { get; set; }
 
+        public string Secret { get; set; }
+
         public AccountEntity()
         {
-            this.PartitionKey = "Users";
+            this.PartitionKey = AccountValidator.PartitionKey;
         }
 
         public static implicit operator AccountApi(AccountEntity entity)
@@ -44,22 +48,28 @@ namespace Unlimitedinf.Apis.Models.Versions
         [Required, EmailAddress]
         public string email { get; set; }
 
+        [Required, StringLength(100)]
+        public string secret { get; set; }
+
         public static implicit operator AccountEntity(AccountApi api)
         {
             return new AccountEntity
             {
                 Username = api.username,
-                Email = api.email
+                Email = api.email,
+                Secret = api.secret.GetHashCode(Tools.Hashing.Hasher.Algorithm.SHA512)
             };
         }
     }
 
     public class AccountValidator
     {
+        public const string PartitionKey = "accounts";
+
         public static ValidationResult Username(string username, ValidationContext context)
         {
-            if (username.Equals("Users"))
-                return new ValidationResult("Username cannot be 'Users'");
+            if (username.Equals(PartitionKey))
+                return new ValidationResult($"Username cannot be '{PartitionKey}'");
             else
                 return null;
         }

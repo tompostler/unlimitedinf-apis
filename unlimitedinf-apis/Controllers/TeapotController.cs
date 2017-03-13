@@ -1,6 +1,5 @@
 ﻿using System.Net.Http;
 using System.Web.Http;
-using Unlimitedinf.Apis.Auth;
 using Unlimitedinf.Apis.Util;
 
 namespace Unlimitedinf.Apis.Controllers
