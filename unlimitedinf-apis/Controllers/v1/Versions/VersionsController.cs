@@ -89,7 +89,12 @@ namespace Unlimitedinf.Apis.Controllers.v1.Versions
             var replace = TableOperation.Replace(versionEntity);
             result = await TableStorage.Version.ExecuteAsync(replace);
 
-            return Content((HttpStatusCode)result.HttpStatusCode, (VersionApi)(VersionEntity)result.Result);
+            // Annoying
+            var returnCode = (HttpStatusCode)result.HttpStatusCode;
+            if (returnCode == HttpStatusCode.NoContent)
+                returnCode = HttpStatusCode.OK;
+
+            return Content(returnCode, (VersionApi)(VersionEntity)result.Result);
         }
 
         [Route, HttpDelete]
