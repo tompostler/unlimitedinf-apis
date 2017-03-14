@@ -76,7 +76,7 @@ namespace Unlimitedinf.Apis.Models.Versions
 
         public static ValidationResult Username(string username, ValidationContext context)
         {
-            if (username.Equals(PartitionKey))
+            if (username != null && username.Equals(PartitionKey))
                 return new ValidationResult($"Username cannot be '{PartitionKey}'");
             else
                 return null;

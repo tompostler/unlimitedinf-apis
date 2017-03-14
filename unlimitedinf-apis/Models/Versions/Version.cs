@@ -21,21 +21,33 @@ namespace Unlimitedinf.Apis.Models.Versions
             }
         }
 
-        private string _Name;
+        [IgnoreProperty]
         public string Name
         {
             get
             {
-                return this._Name;
+                return this.RowKey;
             }
             set
             {
-                this._Name = value;
-                this.RowKey = value.ToLowerInvariant();
+                this.RowKey = value;
             }
         }
 
+        [IgnoreProperty]
         public SemVer Version { get; set; }
+
+        public string TSVersion
+        {
+            get
+            {
+                return this.Version.ToString();
+            }
+            set
+            {
+                this.Version = SemVer.Parse(value);
+            }
+        }
 
         public static implicit operator VersionApi(VersionEntity entity)
         {

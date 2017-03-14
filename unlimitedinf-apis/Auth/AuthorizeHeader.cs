@@ -39,7 +39,7 @@ namespace Unlimitedinf.Apis.Auth
 
         public static string GetAuthorizationHeader(HttpActionContext actionContext)
         {
-            return actionContext.Request.Headers.Authorization.Parameter;
+            return actionContext.Request.Headers.Authorization.Scheme;
         }
     }
 }
