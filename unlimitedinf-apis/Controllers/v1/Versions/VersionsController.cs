@@ -10,7 +10,7 @@ using Unlimitedinf.Apis.Models.Versions;
 namespace Unlimitedinf.Apis.Controllers.v1.Versions
 {
     [RequireHttps, ApiVersion("1.0")]
-    [RoutePrefix("version/accounts")]
+    [RoutePrefix("version/versions")]
     public class VersionsController : ApiController
     {
         [Route, HttpGet]
