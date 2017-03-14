@@ -84,10 +84,10 @@ namespace Unlimitedinf.Apis.Models.Versions
         public string name { get; set; }
 
         [Required]
-        public VersionApiIncrementOption Increment { get; set; }
+        public VersionApiIncrementOption inc { get; set; }
 
         // By default, reset all the following version specifiers
-        public bool Reset { get; set; } = true;
+        public bool reset { get; set; } = true;
 
         public TableOperation GetExistingOperation()
         {
