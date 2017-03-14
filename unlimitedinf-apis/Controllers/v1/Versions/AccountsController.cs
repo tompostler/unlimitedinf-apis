@@ -1,6 +1,7 @@
 ﻿using Microsoft.Web.Http;
 using Microsoft.WindowsAzure.Storage.Table;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -49,18 +50,36 @@ namespace Unlimitedinf.Apis.Controllers.v1.Versions
         [Route, HttpDelete]
         public async Task<IHttpActionResult> DeleteAccountAndAllVersions(AccountApi account)
         {
+            // Check if account exists
             var result = await TableStorage.Version.ExecuteAsync(account.GetExistingOperation());
             if (result.Result == null)
                 return NotFound();
 
-            var entity = (AccountEntity)result.Result;
-            if (!account.oldsecret.GetHashCodeSha512().Equals(entity.Secret))
+            // Verify they have permission to do this
+            var accountEntity = (AccountEntity)result.Result;
+            if (!account.secret.GetHashCodeSha512().Equals(accountEntity.Secret))
                 return StatusCode(HttpStatusCode.Forbidden);
 
-            //TODO delete all versions for this account
+            // Delete all associated version entries
+            var versionEntitiesQuery = new TableQuery<VersionEntity>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, accountEntity.RowKey));
+            var versionEntitiesDropBatch = new TableBatchOperation();
+            foreach (VersionEntity versionEntity in await TableStorage.Version.ExecuteQueryAsync(versionEntitiesQuery))
+                versionEntitiesDropBatch.Delete(versionEntity);
+            var dropResults = await TableStorage.Version.ExecuteBatchAsync(versionEntitiesDropBatch);
+            var results = new DeleteAccountAndAllVersionsResult();
+            foreach (var dropResult in dropResults)
+                results.VersionsDropResults.Add(((VersionEntity)result.Result).Name, result.HttpStatusCode);
 
-            result = await TableStorage.Version.ExecuteAsync(TableOperation.Delete(entity));
-            return Content((HttpStatusCode)result.HttpStatusCode, (AccountApi)(AccountEntity)result.Result);
+            // Delete the account
+            result = await TableStorage.Version.ExecuteAsync(TableOperation.Delete(accountEntity));
+            results.AccountDropResult = (AccountEntity)result.Result;
+            return Content((HttpStatusCode)result.HttpStatusCode, results);
+        }
+
+        private class DeleteAccountAndAllVersionsResult
+        {
+            public Dictionary<string, int> VersionsDropResults { get; set; } = new Dictionary<string, int>();
+            public AccountApi AccountDropResult { get; set; }
         }
     }
 }

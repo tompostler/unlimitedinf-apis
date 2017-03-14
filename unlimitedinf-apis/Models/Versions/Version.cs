@@ -71,7 +71,34 @@ namespace Unlimitedinf.Apis.Models.Versions
 
         public TableOperation GetExistingOperation()
         {
-            return TableOperation.Retrieve<VersionEntity>(this.username.ToLowerInvariant(), this.name);
+            return TableOperation.Retrieve<VersionEntity>(this.username.ToLowerInvariant(), this.name.ToLowerInvariant());
         }
+    }
+
+    public class VersionApiIncrement
+    {
+        [Required, StringLength(100), CustomValidation(typeof(AccountValidator), nameof(AccountValidator.Username))]
+        public string username { get; set; }
+
+        [Required, StringLength(100)]
+        public string name { get; set; }
+
+        [Required]
+        public VersionApiIncrementOption Increment { get; set; }
+
+        // By default, reset all the following version specifiers
+        public bool Reset { get; set; } = true;
+
+        public TableOperation GetExistingOperation()
+        {
+            return TableOperation.Retrieve<VersionEntity>(this.username.ToLowerInvariant(), this.name.ToLowerInvariant());
+        }
+    }
+
+    public enum VersionApiIncrementOption
+    {
+        Major,
+        Minor,
+        Patch
     }
 }
