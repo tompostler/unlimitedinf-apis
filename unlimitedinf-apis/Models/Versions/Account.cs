@@ -51,14 +51,22 @@ namespace Unlimitedinf.Apis.Models.Versions
         [Required, StringLength(100)]
         public string secret { get; set; }
 
+        [StringLength(100)]
+        public string oldsecret { get; set; }
+
         public static implicit operator AccountEntity(AccountApi api)
         {
             return new AccountEntity
             {
                 Username = api.username,
                 Email = api.email,
-                Secret = api.secret.GetHashCode(Tools.Hashing.Hasher.Algorithm.SHA512)
+                Secret = api.secret.GetHashCodeSha512()
             };
+        }
+
+        public TableOperation GetExistingOperation()
+        {
+            return TableOperation.Retrieve<AccountEntity>(AccountValidator.PartitionKey, this.username.ToLowerInvariant());
         }
     }
 
