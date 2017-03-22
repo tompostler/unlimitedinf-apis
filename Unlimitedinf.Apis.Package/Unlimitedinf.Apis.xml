@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Configuration">
+    
+    <LastUpdated>2017-03-22</LastUpdated>
+    <Version>0.0.1</Version>
+    
+    <ReleaseNotes>
+0.0.1
+
+  - Test packaging.
+    </ReleaseNotes>
+    
+    <Tags>apis unlimitedinf version</Tags>
+    <Description>
+Client-side libraries to work with the apis made available on https://unlimitedinf-apis.azurewebsites.net/
+    </Description>
+  </PropertyGroup>
+</Project>
