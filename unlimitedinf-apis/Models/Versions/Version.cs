@@ -1,5 +1,5 @@
 ﻿using Microsoft.WindowsAzure.Storage.Table;
-using System.ComponentModel.DataAnnotations;
+using Unlimitedinf.Apis.Contracts.Versions;
 using Unlimitedinf.Tools;
 
 namespace Unlimitedinf.Apis.Models.Versions
@@ -59,17 +59,8 @@ namespace Unlimitedinf.Apis.Models.Versions
         }
     }
 
-    public class VersionApi
+    public class VersionApi : Version
     {
-        [Required, StringLength(100), CustomValidation(typeof(AccountValidator), nameof(AccountValidator.Username))]
-        public string username { get; set; }
-
-        [Required, StringLength(100)]
-        public string name { get; set; }
-
-        [Required]
-        public SemVer version { get; set; }
-
         public static implicit operator VersionEntity(VersionApi api)
         {
             return new VersionEntity
@@ -86,30 +77,11 @@ namespace Unlimitedinf.Apis.Models.Versions
         }
     }
 
-    public class VersionApiIncrement
+    public class VersionApiIncrement : VersionIncrement
     {
-        [Required, StringLength(100), CustomValidation(typeof(AccountValidator), nameof(AccountValidator.Username))]
-        public string username { get; set; }
-
-        [Required, StringLength(100)]
-        public string name { get; set; }
-
-        [Required]
-        public VersionApiIncrementOption inc { get; set; }
-
-        // By default, reset all the following version specifiers
-        public bool reset { get; set; } = true;
-
         public TableOperation GetExistingOperation()
         {
             return TableOperation.Retrieve<VersionEntity>(this.username.ToLowerInvariant(), this.name.ToLowerInvariant());
         }
-    }
-
-    public enum VersionApiIncrementOption
-    {
-        Major,
-        Minor,
-        Patch
     }
 }

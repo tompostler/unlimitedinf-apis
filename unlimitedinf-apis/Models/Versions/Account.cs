@@ -1,6 +1,5 @@
 ﻿using Microsoft.WindowsAzure.Storage.Table;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
+using Unlimitedinf.Apis.Contracts.Versions;
 using Unlimitedinf.Tools;
 
 namespace Unlimitedinf.Apis.Models.Versions
@@ -40,20 +39,8 @@ namespace Unlimitedinf.Apis.Models.Versions
         }
     }
 
-    public class AccountApi
+    public class AccountApi : Account
     {
-        [Required, StringLength(100), CustomValidation(typeof(AccountValidator), nameof(AccountValidator.Username))]
-        public string username { get; set; }
-
-        [Required, EmailAddress]
-        public string email { get; set; }
-
-        [Required, StringLength(100)]
-        public string secret { get; set; }
-
-        [StringLength(100)]
-        public string oldsecret { get; set; }
-
         public static implicit operator AccountEntity(AccountApi api)
         {
             return new AccountEntity
@@ -67,19 +54,6 @@ namespace Unlimitedinf.Apis.Models.Versions
         public TableOperation GetExistingOperation()
         {
             return TableOperation.Retrieve<AccountEntity>(AccountValidator.PartitionKey, this.username.ToLowerInvariant());
-        }
-    }
-
-    public class AccountValidator
-    {
-        public const string PartitionKey = "accounts";
-
-        public static ValidationResult Username(string username, ValidationContext context)
-        {
-            if (username != null && username.Equals(PartitionKey))
-                return new ValidationResult($"Username cannot be '{PartitionKey}'");
-            else
-                return null;
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Unlimitedinf.Apis.Auth;
+using Unlimitedinf.Apis.Contracts.Versions;
 using Unlimitedinf.Apis.Models.Versions;
 
 namespace Unlimitedinf.Apis.Controllers.v1.Versions
@@ -66,21 +67,21 @@ namespace Unlimitedinf.Apis.Controllers.v1.Versions
             // Update
             switch (versionIncrement.inc)
             {
-                case VersionApiIncrementOption.Major:
+                case VersionIncrementOption.Major:
                     if (versionIncrement.reset)
                         versionEntity.Version = versionEntity.Version.IncrementMajor();
                     else
                         versionEntity.Version = new Tools.SemVer(versionEntity.Version.Major + 1, versionEntity.Version.Minor, versionEntity.Version.Patch);
 
                     break;
-                case VersionApiIncrementOption.Minor:
+                case VersionIncrementOption.Minor:
                     if (versionIncrement.reset)
                         versionEntity.Version = versionEntity.Version.IncrementMinor();
                     else
                         versionEntity.Version = new Tools.SemVer(versionEntity.Version.Major, versionEntity.Version.Minor + 1, versionEntity.Version.Patch);
 
                     break;
-                case VersionApiIncrementOption.Patch:
+                case VersionIncrementOption.Patch:
                     versionEntity.Version = versionEntity.Version.IncrementPatch();
                     break;
             }

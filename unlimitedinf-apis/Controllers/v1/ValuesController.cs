@@ -11,7 +11,7 @@ using Unlimitedinf.Apis.Auth;
 
 namespace Unlimitedinf.Apis.Controllers.v1
 {
-    [RequireHttps, ApiVersion("1.0")]
+    [RequireHttps, ApiVersion("1.0", Deprecated = true)]
     [RoutePrefix("api/values")]
     public class ValuesController : ApiController
     {
