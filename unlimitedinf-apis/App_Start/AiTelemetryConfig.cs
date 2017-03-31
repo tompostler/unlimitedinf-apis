@@ -1,5 +1,6 @@
 ﻿using Microsoft.ApplicationInsights.Channel;
 using Microsoft.ApplicationInsights.Extensibility;
+using System.Diagnostics;
 
 namespace Unlimitedinf.Apis
 {
@@ -7,7 +8,7 @@ namespace Unlimitedinf.Apis
     {
         public void Initialize(ITelemetry telemetry)
         {
-            telemetry.Context.Properties["AppVersion"] = typeof(AiTelemetryConfig).Assembly.GetName().Version.ToString();
+            telemetry.Context.Properties["AppVersion"] = FileVersionInfo.GetVersionInfo(typeof(AiTelemetryConfig).Assembly.Location).FileVersion;
         }
     }
 }
