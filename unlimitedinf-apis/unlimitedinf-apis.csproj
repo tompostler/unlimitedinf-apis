@@ -181,15 +181,15 @@
     <Compile Include="Controllers\PingController.cs" />
     <Compile Include="Controllers\TeapotController.cs" />
     <Compile Include="Controllers\v1\ValuesController.cs" />
-    <Compile Include="Controllers\v1\Versions\AccountsController.cs" />
-    <Compile Include="Controllers\v1\Versions\VersionsController.cs" />
+    <Compile Include="Controllers\v1\Version\AccountsController.cs" />
+    <Compile Include="Controllers\v1\Version\VersionsController.cs" />
     <Compile Include="Filters\ValidateViewModelAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\TableStorage.cs" />
-    <Compile Include="Models\Versions\Version.cs" />
-    <Compile Include="Models\Versions\Account.cs" />
+    <Compile Include="Models\Version\Version.cs" />
+    <Compile Include="Models\Version\Account.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\MoreHttpStatusCodes.cs" />
     <Compile Include="..\Unlimitedinf.Apis\Properties\LocalAssemblyInfo.cs">

@@ -1,8 +1,8 @@
 ﻿using Microsoft.WindowsAzure.Storage.Table;
-using Unlimitedinf.Apis.Contracts.Versions;
+using Unlimitedinf.Apis.Contracts.Version;
 using Unlimitedinf.Tools;
 
-namespace Unlimitedinf.Apis.Models.Versions
+namespace Unlimitedinf.Apis.Models.Version
 {
     public class VersionEntity : TableEntity
     {
@@ -59,7 +59,7 @@ namespace Unlimitedinf.Apis.Models.Versions
         }
     }
 
-    public class VersionApi : Version
+    public class VersionApi : Contracts.Version.Version
     {
         public static implicit operator VersionEntity(VersionApi api)
         {

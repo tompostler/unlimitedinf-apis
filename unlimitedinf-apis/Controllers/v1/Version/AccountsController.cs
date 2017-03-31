@@ -6,10 +6,10 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Unlimitedinf.Apis.Auth;
-using Unlimitedinf.Apis.Models.Versions;
+using Unlimitedinf.Apis.Models.Version;
 using Unlimitedinf.Tools;
 
-namespace Unlimitedinf.Apis.Controllers.v1.Versions
+namespace Unlimitedinf.Apis.Controllers.v1.Version
 {
     [RequireHttps, ApiVersion("1.0")]
     [RoutePrefix("version/accounts")]

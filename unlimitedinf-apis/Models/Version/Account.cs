@@ -1,8 +1,8 @@
 ﻿using Microsoft.WindowsAzure.Storage.Table;
-using Unlimitedinf.Apis.Contracts.Versions;
+using Unlimitedinf.Apis.Contracts.Version;
 using Unlimitedinf.Tools;
 
-namespace Unlimitedinf.Apis.Models.Versions
+namespace Unlimitedinf.Apis.Models.Version
 {
     public class AccountEntity : TableEntity
     {

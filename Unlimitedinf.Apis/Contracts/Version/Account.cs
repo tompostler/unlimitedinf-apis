@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Unlimitedinf.Apis.Contracts.Versions
+namespace Unlimitedinf.Apis.Contracts.Version
 {
     /// <summary>
     /// Representing a version account.
