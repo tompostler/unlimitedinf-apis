@@ -1,9 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
-namespace Unlimitedinf.Apis.Contracts.Version
+namespace Unlimitedinf.Apis.Contracts.Auth
 {
     /// <summary>
-    /// Representing a version account.
+    /// Representing an account.
     /// </summary>
     public class Account
     {
@@ -24,23 +25,32 @@ namespace Unlimitedinf.Apis.Contracts.Version
         /// </summary>
         [Required, StringLength(100)]
         public string secret { get; set; }
+    }
 
+    /// <summary>
+    /// Representing an account update.
+    /// </summary>
+    public class AccountUpdate : Account
+    {
         /// <summary>
-        /// When used, this is to confirm access to update an existing account with a new secret.
+        /// The old secret used to protect the account.
         /// </summary>
-        [StringLength(100)]
+        [Required, StringLength(100)]
         public string oldsecret { get; set; }
     }
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public class AccountValidator
     {
-        public static string PartitionKey => "accounts";
+        private static readonly HashSet<string> CantUse = new HashSet<string>
+        {
+            "accounts"
+        };
 
         public static ValidationResult Username(string username, ValidationContext context)
         {
-            if (username != null && username.Equals(PartitionKey))
-                return new ValidationResult($"Username cannot be '{PartitionKey}'");
+            if (username != null && CantUse.Contains(username.ToLowerInvariant()))
+                return new ValidationResult($"Username cannot be '{username}'");
             else
                 return null;
         }

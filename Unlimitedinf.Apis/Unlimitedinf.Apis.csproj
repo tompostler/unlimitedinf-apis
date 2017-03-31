@@ -57,6 +57,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts\Auth\Account.cs" />
     <Compile Include="Contracts\Version\Account.cs" />
     <Compile Include="Contracts\Version\Version.cs" />
     <Compile Include="Properties\LocalAssemblyInfo.cs" />
