@@ -14,7 +14,7 @@ Push-Location $PSScriptRoot
 $Major, $Minor, $Patch, $Prerelease = @(0,0,0,0);
 
 # If we have a version info for this assembly, then use it instead
-$PackageInfoPath = ".\Unlimitedinf.Tools.Packages\$AssemblyId.xml";
+$PackageInfoPath = ".\Unlimitedinf.Apis.Package\$AssemblyId.xml";
 if (Test-Path $PackageInfoPath) {
 	Write-Host "Found $PackageInfoPath";
 
