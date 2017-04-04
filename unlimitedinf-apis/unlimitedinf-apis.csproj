@@ -180,6 +180,7 @@
     <Compile Include="Auth\RequireHttpsAttribute.cs" />
     <Compile Include="Controllers\PingController.cs" />
     <Compile Include="Controllers\TeapotController.cs" />
+    <Compile Include="Controllers\v1\Auth\AuthController.cs" />
     <Compile Include="Controllers\v1\ValuesController.cs" />
     <Compile Include="Controllers\v1\Version\AccountsController.cs" />
     <Compile Include="Controllers\v1\Version\VersionsController.cs" />
@@ -187,6 +188,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Auth\Account.cs" />
+    <Compile Include="Models\Auth\Token.cs" />
     <Compile Include="Models\TableStorage.cs" />
     <Compile Include="Models\Version\Version.cs" />
     <Compile Include="Models\Version\Account.cs" />

@@ -10,13 +10,16 @@ namespace Unlimitedinf.Apis
     {
         public static readonly CloudTableClient TableClient = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("unlimitedinfapis_AzureStorageConnectionString")).CreateCloudTableClient();
 
+        public static CloudTable Auth { get; }
         public static CloudTable Version { get; }
 
         static TableStorage()
         {
+            Auth = TableClient.GetTableReference("apisauth");
             Version = TableClient.GetTableReference("apisversion");
 
             Task.WaitAll(
+                Auth.CreateIfNotExistsAsync(),
                 Version.CreateIfNotExistsAsync()
                 );
         }

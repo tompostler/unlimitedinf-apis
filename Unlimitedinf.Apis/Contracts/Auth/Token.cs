@@ -1,0 +1,145 @@
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace Unlimitedinf.Apis.Contracts.Auth
+{
+    /// <summary>
+    /// Representing the values needed to create a token.
+    /// </summary>
+    public class TokenCreate
+    {
+        /// <summary>
+        /// Unique identifier.
+        /// </summary>
+        [Required, StringLength(100), CustomValidation(typeof(AccountValidator), nameof(AccountValidator.Username))]
+        public string username { get; set; }
+
+        /// <summary>
+        /// The secret used to protect the account.
+        /// </summary>
+        [Required, StringLength(100)]
+        public string secret { get; set; }
+
+        /// <summary>
+        /// Give a friendly name to the token. Required if you want multiple tokens.
+        /// </summary>
+        [StringLength(100)]
+        public string name { get; set; }
+
+        /// <summary>
+        /// How long-lived you want the token to be.
+        /// </summary>
+        [Required]
+        public TokenExpiration expire { get; set; }
+    }
+
+    /// <summary>
+    /// Representing a token. A single account can have unlimited tokens.
+    /// </summary>
+    public class Token
+    {
+        /// <summary>
+        /// Unique identifier.
+        /// </summary>
+        [Required, StringLength(100), CustomValidation(typeof(AccountValidator), nameof(AccountValidator.Username))]
+        public string username { get; set; }
+
+        /// <summary>
+        /// Give a friendly name to the token. Required if you want multiple tokens.
+        /// </summary>
+        [StringLength(100)]
+        public string name { get; set; }
+
+        /// <summary>
+        /// The Base64 token.
+        /// </summary>
+        [Required, StringLength(64)]
+        public string token { get; set; }
+
+        /// <summary>
+        /// When this token expires.
+        /// </summary>
+        [Required]
+        public DateTime expiration { get; set; }
+    }
+
+    /// <summary>
+    /// Representing what is needed to delete a token.
+    /// </summary>
+    [CustomValidation(typeof(TokenDeleteValidator), nameof(TokenDeleteValidator.NameOrToken))]
+    public class TokenDelete
+    {
+        /// <summary>
+        /// Unique identifier.
+        /// </summary>
+        [Required, StringLength(100), CustomValidation(typeof(AccountValidator), nameof(AccountValidator.Username))]
+        public string username { get; set; }
+
+        /// <summary>
+        /// Give a friendly name to the token. Required if you want multiple tokens.
+        /// </summary>
+        [StringLength(100)]
+        public string name { get; set; }
+
+        /// <summary>
+        /// The Base64 token.
+        /// </summary>
+        [StringLength(64)]
+        public string token { get; set; }
+    }
+
+    /// <summary>
+    /// Determine how long before the token expires.
+    /// </summary>
+    public enum TokenExpiration
+    {
+        /// <summary>
+        /// The token expires after one minute (<c>DateTime.UtcNow.AddMinutes(1)</c>).
+        /// </summary>
+        Minute,
+        /// <summary>
+        /// The token expires after one hour (<c>DateTime.UtcNow.AddHours(1)</c>).
+        /// </summary>
+        Hour,
+        /// <summary>
+        /// The token expires after one day (<c>DateTime.UtcNow.AddDays(1)</c>).
+        /// </summary>
+        Day,
+        /// <summary>
+        /// The token expires after one week (<c>DateTime.UtcNow.AddDays(7)</c>).
+        /// </summary>
+        Week,
+        /// <summary>
+        /// The token expires after one month (<c>DateTime.UtcNow.AddMonths(1)</c>).
+        /// </summary>
+        Month,
+        /// <summary>
+        /// The token expires after one quarter (approx 90 days, <c>DateTime.UtcNow.AddMonths(3)</c>).
+        /// </summary>
+        Quarter,
+        /// <summary>
+        /// The token expires after one year (<c>DateTime.UtcNow.AddYears(1)</c>).
+        /// </summary>
+        Year,
+        /// <summary>
+        /// The token expires never. This is not recommended, for obvious reasons. However, will set to <c>DateTime.MaxValue</c>.
+        /// </summary>
+        Never
+    }
+
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+    public class TokenDeleteValidator
+    {
+        public static ValidationResult NameOrToken(object obj, ValidationContext context)
+        {
+            string name = (string)context.ObjectType.GetProperty(nameof(TokenDelete.name)).GetValue(context.ObjectInstance, null);
+            string token = (string)context.ObjectType.GetProperty(nameof(TokenDelete.token)).GetValue(context.ObjectInstance, null);
+
+            if (string.IsNullOrWhiteSpace(name) && string.IsNullOrWhiteSpace(token))
+                return new ValidationResult($"A {nameof(TokenDelete.name)} or {nameof(TokenDelete.token)} must be supplied.");
+            else
+                return null;
+        }
+    }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
+}
