@@ -1,23 +1,20 @@
 ﻿using Microsoft.WindowsAzure.Storage.Table;
+using System;
 using Unlimitedinf.Apis.Contracts.Auth;
 
 namespace Unlimitedinf.Apis.Models.Auth
 {
     public class AccountEntity : TableEntity
     {
-        public new string PartitionKey => AccountExtensions.PartitionKey;
-
-        private string _Username;
         public string Username
         {
             get
             {
-                return this._Username;
+                return this.RowKey;
             }
             set
             {
-                this._Username = value;
-                this.RowKey = value;
+                this.RowKey = value.ToLowerInvariant();
             }
         }
 
@@ -29,12 +26,14 @@ namespace Unlimitedinf.Apis.Models.Auth
 
         public AccountEntity(Account account)
         {
+            this.PartitionKey = AccountExtensions.PartitionKey;
+
             this.Username = account.username;
             this.Email = account.email;
             this.Secret = account.secret;
         }
 
-        public static implicit operator Account(AccountEntity entity)
+        public static explicit operator Account(AccountEntity entity)
         {
             return new Account
             {
@@ -51,9 +50,17 @@ namespace Unlimitedinf.Apis.Models.Auth
 
         public static TableOperation GetExistingOperation(this Account account)
         {
+            return GetExistingOperation(account.username);
+        }
+
+        public static TableOperation GetExistingOperation(string username)
+        {
+            if (string.IsNullOrWhiteSpace(username))
+                throw new ArgumentNullException();
+
             return TableOperation.Retrieve<AccountEntity>(
                 PartitionKey,
-                account.username.ToLowerInvariant());
+                username.ToLowerInvariant());
         }
     }
 }

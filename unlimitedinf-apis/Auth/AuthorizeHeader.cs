@@ -8,6 +8,8 @@ namespace Unlimitedinf.Apis.Auth
 {
     public static class AuthorizeHeader
     {
+        // Convert this to an AuthorizeFilterAttribute using the basic stuff outlined here to set the user context: http://stackoverflow.com/questions/19643754/webapi-set-principal-user-context-to-a-user-object
+        
         public static string Check(HttpActionContext actionContext, AccountEntity accountEntity)
         {
             // Get the authorization header

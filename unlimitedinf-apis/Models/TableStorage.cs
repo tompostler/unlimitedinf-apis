@@ -13,6 +13,11 @@ namespace Unlimitedinf.Apis
         public static CloudTable Auth { get; }
         public static CloudTable Version { get; }
 
+        public static List<CloudTable> AllTables => new List<CloudTable>
+        {
+            Auth, Version
+        };
+
         static TableStorage()
         {
             Auth = TableClient.GetTableReference("apisauth");

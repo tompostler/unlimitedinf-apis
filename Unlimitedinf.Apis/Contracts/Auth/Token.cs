@@ -11,7 +11,7 @@ namespace Unlimitedinf.Apis.Contracts.Auth
         /// <summary>
         /// Unique identifier.
         /// </summary>
-        [Required, StringLength(100), CustomValidation(typeof(AccountValidator), nameof(AccountValidator.Username))]
+        [Required, StringLength(32), CustomValidation(typeof(AccountValidator), nameof(AccountValidator.Username))]
         public string username { get; set; }
 
         /// <summary>
@@ -23,7 +23,7 @@ namespace Unlimitedinf.Apis.Contracts.Auth
         /// <summary>
         /// Give a friendly name to the token. Required if you want multiple tokens.
         /// </summary>
-        [StringLength(100)]
+        [StringLength(64)]
         public string name { get; set; }
 
         /// <summary>
@@ -41,13 +41,13 @@ namespace Unlimitedinf.Apis.Contracts.Auth
         /// <summary>
         /// Unique identifier.
         /// </summary>
-        [Required, StringLength(100), CustomValidation(typeof(AccountValidator), nameof(AccountValidator.Username))]
+        [Required, StringLength(32), CustomValidation(typeof(AccountValidator), nameof(AccountValidator.Username))]
         public string username { get; set; }
 
         /// <summary>
         /// Give a friendly name to the token. Required if you want multiple tokens.
         /// </summary>
-        [StringLength(100)]
+        [StringLength(64)]
         public string name { get; set; }
 
         /// <summary>
@@ -66,25 +66,24 @@ namespace Unlimitedinf.Apis.Contracts.Auth
     /// <summary>
     /// Representing what is needed to delete a token.
     /// </summary>
-    [CustomValidation(typeof(TokenDeleteValidator), nameof(TokenDeleteValidator.NameOrToken))]
     public class TokenDelete
     {
         /// <summary>
         /// Unique identifier.
         /// </summary>
-        [Required, StringLength(100), CustomValidation(typeof(AccountValidator), nameof(AccountValidator.Username))]
+        [Required, StringLength(32), CustomValidation(typeof(AccountValidator), nameof(AccountValidator.Username))]
         public string username { get; set; }
 
         /// <summary>
         /// Give a friendly name to the token. Required if you want multiple tokens.
         /// </summary>
-        [StringLength(100)]
+        [StringLength(64)]
         public string name { get; set; }
 
         /// <summary>
         /// The Base64 token.
         /// </summary>
-        [StringLength(64)]
+        [Required, StringLength(64)]
         public string token { get; set; }
     }
 
@@ -126,20 +125,4 @@ namespace Unlimitedinf.Apis.Contracts.Auth
         /// </summary>
         Never
     }
-
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-    public class TokenDeleteValidator
-    {
-        public static ValidationResult NameOrToken(object obj, ValidationContext context)
-        {
-            string name = (string)context.ObjectType.GetProperty(nameof(TokenDelete.name)).GetValue(context.ObjectInstance, null);
-            string token = (string)context.ObjectType.GetProperty(nameof(TokenDelete.token)).GetValue(context.ObjectInstance, null);
-
-            if (string.IsNullOrWhiteSpace(name) && string.IsNullOrWhiteSpace(token))
-                return new ValidationResult($"A {nameof(TokenDelete.name)} or {nameof(TokenDelete.token)} must be supplied.");
-            else
-                return null;
-        }
-    }
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }
