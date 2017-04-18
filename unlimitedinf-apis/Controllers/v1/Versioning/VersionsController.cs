@@ -5,13 +5,13 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Unlimitedinf.Apis.Auth;
-using Unlimitedinf.Apis.Contracts.Version;
-using Unlimitedinf.Apis.Models.Version;
+using Unlimitedinf.Apis.Contracts.Versioning;
+using Unlimitedinf.Apis.Models.Versioning;
 
-namespace Unlimitedinf.Apis.Controllers.v1.Version
+namespace Unlimitedinf.Apis.Controllers.v1.Versioning
 {
     [RequireHttps, ApiVersion("1.0")]
-    [RoutePrefix("version/versions")]
+    [RoutePrefix("versioning/versions")]
     public class VersionsController : ApiController
     {
         [Route, HttpGet]
@@ -20,7 +20,7 @@ namespace Unlimitedinf.Apis.Controllers.v1.Version
             // All versions are publicly gettable
             var retrieve = TableOperation.Retrieve<VersionEntity>(accountName.ToLowerInvariant(), versionName.ToLowerInvariant());
             var result = await TableStorage.Version.ExecuteAsync(retrieve);
-            return Content((HttpStatusCode)result.HttpStatusCode, (VersionApi)(VersionEntity)result.Result);
+            return Content((HttpStatusCode)result.HttpStatusCode, (Version)(VersionEntity)result.Result);
         }
 
         [Route, HttpGet]
@@ -28,35 +28,33 @@ namespace Unlimitedinf.Apis.Controllers.v1.Version
         {
             // All versions are publicly gettable
             var versionEntitiesQuery = new TableQuery<VersionEntity>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, accountName.ToLowerInvariant()));
-            var versions = new List<VersionApi>();
+            var versions = new List<Version>();
             foreach (VersionEntity versionEntity in await TableStorage.Version.ExecuteQueryAsync(versionEntitiesQuery))
                 versions.Add(versionEntity);
 
             return Ok(versions);
         }
 
-        [Route, HttpPost]
-        public async Task<IHttpActionResult> InsertVersion(VersionApi version)
+        [Route, HttpPost, TokenWall]
+        public async Task<IHttpActionResult> InsertVersion(Version version)
         {
-            // Check the auth
-            var authResult = await AuthorizeHeader.Check(ActionContext, version.username);
-            if (!string.IsNullOrEmpty(authResult))
-                return Content(HttpStatusCode.Forbidden, authResult);
+            // Check username
+            if (version.username != this.User.Identity.Name)
+                return this.Unauthorized();
 
             // Add the version
-            var insert = TableOperation.Insert((VersionEntity)version, true);
+            var insert = TableOperation.Insert(new VersionEntity(version), true);
             var result = await TableStorage.Version.ExecuteAsync(insert);
 
-            return Content((HttpStatusCode)result.HttpStatusCode, (VersionApi)(VersionEntity)result.Result);
+            return Content((HttpStatusCode)result.HttpStatusCode, (Version)(VersionEntity)result.Result);
         }
 
-        [Route, HttpPut]
-        public async Task<IHttpActionResult> UpdateVersion(VersionApiIncrement versionIncrement)
+        [Route, HttpPut, TokenWall]
+        public async Task<IHttpActionResult> UpdateVersion(VersionIncrement versionIncrement)
         {
-            // Check the auth
-            var authResult = await AuthorizeHeader.Check(ActionContext, versionIncrement.username);
-            if (!string.IsNullOrEmpty(authResult))
-                return Content(HttpStatusCode.Forbidden, authResult);
+            // Check username
+            if (versionIncrement.username != this.User.Identity.Name)
+                return this.Unauthorized();
 
             // Get the existing version
             var result = await TableStorage.Version.ExecuteAsync(versionIncrement.GetExistingOperation());
@@ -95,19 +93,18 @@ namespace Unlimitedinf.Apis.Controllers.v1.Version
             if (returnCode == HttpStatusCode.NoContent)
                 returnCode = HttpStatusCode.OK;
 
-            return Content(returnCode, (VersionApi)(VersionEntity)result.Result);
+            return Content(returnCode, (Version)(VersionEntity)result.Result);
         }
 
-        [Route, HttpDelete]
-        public async Task<IHttpActionResult> RemoveVersion(string accountName, string versionName)
+        [Route, HttpDelete, TokenWall]
+        public async Task<IHttpActionResult> RemoveVersion(string username, string versionName)
         {
-            // Check the auth
-            var authResult = await AuthorizeHeader.Check(ActionContext, accountName);
-            if (!string.IsNullOrEmpty(authResult))
-                return Content(HttpStatusCode.Forbidden, authResult);
+            // Check username
+            if (username != this.User.Identity.Name)
+                return this.Unauthorized();
 
             // Get
-            var retrieve = TableOperation.Retrieve<VersionEntity>(accountName.ToLowerInvariant(), versionName.ToLowerInvariant());
+            var retrieve = TableOperation.Retrieve<VersionEntity>(username.ToLowerInvariant(), versionName.ToLowerInvariant());
             var result = await TableStorage.Version.ExecuteAsync(retrieve);
             var versionEntity = (VersionEntity)result.Result;
             if (versionEntity == null)
@@ -117,7 +114,7 @@ namespace Unlimitedinf.Apis.Controllers.v1.Version
             var delete = TableOperation.Delete(versionEntity);
             result = await TableStorage.Version.ExecuteAsync(delete);
 
-            return Content((HttpStatusCode)result.HttpStatusCode, (VersionApi)(VersionEntity)result.Result);
+            return Content((HttpStatusCode)result.HttpStatusCode, (Version)(VersionEntity)result.Result);
         }
     }
 }

@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Unlimitedinf.Apis.Contracts.Auth;
 using Unlimitedinf.Tools;
 
-namespace Unlimitedinf.Apis.Contracts.Version
+namespace Unlimitedinf.Apis.Contracts.Versioning
 {
     /// <summary>
     /// Representing a version.

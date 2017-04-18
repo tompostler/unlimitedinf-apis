@@ -1,21 +1,20 @@
 ﻿using Microsoft.WindowsAzure.Storage.Table;
-using Unlimitedinf.Apis.Contracts.Version;
+using Unlimitedinf.Apis.Contracts.Versioning;
 using Unlimitedinf.Tools;
 
-namespace Unlimitedinf.Apis.Models.Version
+namespace Unlimitedinf.Apis.Models.Versioning
 {
     public class VersionEntity : TableEntity
     {
-        private string _Username;
+        [IgnoreProperty]
         public string Username
         {
             get
             {
-                return this._Username;
+                return this.PartitionKey;
             }
             set
             {
-                this._Username = value;
                 this.PartitionKey = value.ToLowerInvariant();
             }
         }
@@ -48,9 +47,18 @@ namespace Unlimitedinf.Apis.Models.Version
             }
         }
 
-        public static implicit operator VersionApi(VersionEntity entity)
+        public VersionEntity() { }
+
+        public VersionEntity(Version version)
         {
-            return new VersionApi
+            this.Username = version.username;
+            this.Name = version.name;
+            this.Version = version.version;
+        }
+
+        public static implicit operator Version(VersionEntity entity)
+        {
+            return new Version
             {
                 username = entity.Username,
                 name = entity.Name,
@@ -59,29 +67,16 @@ namespace Unlimitedinf.Apis.Models.Version
         }
     }
 
-    public class VersionApi : Contracts.Version.Version
+    public static class VersionExtensions
     {
-        public static implicit operator VersionEntity(VersionApi api)
+        public static TableOperation GetExistingOperation(this Version version)
         {
-            return new VersionEntity
-            {
-                Username = api.username,
-                Name = api.name,
-                Version = api.version
-            };
+            return TableOperation.Retrieve<VersionEntity>(version.username.ToLowerInvariant(), version.name.ToLowerInvariant());
         }
 
-        public TableOperation GetExistingOperation()
+        public static TableOperation GetExistingOperation(this VersionIncrement versionInc)
         {
-            return TableOperation.Retrieve<VersionEntity>(this.username.ToLowerInvariant(), this.name.ToLowerInvariant());
-        }
-    }
-
-    public class VersionApiIncrement : VersionIncrement
-    {
-        public TableOperation GetExistingOperation()
-        {
-            return TableOperation.Retrieve<VersionEntity>(this.username.ToLowerInvariant(), this.name.ToLowerInvariant());
+            return TableOperation.Retrieve<VersionEntity>(versionInc.username.ToLowerInvariant(), versionInc.name.ToLowerInvariant());
         }
     }
 }

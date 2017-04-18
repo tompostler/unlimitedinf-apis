@@ -1,6 +1,5 @@
 ﻿using Microsoft.Web.Http;
 using Microsoft.WindowsAzure.Storage.Table;
-using System;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;

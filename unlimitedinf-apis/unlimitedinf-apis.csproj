@@ -186,7 +186,6 @@
     <Compile Include="App_Start\AiExceptionConfig.cs" />
     <Compile Include="App_Start\AiTelemetryConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Auth\AuthorizeHeader.cs" />
     <Compile Include="Auth\RequireHttpsAttribute.cs" />
     <Compile Include="Auth\TokenWallAttribute.cs" />
     <Compile Include="Controllers\PingController.cs" />
@@ -194,8 +193,7 @@
     <Compile Include="Controllers\v1\Auth\TokensController.cs" />
     <Compile Include="Controllers\v1\Auth\AccountsController.cs" />
     <Compile Include="Controllers\v1\ValuesController.cs" />
-    <Compile Include="Controllers\v1\Version\AccountsController.cs" />
-    <Compile Include="Controllers\v1\Version\VersionsController.cs" />
+    <Compile Include="Controllers\v1\Versioning\VersionsController.cs" />
     <Compile Include="Filters\ValidateViewModelAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -203,8 +201,7 @@
     <Compile Include="Models\Auth\Account.cs" />
     <Compile Include="Models\Auth\Token.cs" />
     <Compile Include="Models\TableStorage.cs" />
-    <Compile Include="Models\Version\Version.cs" />
-    <Compile Include="Models\Version\Account.cs" />
+    <Compile Include="Models\Versioning\Version.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\MoreHttpStatusCodes.cs" />
     <Compile Include="..\Unlimitedinf.Apis\Properties\LocalAssemblyInfo.cs">
