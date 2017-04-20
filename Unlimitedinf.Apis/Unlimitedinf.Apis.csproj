@@ -57,6 +57,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiClientAuth.cs" />
     <Compile Include="Contracts\Auth\Account.cs" />
     <Compile Include="Contracts\Auth\Token.cs" />
     <Compile Include="Contracts\Versioning\Version.cs" />
