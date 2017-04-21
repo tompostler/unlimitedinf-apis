@@ -26,6 +26,7 @@
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>..\noglob.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>bin\Debug\Unlimitedinf.Apis.XML</DocumentationFile>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -36,6 +37,7 @@
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>..\noglob.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>bin\Release\Unlimitedinf.Apis.XML</DocumentationFile>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -61,6 +63,7 @@
     <Compile Include="Contracts\Auth\Account.cs" />
     <Compile Include="Contracts\Auth\Token.cs" />
     <Compile Include="Contracts\Versioning\Version.cs" />
+    <Compile Include="Exceptions.cs" />
     <Compile Include="Properties\LocalAssemblyInfo.cs" />
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
@@ -73,6 +76,12 @@
     <None Include="..\unlimitedinf.ico">
       <Link>Properties\unlimitedinf.ico</Link>
     </None>
+    <None Include="..\noglob.ruleset">
+      <Link>Properties\noglob.ruleset</Link>
+    </None>
+    <CodeAnalysisDictionary Include="..\CustomDictionary.xml">
+      <Link>Properties\CustomDictionary.xml</Link>
+    </CodeAnalysisDictionary>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
