@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
 using System.Runtime.Caching;
@@ -34,6 +35,7 @@ namespace Unlimitedinf.Apis.Auth
             // Check the token, easy
             if (TokenExtensions.IsTokenExpired(token))
             {
+                Trace.TraceInformation("Token is expired: based on token.");
                 actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized) { ReasonPhrase = "Token is expired." };
                 return;
             }
@@ -47,11 +49,13 @@ namespace Unlimitedinf.Apis.Auth
                 if (principal == null)
                 {
                     // We've seen this bad token before.
+                    Trace.TraceInformation("Token does not exist: based on cache.");
                     actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized) { ReasonPhrase = "Token does not exist." };
                     return;
                 }
                 else if (principal.Token.Expiration < DateTime.UtcNow)
                 {
+                    Trace.TraceInformation("Token is expired: based on cache.");
                     actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized) { ReasonPhrase = "Token is expired." };
                     return;
                 }
@@ -63,17 +67,24 @@ namespace Unlimitedinf.Apis.Auth
                 if (result.HttpStatusCode == (int)HttpStatusCode.NotFound)
                 {
                     tokenCache.Add(token, null, defaultCachePolicy);
+                    Trace.TraceWarning("Token does not exist: based on tablestorage.");
                     actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized) { ReasonPhrase = "Token does not exist." };
                     return;
                 }
 
                 // Create principal
                 var tokenEnt = (TokenEntity)result.Result;
+                if (tokenEnt.Expiration < DateTime.UtcNow)
+                {
+                    Trace.TraceInformation("Token is expired: based on tablestorage.");
+                    actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized) { ReasonPhrase = "Token is expired." };
+                    return;
+                }
                 principal = new MyPrincipal(new GenericIdentity(tokenEnt.Username), null) { Token = tokenEnt };
             }
 
             // Cache the principal based off of the token
-            tokenCache.Add(token, principal, new CacheItemPolicy { AbsoluteExpiration = new DateTimeOffset(principal.Token.Expiration)});
+            tokenCache.Add(token, principal, new CacheItemPolicy { AbsoluteExpiration = new DateTimeOffset(principal.Token.Expiration) });
 
             // Stamp the current user
             Thread.CurrentPrincipal = principal;
@@ -83,7 +94,7 @@ namespace Unlimitedinf.Apis.Auth
 
     public class MyPrincipal : GenericPrincipal
     {
-        public MyPrincipal(IIdentity identity, string[] roles) 
+        public MyPrincipal(IIdentity identity, string[] roles)
             : base(identity, roles)
         {
         }
