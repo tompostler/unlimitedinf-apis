@@ -27,8 +27,7 @@ namespace Unlimitedinf.Apis
             {
                 response = await httpClient.PostAsync(AuthAccount, new StringContent(JsonConvert.SerializeObject(account)));
             }
-
-            //TODO: Check for non-success state
+            ExceptionCreator.ThrowMaybe(response.StatusCode, await response.Content.ReadAsStringAsync());
 
             return JsonConvert.DeserializeObject<Account>(await response.Content.ReadAsStringAsync());
         }
@@ -44,8 +43,7 @@ namespace Unlimitedinf.Apis
             {
                 response = await httpClient.PostAsync(AuthToken, new StringContent(JsonConvert.SerializeObject(creation)));
             }
-
-            //TODO: Check for non-success state
+            ExceptionCreator.ThrowMaybe(response.StatusCode, await response.Content.ReadAsStringAsync());
 
             return JsonConvert.DeserializeObject<Token>(await response.Content.ReadAsStringAsync());
         }

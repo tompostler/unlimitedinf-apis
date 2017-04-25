@@ -170,7 +170,17 @@ namespace Unlimitedinf.Apis
                 return new ServerErrorException(statusCode, message);
             }
 
-            throw new ArgumentException($"{statusCode} does not have a corresponding exception mapped.");
+            return null;
+        }
+
+        /// <summary>
+        /// Instead of just creating the exception, throw it if there is one!
+        /// </summary>
+        public static void ThrowMaybe(HttpStatusCode statusCode, string message)
+        {
+            var e = Create(statusCode, message);
+            if (e != null)
+                throw e;
         }
     }
 }

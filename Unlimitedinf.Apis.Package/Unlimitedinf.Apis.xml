@@ -6,6 +6,10 @@
     <Version>0.3.0</Version>
     
     <ReleaseNotes>
+0.4.0
+
+  - Rudimentary client: only supports auth controller basics.
+
 0.3.0
 
   - Breaking version change. Client coming someday.
