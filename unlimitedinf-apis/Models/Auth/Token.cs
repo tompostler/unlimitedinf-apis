@@ -83,7 +83,7 @@ namespace Unlimitedinf.Apis.Models.Auth
             this.Token = string.Format(
                 CultureInfo.InvariantCulture,
                 "{0} {1} {2}",
-                this.Expiration.ToString(TokenExtensions.DateTimeFmt),
+                this.Expiration.ToString(Contracts.Auth.Token.DateTimeFmt),
                 this.Username,
                 GenerateRandom.HexToken(40)
                 ).Chop(48).ToBase64String();
@@ -104,7 +104,6 @@ namespace Unlimitedinf.Apis.Models.Auth
     public static class TokenExtensions
     {
         public const string PartitionKey = "tokens";
-        public const string DateTimeFmt = "yyMMddHHmmss";
 
         public static TableQuery<TokenEntity> GetExistingOperation(this TokenCreate token)
         {
@@ -135,22 +134,6 @@ namespace Unlimitedinf.Apis.Models.Auth
             return TableOperation.Retrieve<TokenEntity>(
                 PartitionKey,
                 token);
-        }
-
-        public static bool IsTokenExpired(string token)
-        {
-            if (string.IsNullOrWhiteSpace(token))
-                throw new ArgumentNullException();
-
-            token = token.FromBase64String();
-            if (token.Length < DateTimeFmt.Length)
-                return true;
-
-            DateTime tdt;
-            if (!DateTime.TryParseExact(token.Chop(DateTimeFmt.Length), DateTimeFmt, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out tdt))
-                return true;
-
-            return tdt < DateTime.UtcNow;
         }
     }
 }

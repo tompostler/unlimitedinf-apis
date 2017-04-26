@@ -33,7 +33,7 @@ namespace Unlimitedinf.Apis.Auth
             string token = actionContext.Request.Headers.Authorization.Parameter;
 
             // Check the token, easy
-            if (TokenExtensions.IsTokenExpired(token))
+            if (Contracts.Auth.Token.IsTokenExpired(token))
             {
                 Trace.TraceInformation("Token is expired: based on token.");
                 actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized) { ReasonPhrase = "Token is expired." };

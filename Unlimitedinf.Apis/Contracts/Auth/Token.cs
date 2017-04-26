@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
+using Unlimitedinf.Tools;
 
 namespace Unlimitedinf.Apis.Contracts.Auth
 {
@@ -11,7 +13,7 @@ namespace Unlimitedinf.Apis.Contracts.Auth
         /// <summary>
         /// Unique identifier.
         /// </summary>
-        [Required, StringLength(32), CustomValidation(typeof(AccountValidator), nameof(AccountValidator.Username))]
+        [Required, StringLength(32), CustomValidation(typeof(AccountValidator), nameof(AccountValidator.UsernameValidation))]
         public string username { get; set; }
 
         /// <summary>
@@ -41,7 +43,7 @@ namespace Unlimitedinf.Apis.Contracts.Auth
         /// <summary>
         /// Unique identifier.
         /// </summary>
-        [Required, StringLength(32), CustomValidation(typeof(AccountValidator), nameof(AccountValidator.Username))]
+        [Required, StringLength(32), CustomValidation(typeof(AccountValidator), nameof(AccountValidator.UsernameValidation))]
         public string username { get; set; }
 
         /// <summary>
@@ -61,6 +63,27 @@ namespace Unlimitedinf.Apis.Contracts.Auth
         /// </summary>
         [Required]
         public DateTime expiration { get; set; }
+
+        internal const string DateTimeFmt = "yyMMddHHmmss";
+
+        /// <summary>
+        /// Without hitting the service, easily determine if a token is expired.
+        /// </summary>
+        public static bool IsTokenExpired(string token)
+        {
+            if (string.IsNullOrWhiteSpace(token))
+                throw new ArgumentNullException(nameof(token));
+
+            token = token.FromBase64String();
+            if (token.Length < DateTimeFmt.Length)
+                return true;
+
+            DateTime tdt;
+            if (!DateTime.TryParseExact(token.Chop(DateTimeFmt.Length), DateTimeFmt, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out tdt))
+                return true;
+
+            return tdt < DateTime.UtcNow;
+        }
     }
 
     /// <summary>
@@ -71,7 +94,7 @@ namespace Unlimitedinf.Apis.Contracts.Auth
         /// <summary>
         /// Unique identifier.
         /// </summary>
-        [Required, StringLength(32), CustomValidation(typeof(AccountValidator), nameof(AccountValidator.Username))]
+        [Required, StringLength(32), CustomValidation(typeof(AccountValidator), nameof(AccountValidator.UsernameValidation))]
         public string username { get; set; }
 
         /// <summary>

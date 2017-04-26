@@ -12,7 +12,7 @@ namespace Unlimitedinf.Apis.Contracts.Auth
         /// <summary>
         /// Unique identifier.
         /// </summary>
-        [Required, StringLength(32), CustomValidation(typeof(AccountValidator), nameof(AccountValidator.Username))]
+        [Required, StringLength(32), CustomValidation(typeof(AccountValidator), nameof(AccountValidator.UsernameValidation))]
         public string username { get; set; }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace Unlimitedinf.Apis.Contracts.Auth
     }
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-    public class AccountValidator
+    public static class AccountValidator
     {
         private static Regex Whitespace = new Regex(@"\s", RegexOptions.Compiled);
 
@@ -50,7 +50,7 @@ namespace Unlimitedinf.Apis.Contracts.Auth
             "accounts"
         };
 
-        public static ValidationResult Username(string username, ValidationContext context)
+        public static ValidationResult UsernameValidation(string username, ValidationContext context)
         {
             if (username == null)
                 return new ValidationResult("Username cannot be null.");

@@ -19,4 +19,5 @@ using System;
 [assembly: CLSCompliant(true)]
 
 [assembly: NeutralResourcesLanguage("en")]
+[assembly: InternalsVisibleTo("Unlimitedinf.Apis.Server")]
 [assembly: InternalsVisibleTo("Unlimitedinf-apis.Tests")]

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Net;
+using System.Runtime.Serialization;
 
 namespace Unlimitedinf.Apis
 {
     /// <summary>
     /// Represents errors that occur when performing operations against the API.
     /// </summary>
+    [Serializable]
     public abstract class ApiException : Exception
     {
         /// <summary>
@@ -21,6 +23,15 @@ namespace Unlimitedinf.Apis
             : base(message) { this.StatusCode = statusCode; }
         internal ApiException(HttpStatusCode statusCode, string message, Exception e)
             : base(message, e) { this.StatusCode = statusCode; }
+
+        /// <summary>
+        /// See <see cref="ISerializable.GetObjectData(SerializationInfo, StreamingContext)"/>.
+        /// </summary>
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+            info.AddValue("statcode", this.StatusCode);
+        }
     }
 
     #region HTTP 4xx Client Errors
@@ -28,6 +39,7 @@ namespace Unlimitedinf.Apis
     /// <summary>
     /// Represents an HTTP 4xx error.
     /// </summary>
+    [Serializable]
     public class ClientErrorException : ApiException
     {
         private const HttpStatusCode statusCode = HttpStatusCode.BadRequest;
@@ -50,6 +62,7 @@ namespace Unlimitedinf.Apis
     /// <summary>
     /// Represents an HTTP 401 Unauthorized error.
     /// </summary>
+    [Serializable]
     public class UnauthorizedException : ClientErrorException
     {
         private const HttpStatusCode statusCode = HttpStatusCode.Unauthorized;
@@ -65,6 +78,7 @@ namespace Unlimitedinf.Apis
     /// <summary>
     /// Represents an HTTP 404 Not Found error.
     /// </summary>
+    [Serializable]
     public class NotFoundException : ClientErrorException
     {
         private const HttpStatusCode statusCode = HttpStatusCode.NotFound;
@@ -80,6 +94,7 @@ namespace Unlimitedinf.Apis
     /// <summary>
     /// Represents an HTTP 409 Conflict error.
     /// </summary>
+    [Serializable]
     public class ConflictException : ClientErrorException
     {
         private const HttpStatusCode statusCode = HttpStatusCode.Conflict;
@@ -95,6 +110,7 @@ namespace Unlimitedinf.Apis
     /// <summary>
     /// Represents an HTTP 418 I'm a teapot error.
     /// </summary>
+    [Serializable]
     public class TeapotException : ClientErrorException
     {
         private const HttpStatusCode statusCode = (HttpStatusCode)418;
@@ -114,6 +130,7 @@ namespace Unlimitedinf.Apis
     /// <summary>
     /// Represents an HTTP 5xx error.
     /// </summary>
+    [Serializable]
     public class ServerErrorException : ApiException
     {
         private const HttpStatusCode statusCode = HttpStatusCode.InternalServerError;

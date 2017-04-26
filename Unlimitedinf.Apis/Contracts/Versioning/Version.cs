@@ -12,7 +12,7 @@ namespace Unlimitedinf.Apis.Contracts.Versioning
         /// <summary>
         /// <see cref="Account.username"/>.
         /// </summary>
-        [Required, StringLength(100), CustomValidation(typeof(AccountValidator), nameof(AccountValidator.Username))]
+        [Required, StringLength(100), CustomValidation(typeof(AccountValidator), nameof(AccountValidator.UsernameValidation))]
         public string username { get; set; }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace Unlimitedinf.Apis.Contracts.Versioning
         /// <summary>
         /// See <see cref="Account.username"/>.
         /// </summary>
-        [Required, StringLength(100), CustomValidation(typeof(AccountValidator), nameof(AccountValidator.Username))]
+        [Required, StringLength(100), CustomValidation(typeof(AccountValidator), nameof(AccountValidator.UsernameValidation))]
         public string username { get; set; }
 
         /// <summary>
