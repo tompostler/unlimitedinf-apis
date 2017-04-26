@@ -79,7 +79,7 @@ namespace Unlimitedinf.Apis.Controllers.v1.Auth
             return Content((HttpStatusCode)result.HttpStatusCode, upserted);
         }
 
-        [Route, HttpDelete]
+        [Route, HttpDelete, TokenWall]
         public async Task<IHttpActionResult> DeleteAccount(Account account)
         {
             // Get/Check for existence

@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-using System.Net.Http;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using CA = Unlimitedinf.Apis.Contracts.Auth;
 
 namespace Unlimitedinf.Apis
@@ -26,15 +24,7 @@ namespace Unlimitedinf.Apis
             /// </summary>
             public static async Task<CA.Account> Create(CA.Account account)
             {
-                HttpResponseMessage response;
-                using (var httpClient = new HttpClient())
-                {
-                    response = await httpClient.PostAsync(AuthAccount, new StringContent(JsonConvert.SerializeObject(account)));
-                }
-                string content = await response.Content.ReadAsStringAsync();
-                ExceptionCreator.ThrowMaybe(response.StatusCode, content);
-
-                return JsonConvert.DeserializeObject<CA.Account>(content);
+                return await HttpCommunicator.Post<CA.Account, CA.Account>(AuthAccount, account);
             }
 
             /// <summary>
@@ -42,33 +32,49 @@ namespace Unlimitedinf.Apis
             /// </summary>
             public static async Task<CA.Account> Read(string username)
             {
-                HttpResponseMessage response;
-                using (var httpClient = new HttpClient())
-                {
-                    response = await httpClient.GetAsync($"{AuthAccount}?username={username}");
-                }
-                string content = await response.Content.ReadAsStringAsync();
-                ExceptionCreator.ThrowMaybe(response.StatusCode, content);
+                return await HttpCommunicator.Get<CA.Account>($"{AuthAccount}?username={username}");
+            }
 
-                return JsonConvert.DeserializeObject<CA.Account>(content);
+            /// <summary>
+            /// Method to update an account's information.
+            /// Because Azure's PUT operations return a 204, this will throw on error else succeed.
+            /// </summary>
+            public static async Task Update(CA.AccountUpdate account)
+            {
+                await HttpCommunicator.Put(AuthAccount, account);
+            }
+
+            /// <summary>
+            /// Method to delete an account.
+            /// Because Azure's DELETE operations return a 204, this will throw on error else succeed.
+            /// </summary>
+            public static async Task Delete(CA.Account account)
+            {
+                await HttpCommunicator.Delete(AuthAccount, account);
             }
         }
 
         /// <summary>
-        /// Generate a token to be used with the constructor of this class.
+        /// Token-related operations.
         /// </summary>
-        /// <param name="creation">The parameters for creating a token.</param>
-        public static async Task<CA.Token> CreateToken(CA.TokenCreate creation)
+        public static class Token
         {
-            HttpResponseMessage response;
-            using (var httpClient = new HttpClient())
+            /// <summary>
+            /// Method to create a token.
+            /// </summary>
+            public static async Task<CA.Token> Create(CA.TokenCreate creation)
             {
-                response = await httpClient.PostAsync(AuthToken, new StringContent(JsonConvert.SerializeObject(creation)));
+                return await HttpCommunicator.Post<CA.TokenCreate, CA.Token>(AuthToken, creation);
             }
-            string content = await response.Content.ReadAsStringAsync();
-            ExceptionCreator.ThrowMaybe(response.StatusCode, content);
 
-            return JsonConvert.DeserializeObject<CA.Token>(content);
+            /// <summary>
+            /// Method to delete a token.
+            /// Because Azure's DELETE operations return a 204, this will throw on error else succeed.
+            /// </summary>
+            public static async Task Delete(CA.TokenDelete deletion)
+            {
+                await HttpCommunicator.Delete(AuthToken, deletion);
+            }
         }
 
         /// <summary>
