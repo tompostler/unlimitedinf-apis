@@ -3,7 +3,8 @@
 
 param(
 	[Parameter(Mandatory=$true)][string]$ProjectDir,
-	[Parameter(Mandatory=$true)][string]$AssemblyId
+	[Parameter(Mandatory=$true)][string]$AssemblyId,
+	[string]$VersionId
 )
 
 # Set CWD to script location
@@ -13,8 +14,13 @@ Push-Location $PSScriptRoot
 # Version info vars
 $Major, $Minor, $Patch, $Prerelease = @(0,0,0,0);
 
+# If we don't have a specific VersionId specified, then use the AssemblyId
+if ([string]::IsNullOrWhiteSpace($VersionId)) {
+	$VersionId = $AssemblyId;
+}
+
 # If we have a version info for this assembly, then use it instead
-$PackageInfoPath = ".\Unlimitedinf.Apis.Package\$AssemblyId.xml";
+$PackageInfoPath = ".\Unlimitedinf.Apis.Package\$VersionId.xml";
 if (Test-Path $PackageInfoPath) {
 	Write-Host "Found $PackageInfoPath";
 

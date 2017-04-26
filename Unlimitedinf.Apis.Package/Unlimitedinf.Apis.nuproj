@@ -30,6 +30,9 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Unlimitedinf.Apis\Unlimitedinf.Apis.csproj" />
+    <ProjectReference Include="..\Unlimitedinf.Apis.Client\Unlimitedinf.Apis.Client.csproj">
+      <PackageDirectory>Tools</PackageDirectory>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(NuProjPath)\NuProj.targets" Condition="Exists('$(NuProjPath)\NuProj.targets')" />
 </Project>

@@ -2,13 +2,14 @@
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="Configuration">
     
-    <LastUpdated>2017-04-18</LastUpdated>
-    <Version>0.3.0</Version>
+    <LastUpdated>2017-04-26</LastUpdated>
+    <Version>0.4.0</Version>
     
     <ReleaseNotes>
 0.4.0
 
   - Rudimentary client: only supports auth controller basics.
+  - Introduced exe to package tools. Currently does nothing.
 
 0.3.0
 
