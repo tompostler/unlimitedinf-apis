@@ -8,12 +8,28 @@ namespace Unlimitedinf.Apis.Client
         public static int Main(string[] args)
         {
             if (args.Length == 0 || args.Contains("-?") || args.Contains("--?") || args.Contains("-h") || args.Contains("--help") || args.Contains("help"))
-                PrintHelpAndExit();
-            PrintHelpAndExit();
-            return ExitCode.Success;
+                if (args.Length == 2 && args[0] == "help" && args[1] == "error")
+                    return PrintHelpError();
+                else
+                    return PrintHelp();
+
+            var rargs = new string[args.Length - 1];
+            Array.Copy(args, 1, rargs, 0, args.Length - 1);
+            switch (args[0])
+            {
+
+                case "account":
+                    return AuthAccount.Run(rargs);
+
+                case "token":
+                    return ExitCode.NotImplemented;
+
+                default:
+                    return PrintHelp();
+            }
         }
 
-        private static void PrintHelpAndExit()
+        internal static int PrintHelp()
         {
             Console.WriteLine($@"
 Unlimitedinf.Apis.Client.exe v{typeof(Program).Assembly.GetName().Version}
@@ -25,6 +41,7 @@ Usage is somewhat similar to that of git. I.e. <exec> <command> <parameters>
 The following are valid commands:
 
     help        This help text.
+    help error  This list of exit codes and what they mean.
 
     account     The module dealing with account interactions.
         create  Create a new account. Prompts for additional information.
@@ -41,14 +58,31 @@ Note: In any of the commands that mention prompting for additional information,
       a serialized version of the information being prompted for will short
       circuit the prompts and cause immediate execution.
 ");
-            Environment.Exit(ExitCode.HelpText);
+            return ExitCode.HelpText;
         }
 
-        private static class ExitCode
+        private static int PrintHelpError()
         {
-            public const int Success = 0;
-            public const int GenericError = 1;
-            public const int HelpText = 2;
+            Console.WriteLine($@"
+Unlimitedinf.Apis.Client.exe v{typeof(Program).Assembly.GetName().Version}
+
+Error/exit codes and what they mean:
+
+    0           Success.
+    1           A general error happened.
+    2           Help text is displayed.
+    3           Functionality not yet implemented.
+");
+
+            return ExitCode.HelpText;
         }
+    }
+
+    internal static class ExitCode
+    {
+        public const int Success = 0;
+        public const int GenericError = 1;
+        public const int HelpText = 2;
+        public const int NotImplemented = 3;
     }
 }
