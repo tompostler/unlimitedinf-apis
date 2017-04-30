@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 
 namespace Unlimitedinf.Apis.Client
 {
@@ -7,6 +10,18 @@ namespace Unlimitedinf.Apis.Client
     {
         public static int Main(string[] args)
         {
+#if DEBUG
+            var lst = new List<string>();
+            Console.WriteLine("Args, one per line:");
+            var arg = Console.ReadLine();
+            while (!string.IsNullOrWhiteSpace(arg))
+            {
+                lst.Add(arg);
+                arg = Console.ReadLine();
+            }
+            args = lst.ToArray();
+#endif
+
             if (args.Length == 0 || args.Contains("-?") || args.Contains("--?") || args.Contains("-h") || args.Contains("--help") || args.Contains("help"))
                 if (args.Length == 2 && args[0] == "help" && args[1] == "error")
                     return PrintHelpError();
@@ -17,7 +32,6 @@ namespace Unlimitedinf.Apis.Client
             Array.Copy(args, 1, rargs, 0, args.Length - 1);
             switch (args[0])
             {
-
                 case "account":
                     return AuthAccount.Run(rargs);
 
@@ -32,7 +46,7 @@ namespace Unlimitedinf.Apis.Client
         internal static int PrintHelp()
         {
             Console.WriteLine($@"
-Unlimitedinf.Apis.Client.exe v{typeof(Program).Assembly.GetName().Version}
+Unlimitedinf.Apis.Client.exe v{FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion}
 
 An executable tool to work with the endpoints at the API app hosted at:
     https://unlimitedinf-apis.azurewebsites.net
@@ -64,7 +78,7 @@ Note: In any of the commands that mention prompting for additional information,
         private static int PrintHelpError()
         {
             Console.WriteLine($@"
-Unlimitedinf.Apis.Client.exe v{typeof(Program).Assembly.GetName().Version}
+Unlimitedinf.Apis.Client.exe v{FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion}
 
 Error/exit codes and what they mean:
 
@@ -72,17 +86,19 @@ Error/exit codes and what they mean:
     1           A general error happened.
     2           Help text is displayed.
     3           Functionality not yet implemented.
+    4           Provided values failed validation.
 ");
 
             return ExitCode.HelpText;
         }
     }
 
-    internal static class ExitCode
+    public static class ExitCode
     {
         public const int Success = 0;
         public const int GenericError = 1;
         public const int HelpText = 2;
         public const int NotImplemented = 3;
+        public const int ValidationFailed = 4;
     }
 }

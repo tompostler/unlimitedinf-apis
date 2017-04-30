@@ -1,4 +1,8 @@
-﻿namespace Unlimitedinf.Apis.Client
+﻿using Newtonsoft.Json;
+using System;
+using Unlimitedinf.Apis.Contracts.Auth;
+
+namespace Unlimitedinf.Apis.Client
 {
     internal static class AuthAccount
     {
@@ -7,6 +11,51 @@
             if (args.Length == 0)
                 return Program.PrintHelp();
 
+            var rargs = new string[args.Length - 1];
+            Array.Copy(args, 1, rargs, 0, args.Length - 1);
+            switch (args[0])
+            {
+                case "create":
+                    return AuthAccount.Create(rargs);
+                case "read":
+                    return AuthAccount.Read(rargs);
+                case "update":
+                    return AuthAccount.Update(rargs);
+                case "delete":
+                    return AuthAccount.Delete(rargs);
+
+                default:
+                    return Program.PrintHelp();
+            }
+        }
+
+        private static int Create(string[] args)
+        {
+            Account account = null;
+            if (args.Length == 1)
+                account = JsonConvert.DeserializeObject<Account>(args[0]);
+            else
+                account = Input.Get<Account>();
+            Input.Validate(account);
+
+            account = ApiClientAuth.Account.Create(account).GetAwaiter().GetResult();
+            Console.WriteLine(JsonConvert.SerializeObject(account, Formatting.Indented));
+
+            return ExitCode.NotImplemented;
+        }
+
+        private static int Read(string[] args)
+        {
+            return ExitCode.NotImplemented;
+        }
+
+        private static int Update(string[] args)
+        {
+            return ExitCode.NotImplemented;
+        }
+
+        private static int Delete(string[] args)
+        {
             return ExitCode.NotImplemented;
         }
     }
