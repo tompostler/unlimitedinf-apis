@@ -41,22 +41,51 @@ namespace Unlimitedinf.Apis.Client
             account = ApiClientAuth.Account.Create(account).GetAwaiter().GetResult();
             Console.WriteLine(JsonConvert.SerializeObject(account, Formatting.Indented));
 
-            return ExitCode.NotImplemented;
+            return ExitCode.Success;
         }
 
         private static int Read(string[] args)
         {
-            return ExitCode.NotImplemented;
+            if (args.Length != 1 || string.IsNullOrWhiteSpace(args[0]))
+            {
+                Console.Error.WriteLine("Did not supply username argument.");
+                return ExitCode.ValidationFailed;
+            }
+
+            var account = ApiClientAuth.Account.Read(args[0]).GetAwaiter().GetResult();
+            Console.WriteLine(JsonConvert.SerializeObject(account, Formatting.Indented));
+
+            return ExitCode.Success;
         }
 
         private static int Update(string[] args)
         {
-            return ExitCode.NotImplemented;
+            AccountUpdate account = null;
+            if (args.Length == 1)
+                account = JsonConvert.DeserializeObject<AccountUpdate>(args[0]);
+            else
+                account = Input.Get<AccountUpdate>();
+            Input.Validate(account);
+
+            ApiClientAuth.Account.Update(account).GetAwaiter().GetResult();
+            Console.WriteLine(JsonConvert.SerializeObject(new Account { email = account.email, username = account.username }, Formatting.Indented));
+
+            return ExitCode.Success;
         }
 
         private static int Delete(string[] args)
         {
-            return ExitCode.NotImplemented;
+            Account account = null;
+            if (args.Length == 1)
+                account = JsonConvert.DeserializeObject<Account>(args[0]);
+            else
+                account = Input.Get<Account>();
+            Input.Validate(account);
+
+            ApiClientAuth.Account.Delete(account).GetAwaiter().GetResult();
+            Console.WriteLine(JsonConvert.SerializeObject(new Account { email = account.email, username = account.username }, Formatting.Indented));
+
+            return ExitCode.Success;
         }
     }
 }

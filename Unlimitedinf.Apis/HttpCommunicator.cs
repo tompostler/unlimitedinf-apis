@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Unlimitedinf.Apis
@@ -11,12 +12,12 @@ namespace Unlimitedinf.Apis
 
         static HttpCommunicator()
         {
-            Client.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/json");
+            Client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
         public static async Task<TResult> Post<TContent, TResult>(string url, TContent content)
         {
-            HttpResponseMessage response = await Client.PostAsync(url, new StringContent(JsonConvert.SerializeObject(content)));
+            HttpResponseMessage response = await Client.PostAsync(url, new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json"));
             string rontent = await response.Content.ReadAsStringAsync();
             ExceptionCreator.ThrowMaybe(response.StatusCode, rontent);
             return JsonConvert.DeserializeObject<TResult>(rontent);
@@ -24,7 +25,7 @@ namespace Unlimitedinf.Apis
 
         public static async Task Put<TContent>(string url, TContent content)
         {
-            HttpResponseMessage response = await Client.PutAsync(url, new StringContent(JsonConvert.SerializeObject(content)));
+            HttpResponseMessage response = await Client.PutAsync(url, new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json"));
             string rontent = await response.Content.ReadAsStringAsync();
             ExceptionCreator.ThrowMaybe(response.StatusCode, rontent);
         }
