@@ -6,14 +6,16 @@ namespace Unlimitedinf.Apis.Models.Auth
 {
     public class AccountEntity : TableEntity
     {
+        private string _Username;
         public string Username
         {
             get
             {
-                return this.RowKey;
+                return this._Username;
             }
             set
             {
+                this._Username = value;
                 this.RowKey = value.ToLowerInvariant();
             }
         }
