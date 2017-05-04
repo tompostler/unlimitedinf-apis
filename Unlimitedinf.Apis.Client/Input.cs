@@ -42,7 +42,10 @@ namespace Unlimitedinf.Apis.Client
                 Console.Write($"{property.Name}: ");
                 var value = Console.ReadLine().Trim();
                 if (!string.IsNullOrWhiteSpace(value))
-                    property.SetValue(result, Convert.ChangeType(value, property.PropertyType));
+                    if (property.PropertyType.IsEnum)
+                        property.SetValue(result, Enum.Parse(property.PropertyType, value));
+                    else
+                        property.SetValue(result, Convert.ChangeType(value, property.PropertyType));
             }
 
             return result;

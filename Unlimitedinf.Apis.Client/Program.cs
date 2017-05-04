@@ -41,7 +41,7 @@ namespace Unlimitedinf.Apis.Client
                         return AuthAccount.Run(rargs);
 
                     case "token":
-                        return ExitCode.NotImplemented;
+                        return AuthToken.Run(rargs);
 
                     default:
                         return PrintHelp();

@@ -118,34 +118,34 @@ namespace Unlimitedinf.Apis.Contracts.Auth
         /// <summary>
         /// The token expires after one minute (<c>DateTime.UtcNow.AddMinutes(1)</c>).
         /// </summary>
-        Minute,
+        minute,
         /// <summary>
         /// The token expires after one hour (<c>DateTime.UtcNow.AddHours(1)</c>).
         /// </summary>
-        Hour,
+        hour,
         /// <summary>
         /// The token expires after one day (<c>DateTime.UtcNow.AddDays(1)</c>).
         /// </summary>
-        Day,
+        day,
         /// <summary>
         /// The token expires after one week (<c>DateTime.UtcNow.AddDays(7)</c>).
         /// </summary>
-        Week,
+        week,
         /// <summary>
         /// The token expires after one month (<c>DateTime.UtcNow.AddMonths(1)</c>).
         /// </summary>
-        Month,
+        month,
         /// <summary>
         /// The token expires after one quarter (approx 90 days, <c>DateTime.UtcNow.AddMonths(3)</c>).
         /// </summary>
-        Quarter,
+        quarter,
         /// <summary>
         /// The token expires after one year (<c>DateTime.UtcNow.AddYears(1)</c>).
         /// </summary>
-        Year,
+        year,
         /// <summary>
         /// The token expires never. This is not recommended, for obvious reasons. However, will set to <c>DateTime.MaxValue</c>.
         /// </summary>
-        Never
+        never
     }
 }

@@ -34,7 +34,7 @@ namespace Unlimitedinf.Apis
         {
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Delete, url)
             {
-                Content = new StringContent(JsonConvert.SerializeObject(content))
+                Content = new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json")
             };
             HttpResponseMessage response = await Client.SendAsync(request);
             string rontent = await response.Content.ReadAsStringAsync();

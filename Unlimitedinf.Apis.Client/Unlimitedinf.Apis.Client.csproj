@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuthToken.cs" />
     <Compile Include="AuthAccount.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Input.cs" />

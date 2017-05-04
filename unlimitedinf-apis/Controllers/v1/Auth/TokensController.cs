@@ -47,7 +47,7 @@ namespace Unlimitedinf.Apis.Controllers.v1.Auth
                 return this.NotFound();
 
             // Get existing
-            var existing = await TableStorage.Auth.ExecuteAsync(TokenExtensions.GetExistingOperation(token.token));
+            var existing = await TableStorage.Auth.ExecuteAsync(TokenExtensions.GetExistingOperation(token.username, token.token));
             if (existing.Result == null)
                 return this.NotFound();
             var entity = (TokenEntity)existing.Result;
@@ -64,10 +64,16 @@ namespace Unlimitedinf.Apis.Controllers.v1.Auth
         {
             var query = new TableQuery<TokenEntity>().Where(
                 TableQuery.CombineFilters(
-                    TableQuery.GenerateFilterCondition(
-                        "PartitionKey",
-                        QueryComparisons.Equal,
-                        TokenExtensions.PartitionKey),
+                    TableQuery.CombineFilters(
+                        TableQuery.GenerateFilterCondition(
+                            "PartitionKey",
+                            QueryComparisons.GreaterThanOrEqual,
+                            TokenExtensions.PartitionKey),
+                        TableOperators.And,
+                        TableQuery.GenerateFilterCondition(
+                            "PartitionKey",
+                            QueryComparisons.LessThan,
+                            TokenExtensions.PartionKeyLessThan)),
                     TableOperators.And,
                     TableQuery.GenerateFilterConditionForDate(
                         nameof(TokenEntity.Expiration),

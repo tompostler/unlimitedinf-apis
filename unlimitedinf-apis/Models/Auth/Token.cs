@@ -31,7 +31,7 @@ namespace Unlimitedinf.Apis.Models.Auth
 
         public TokenEntity(Token token)
         {
-            this.PartitionKey = TokenExtensions.PartitionKey;
+            this.PartitionKey = TokenExtensions.PartitionKey + token.username;
             this.Username = token.username;
             this.Name = token.name;
             this.Token = token.token;
@@ -40,40 +40,40 @@ namespace Unlimitedinf.Apis.Models.Auth
 
         public TokenEntity(TokenCreate token)
         {
-            this.PartitionKey = TokenExtensions.PartitionKey;
+            this.PartitionKey = TokenExtensions.PartitionKey + token.username;
             this.Username = token.username;
             this.Name = token.name;
             switch (token.expire)
             {
-                case TokenExpiration.Minute:
+                case TokenExpiration.minute:
                     this.Expiration = DateTime.UtcNow.AddMinutes(1);
                     break;
 
-                case TokenExpiration.Hour:
+                case TokenExpiration.hour:
                     this.Expiration = DateTime.UtcNow.AddHours(1);
                     break;
 
-                case TokenExpiration.Day:
+                case TokenExpiration.day:
                     this.Expiration = DateTime.UtcNow.AddDays(1);
                     break;
 
-                case TokenExpiration.Week:
+                case TokenExpiration.week:
                     this.Expiration = DateTime.UtcNow.AddDays(7);
                     break;
 
-                case TokenExpiration.Month:
+                case TokenExpiration.month:
                     this.Expiration = DateTime.UtcNow.AddMonths(1);
                     break;
 
-                case TokenExpiration.Quarter:
+                case TokenExpiration.quarter:
                     this.Expiration = DateTime.UtcNow.AddMonths(3);
                     break;
 
-                case TokenExpiration.Year:
+                case TokenExpiration.year:
                     this.Expiration = DateTime.UtcNow.AddYears(1);
                     break;
 
-                case TokenExpiration.Never:
+                case TokenExpiration.never:
                     this.Expiration = DateTime.MaxValue;
                     break;
             }
@@ -103,7 +103,8 @@ namespace Unlimitedinf.Apis.Models.Auth
 
     public static class TokenExtensions
     {
-        public const string PartitionKey = "tokens";
+        public const string PartitionKey = "tokens_";
+        public const string PartionKeyLessThan = "tokens`";
 
         public static TableQuery<TokenEntity> GetExistingOperation(this TokenCreate token)
         {
@@ -123,7 +124,19 @@ namespace Unlimitedinf.Apis.Models.Auth
 
         public static TableOperation GetExistingOperation(this Token token)
         {
-            return GetExistingOperation(token.token);
+            return GetExistingOperation(token.username, token.token);
+        }
+
+        public static TableOperation GetExistingOperation(string username, string token)
+        {
+            if (string.IsNullOrWhiteSpace(username))
+                throw new ArgumentNullException(nameof(username));
+            if (string.IsNullOrWhiteSpace(token))
+                throw new ArgumentNullException(nameof(token));
+
+            return TableOperation.Retrieve<TokenEntity>(
+                PartitionKey + username,
+                token);
         }
 
         public static TableOperation GetExistingOperation(string token)
@@ -131,9 +144,17 @@ namespace Unlimitedinf.Apis.Models.Auth
             if (string.IsNullOrWhiteSpace(token))
                 throw new ArgumentNullException(nameof(token));
 
-            return TableOperation.Retrieve<TokenEntity>(
-                PartitionKey,
-                token);
+            var ctoken = token.FromBase64String();
+            int beg = ctoken.IndexOf(' ') + 1;
+            if (beg < 0 || beg >= ctoken.Length)
+                throw new ArgumentException("Token is not well-formed.", nameof(token));
+            int end = ctoken.IndexOf(' ', beg);
+            if (end < 0)
+                throw new ArgumentException("Token is not well-formed.", nameof(token));
+
+            var username = ctoken.Substring(beg, end - beg);
+
+            return GetExistingOperation(username, token);
         }
     }
 }
