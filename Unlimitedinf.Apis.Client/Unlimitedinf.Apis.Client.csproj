@@ -82,9 +82,9 @@
     </CodeAnalysisDictionary>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Unlimitedinf.Apis\Unlimitedinf.Apis.csproj">
+    <ProjectReference Include="..\Unlimitedinf.Apis.Contracts\Unlimitedinf.Apis.Contracts.csproj">
       <Project>{d0aeb875-6d3d-4053-abaf-12de9d4dde2e}</Project>
-      <Name>Unlimitedinf.Apis</Name>
+      <Name>Unlimitedinf.Apis.Contracts</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

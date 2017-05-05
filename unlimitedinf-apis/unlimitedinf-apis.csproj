@@ -204,7 +204,7 @@
     <Compile Include="Models\Versioning\Version.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\MoreHttpStatusCodes.cs" />
-    <Compile Include="..\Unlimitedinf.Apis\Properties\LocalAssemblyInfo.cs">
+    <Compile Include="..\Unlimitedinf.Apis.Contracts\Properties\LocalAssemblyInfo.cs">
       <Link>Properties\LocalAssemblyInfo.cs</Link>
     </Compile>
   </ItemGroup>
@@ -233,9 +233,9 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Unlimitedinf.Apis\Unlimitedinf.Apis.csproj">
+    <ProjectReference Include="..\Unlimitedinf.Apis.Contracts\Unlimitedinf.Apis.Contracts.csproj">
       <Project>{d0aeb875-6d3d-4053-abaf-12de9d4dde2e}</Project>
-      <Name>Unlimitedinf.Apis</Name>
+      <Name>Unlimitedinf.Apis.Contracts</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

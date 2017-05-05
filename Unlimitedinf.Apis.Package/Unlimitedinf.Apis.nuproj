@@ -29,7 +29,7 @@
     <Copyright>Copyright 2017 UnlimitedInf</Copyright>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Unlimitedinf.Apis\Unlimitedinf.Apis.csproj" />
+    <ProjectReference Include="..\Unlimitedinf.Apis.Contracts\Unlimitedinf.Apis.Contracts.csproj" />
     <ProjectReference Include="..\Unlimitedinf.Apis.Client\Unlimitedinf.Apis.Client.csproj">
       <PackageDirectory>Tools</PackageDirectory>
     </ProjectReference>
