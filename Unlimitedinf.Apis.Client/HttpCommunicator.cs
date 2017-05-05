@@ -4,7 +4,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Unlimitedinf.Apis
+namespace Unlimitedinf.Apis.Client
 {
     internal static class HttpCommunicator
     {

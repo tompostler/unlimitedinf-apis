@@ -2,10 +2,14 @@
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="Configuration">
     
-    <LastUpdated>2017-05-04</LastUpdated>
-    <Version>0.6.0</Version>
+    <LastUpdated>2017-05-05</LastUpdated>
+    <Version>0.7.0</Version>
     
     <ReleaseNotes>
+0.7.0
+
+  - Refactor so that the contracts are in a DLL that doesn't do anything else.
+
 0.6.0
 
   - Unlimitedinf.Apis.Client.exe in tools can now manage tokens.

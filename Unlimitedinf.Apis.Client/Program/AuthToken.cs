@@ -2,14 +2,14 @@
 using System;
 using Unlimitedinf.Apis.Contracts.Auth;
 
-namespace Unlimitedinf.Apis.Client
+namespace Unlimitedinf.Apis.Client.Program
 {
     internal static class AuthToken
     {
         public static int Run(string[] args)
         {
             if (args.Length == 0)
-                return Program.PrintHelp();
+                return App.PrintHelp();
 
             var rargs = new string[args.Length - 1];
             Array.Copy(args, 1, rargs, 0, args.Length - 1);
@@ -21,7 +21,7 @@ namespace Unlimitedinf.Apis.Client
                     return AuthToken.Delete(rargs);
 
                 default:
-                    return Program.PrintHelp();
+                    return App.PrintHelp();
             }
         }
 

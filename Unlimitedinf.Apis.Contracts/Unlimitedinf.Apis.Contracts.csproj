@@ -59,13 +59,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApiClientAuth.cs" />
-    <Compile Include="Contracts\Auth\Account.cs" />
-    <Compile Include="Contracts\Auth\Token.cs" />
-    <Compile Include="Contracts\Versioning\Version.cs" />
-    <Compile Include="Exceptions.cs" />
+    <Compile Include="Auth\Account.cs" />
+    <Compile Include="Auth\Token.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="HttpCommunicator.cs" />
+    <Compile Include="Versioning\Version.cs" />
     <Compile Include="Properties\LocalAssemblyInfo.cs" />
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>

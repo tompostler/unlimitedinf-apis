@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
-namespace Unlimitedinf.Apis.Client
+namespace Unlimitedinf.Apis.Client.Program
 {
-    public static class Program
+    public static class App
     {
         public static int Main(string[] args)
         {

@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using CA = Unlimitedinf.Apis.Contracts.Auth;
 
-namespace Unlimitedinf.Apis
+namespace Unlimitedinf.Apis.Client
 {
     /// <summary>
     /// A helper class to handle the authentication CRUD necessary for the ApiClient.

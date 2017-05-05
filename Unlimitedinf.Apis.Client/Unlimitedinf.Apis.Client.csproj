@@ -57,11 +57,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AuthToken.cs" />
-    <Compile Include="AuthAccount.cs" />
+    <Compile Include="ApiClientAuth.cs" />
+    <Compile Include="Exceptions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Input.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="HttpCommunicator.cs" />
+    <Compile Include="Program\AuthToken.cs" />
+    <Compile Include="Program\AuthAccount.cs" />
+    <Compile Include="Program\Input.cs" />
+    <Compile Include="Program\App.cs" />
     <Compile Include="Properties\LocalAssemblyInfo.cs" />
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>

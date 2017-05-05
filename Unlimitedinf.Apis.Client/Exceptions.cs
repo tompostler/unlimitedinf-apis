@@ -2,7 +2,7 @@
 using System.Net;
 using System.Runtime.Serialization;
 
-namespace Unlimitedinf.Apis
+namespace Unlimitedinf.Apis.Client
 {
     /// <summary>
     /// Represents errors that occur when performing operations against the API.

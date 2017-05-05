@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
-namespace Unlimitedinf.Apis.Client
+namespace Unlimitedinf.Apis.Client.Program
 {
     internal static class Input
     {
