@@ -57,6 +57,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiClient_Versioning.cs" />
+    <Compile Include="ApiClient.cs" />
     <Compile Include="ApiClientAuth.cs" />
     <Compile Include="Exceptions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
