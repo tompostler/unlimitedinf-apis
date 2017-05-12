@@ -38,10 +38,10 @@ namespace Unlimitedinf.Apis.Client.Program
                 switch (args[0])
                 {
                     case "account":
-                        return AuthAccount.Run(rargs);
+                        return AAccount.Run(rargs);
 
                     case "token":
-                        return AuthToken.Run(rargs);
+                        return AToken.Run(rargs);
 
                     default:
                         return PrintHelp();
@@ -70,14 +70,23 @@ The following are valid commands:
 
     account     The module dealing with account interactions.
         create  Create a new account. Prompts for additional information.
-        read u  Will read additional information for an account whose username is
-                'u'
+        read u  Will read additional information for an account whose username
+                is 'u'
         update  Update an existing account. Prompts for additional information.
         delete  Deletes an existing account. Prompts for additional information.
 
     token       The module dealing with token interactions.
         create  Create a new token. Prompts for additional information.
         delete  Deletes an existing token. Prompts for additional information.
+
+    version     The module dealing with version interactions.
+        create  Create a new version. Prompts for additional information.
+        read u  Will read additional information for all versions that belong to
+                the user with username 'u'
+        read u v Will read additional information for the version with name 'v'
+                belonging to the user with username 'u'
+        update  Update an existing version. Prompts for additional information.
+        delete  Deletes an existing version. Prompts for additional information.
 
 Note: In any of the commands that mention prompting for additional information,
       a serialized version of the information being prompted for will short

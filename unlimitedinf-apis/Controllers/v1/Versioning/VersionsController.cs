@@ -114,7 +114,12 @@ namespace Unlimitedinf.Apis.Controllers.v1.Versioning
             var delete = TableOperation.Delete(versionEntity);
             result = await TableStorage.Version.ExecuteAsync(delete);
 
-            return Content((HttpStatusCode)result.HttpStatusCode, (Version)(VersionEntity)result.Result);
+            // Annoying
+            var returnCode = (HttpStatusCode)result.HttpStatusCode;
+            if (returnCode == HttpStatusCode.NoContent)
+                returnCode = HttpStatusCode.OK;
+
+            return Content(returnCode, (Version)(VersionEntity)result.Result);
         }
     }
 }

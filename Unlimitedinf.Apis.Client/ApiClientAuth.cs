@@ -8,12 +8,6 @@ namespace Unlimitedinf.Apis.Client
     /// </summary>
     public static class ApiClientAuth
     {
-        private const string BaseUrl = "https://unlimitedinf-apis.azurewebsites.net";
-
-        private const string AuthBase = BaseUrl + "/auth";
-        private const string AuthAccount = AuthBase + "/accounts";
-        private const string AuthToken = AuthBase + "/tokens";
-
         /// <summary>
         /// Account-related operations.
         /// </summary>
@@ -24,7 +18,7 @@ namespace Unlimitedinf.Apis.Client
             /// </summary>
             public static async Task<CA.Account> Create(CA.Account account)
             {
-                return await HttpCommunicator.Post<CA.Account, CA.Account>(AuthAccount, account);
+                return await StaticHttpCommunicator.Post<CA.Account, CA.Account>(Curl.AAccount, account);
             }
 
             /// <summary>
@@ -32,7 +26,7 @@ namespace Unlimitedinf.Apis.Client
             /// </summary>
             public static async Task<CA.Account> Read(string username)
             {
-                return await HttpCommunicator.Get<CA.Account>($"{AuthAccount}?username={username}");
+                return await StaticHttpCommunicator.Get<CA.Account>($"{Curl.AAccount}?username={username}");
             }
 
             /// <summary>
@@ -41,7 +35,7 @@ namespace Unlimitedinf.Apis.Client
             /// </summary>
             public static async Task Update(CA.AccountUpdate account)
             {
-                await HttpCommunicator.Put(AuthAccount, account);
+                await StaticHttpCommunicator.Put(Curl.AAccount, account);
             }
 
             /// <summary>
@@ -50,7 +44,7 @@ namespace Unlimitedinf.Apis.Client
             /// </summary>
             public static async Task Delete(CA.Account account)
             {
-                await HttpCommunicator.Delete(AuthAccount, account);
+                await StaticHttpCommunicator.Delete(Curl.AAccount, account);
             }
         }
 
@@ -64,7 +58,7 @@ namespace Unlimitedinf.Apis.Client
             /// </summary>
             public static async Task<CA.Token> Create(CA.TokenCreate creation)
             {
-                return await HttpCommunicator.Post<CA.TokenCreate, CA.Token>(AuthToken, creation);
+                return await StaticHttpCommunicator.Post<CA.TokenCreate, CA.Token>(Curl.AToken, creation);
             }
 
             /// <summary>
@@ -73,7 +67,7 @@ namespace Unlimitedinf.Apis.Client
             /// </summary>
             public static async Task Delete(CA.TokenDelete deletion)
             {
-                await HttpCommunicator.Delete(AuthToken, deletion);
+                await StaticHttpCommunicator.Delete(Curl.AToken, deletion);
             }
         }
 
