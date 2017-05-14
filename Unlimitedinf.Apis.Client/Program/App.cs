@@ -39,9 +39,10 @@ namespace Unlimitedinf.Apis.Client.Program
                 {
                     case "account":
                         return AAccount.Run(rargs);
-
                     case "token":
                         return AToken.Run(rargs);
+                    case "version":
+                        return VVersion.Run(rargs);
 
                     default:
                         return PrintHelp();

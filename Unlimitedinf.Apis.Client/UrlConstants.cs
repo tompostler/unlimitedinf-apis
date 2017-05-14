@@ -9,6 +9,6 @@
         internal const string AToken = ABase + "/tokens";
 
         private const string VBase = BaseUrl + "/versioning";
-        internal const string VVersion = VBase + "/version";
+        internal const string VVersion = VBase + "/versions";
     }
 }

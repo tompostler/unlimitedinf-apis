@@ -65,21 +65,21 @@ namespace Unlimitedinf.Apis.Controllers.v1.Versioning
             // Update
             switch (versionIncrement.inc)
             {
-                case VersionIncrementOption.Major:
+                case VersionIncrementOption.major:
                     if (versionIncrement.reset)
                         versionEntity.Version = versionEntity.Version.IncrementMajor();
                     else
                         versionEntity.Version = new Tools.SemVer(versionEntity.Version.Major + 1, versionEntity.Version.Minor, versionEntity.Version.Patch);
 
                     break;
-                case VersionIncrementOption.Minor:
+                case VersionIncrementOption.minor:
                     if (versionIncrement.reset)
                         versionEntity.Version = versionEntity.Version.IncrementMinor();
                     else
                         versionEntity.Version = new Tools.SemVer(versionEntity.Version.Major, versionEntity.Version.Minor + 1, versionEntity.Version.Patch);
 
                     break;
-                case VersionIncrementOption.Patch:
+                case VersionIncrementOption.patch:
                     versionEntity.Version = versionEntity.Version.IncrementPatch();
                     break;
             }

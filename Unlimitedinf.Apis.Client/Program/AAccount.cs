@@ -6,7 +6,7 @@ namespace Unlimitedinf.Apis.Client.Program
 {
     internal static class AAccount
     {
-        public static int Run(string[] args)
+        internal static int Run(string[] args)
         {
             if (args.Length == 0)
                 return App.PrintHelp();

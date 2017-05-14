@@ -2,47 +2,21 @@
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="Configuration">
     
-    <LastUpdated>2017-05-05</LastUpdated>
-    <Version>0.7.0</Version>
+    <LastUpdated>2017-05-14</LastUpdated>
+    <Version>1.0.0</Version>
     
     <ReleaseNotes>
-0.7.0
+1.0.0
 
-  - Refactor so that the contracts are in a DLL that doesn't do anything else.
-
-0.6.0
-
-  - Unlimitedinf.Apis.Client.exe in tools can now manage tokens.
-
-0.5.0
-
-  - Unlimitedinf.Apis.Client.exe in tools can now manage accounts.
-
-0.4.0
-
-  - Rudimentary client: only supports auth controller basics.
-  - Introduced exe to package tools. Currently does nothing.
-
-0.3.0
-
-  - Breaking version change. Client coming someday.
-
-0.2.0
-
-  - New auth contracts. Client coming someday.
-
-0.1.0
-
-  - Starting dev rework. Completely unstable and unusable at this time.
-
-0.0.1
-
-  - Test packaging.
+  - A client side library that can work with the end auth, token, and version APIs.
     </ReleaseNotes>
     
     <Tags>apis unlimitedinf version</Tags>
     <Description>
 Client-side libraries to work with the apis made available on https://unlimitedinf-apis.azurewebsites.net/
+
+There is one DLL available defining the contracts used to communicate with the server as well as an EXE in the tools folder that wraps it for commandline interactions.
+The EXE can also be used as a reference because it is well separated into client-side libraries and runnable infrastructure.
     </Description>
   </PropertyGroup>
 </Project>

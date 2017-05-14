@@ -16,7 +16,7 @@ namespace Unlimitedinf.Apis.Client
             StaticClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public static async Task<TResult> Post<TContent, TResult>(string url, TContent content)
+        internal static async Task<TResult> Post<TContent, TResult>(string url, TContent content)
         {
             HttpResponseMessage response = await StaticClient.PostAsync(url, new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json"));
             string rontent = await response.Content.ReadAsStringAsync();
@@ -24,14 +24,14 @@ namespace Unlimitedinf.Apis.Client
             return JsonConvert.DeserializeObject<TResult>(rontent);
         }
 
-        public static async Task Put<TContent>(string url, TContent content)
+        internal static async Task Put<TContent>(string url, TContent content)
         {
             HttpResponseMessage response = await StaticClient.PutAsync(url, new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json"));
             string rontent = await response.Content.ReadAsStringAsync();
             ExceptionCreator.ThrowMaybe(response.StatusCode, rontent);
         }
 
-        public static async Task Delete<TContent>(string url, TContent content)
+        internal static async Task Delete<TContent>(string url, TContent content)
         {
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Delete, url)
             {
@@ -42,7 +42,7 @@ namespace Unlimitedinf.Apis.Client
             ExceptionCreator.ThrowMaybe(response.StatusCode, rontent);
         }
 
-        public static async Task<TResult> Get<TResult>(string url)
+        internal static async Task<TResult> Get<TResult>(string url)
         {
             HttpResponseMessage response = await StaticClient.GetAsync(url);
             string rontent = await response.Content.ReadAsStringAsync();
@@ -55,13 +55,13 @@ namespace Unlimitedinf.Apis.Client
     {
         private HttpClient Client = new HttpClient();
 
-        public HttpCommunicator(string token)
+        internal HttpCommunicator(string token)
         {
             this.Client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             this.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", token);
         }
 
-        public async Task<TResult> Post<TContent, TResult>(string url, TContent content)
+        internal async Task<TResult> Post<TContent, TResult>(string url, TContent content)
         {
             HttpResponseMessage response = await this.Client.PostAsync(url, new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json"));
             string rontent = await response.Content.ReadAsStringAsync();
@@ -69,14 +69,14 @@ namespace Unlimitedinf.Apis.Client
             return JsonConvert.DeserializeObject<TResult>(rontent);
         }
 
-        public async Task Put<TContent>(string url, TContent content)
+        internal async Task Put<TContent>(string url, TContent content)
         {
             HttpResponseMessage response = await this.Client.PutAsync(url, new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json"));
             string rontent = await response.Content.ReadAsStringAsync();
             ExceptionCreator.ThrowMaybe(response.StatusCode, rontent);
         }
 
-        public async Task<TResult> Put<TContent, TResult>(string url, TContent content)
+        internal async Task<TResult> Put<TContent, TResult>(string url, TContent content)
         {
             HttpResponseMessage response = await this.Client.PutAsync(url, new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json"));
             string rontent = await response.Content.ReadAsStringAsync();
@@ -84,7 +84,7 @@ namespace Unlimitedinf.Apis.Client
             return JsonConvert.DeserializeObject<TResult>(rontent);
         }
 
-        public async Task Delete<TContent>(string url, TContent content)
+        internal async Task Delete<TContent>(string url, TContent content)
         {
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Delete, url)
             {
@@ -95,7 +95,7 @@ namespace Unlimitedinf.Apis.Client
             ExceptionCreator.ThrowMaybe(response.StatusCode, rontent);
         }
 
-        public async Task<TResult> Delete<TContent, TResult>(string url, TContent content)
+        internal async Task<TResult> Delete<TContent, TResult>(string url, TContent content)
         {
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Delete, url)
             {
@@ -107,7 +107,7 @@ namespace Unlimitedinf.Apis.Client
             return JsonConvert.DeserializeObject<TResult>(rontent);
         }
 
-        public async Task<TResult> Delete<TResult>(string url)
+        internal async Task<TResult> Delete<TResult>(string url)
         {
             HttpResponseMessage response = await this.Client.DeleteAsync(url);
             string rontent = await response.Content.ReadAsStringAsync();
@@ -115,7 +115,7 @@ namespace Unlimitedinf.Apis.Client
             return JsonConvert.DeserializeObject<TResult>(rontent);
         }
 
-        public async Task<TResult> Get<TResult>(string url)
+        internal async Task<TResult> Get<TResult>(string url)
         {
             HttpResponseMessage response = await this.Client.GetAsync(url);
             string rontent = await response.Content.ReadAsStringAsync();

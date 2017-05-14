@@ -22,13 +22,13 @@ namespace Unlimitedinf.Apis.Client
             return await this.Communicator.Post<CV.Version, CV.Version>(Curl.VVersion, version);
         }
 
-        public async Task<List<CV.Version>> Read(string username)
+        public static async Task<List<CV.Version>> Read(string username)
         {
-            return await this.Communicator.Get<List<CV.Version>>(Curl.VVersion + $"?accountName={username}");
+            return await StaticHttpCommunicator.Get<List<CV.Version>>(Curl.VVersion + $"?accountName={username}");
         }
-        public async Task<CV.Version> Read(string username, string versionName)
+        public static async Task<CV.Version> Read(string username, string versionName)
         {
-            return await this.Communicator.Get<CV.Version>(Curl.VVersion + $"?accountName={username}&versionName={versionName}");
+            return await StaticHttpCommunicator.Get<CV.Version>(Curl.VVersion + $"?accountName={username}&versionName={versionName}");
         }
 
         public async Task<CV.Version> Update(CV.VersionIncrement version)

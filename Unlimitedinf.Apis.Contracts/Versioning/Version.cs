@@ -63,9 +63,9 @@ namespace Unlimitedinf.Apis.Contracts.Versioning
     public enum VersionIncrementOption
     {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        Major,
-        Minor,
-        Patch
+        major,
+        minor,
+        patch
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     }
 }
