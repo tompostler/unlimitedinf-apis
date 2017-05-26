@@ -15,19 +15,19 @@ namespace Unlimitedinf.Apis.Controllers.v1.Versioning
     public class VersionsController : ApiController
     {
         [Route, HttpGet]
-        public async Task<IHttpActionResult> GetVersion(string accountName, string versionName)
+        public async Task<IHttpActionResult> GetVersion(string username, string versionName)
         {
             // All versions are publicly gettable
-            var retrieve = TableOperation.Retrieve<VersionEntity>(accountName.ToLowerInvariant(), versionName.ToLowerInvariant());
+            var retrieve = TableOperation.Retrieve<VersionEntity>(username.ToLowerInvariant(), versionName.ToLowerInvariant());
             var result = await TableStorage.Version.ExecuteAsync(retrieve);
             return Content((HttpStatusCode)result.HttpStatusCode, (Version)(VersionEntity)result.Result);
         }
 
         [Route, HttpGet]
-        public async Task<IHttpActionResult> GetVersions(string accountName)
+        public async Task<IHttpActionResult> GetVersions(string username)
         {
             // All versions are publicly gettable
-            var versionEntitiesQuery = new TableQuery<VersionEntity>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, accountName.ToLowerInvariant()));
+            var versionEntitiesQuery = new TableQuery<VersionEntity>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, username.ToLowerInvariant()));
             var versions = new List<Version>();
             foreach (VersionEntity versionEntity in await TableStorage.Version.ExecuteQueryAsync(versionEntitiesQuery))
                 versions.Add(versionEntity);

@@ -5,7 +5,6 @@ namespace Unlimitedinf.Apis.Util
     public static class MoreHttpStatusCodes
     {
         public static readonly MoreHttpStatusCodeValue ImATeapot = new MoreHttpStatusCodeValue(418);
-        public static readonly MoreHttpStatusCodeValue NginxHttpRequestSentToHttpsPort = new MoreHttpStatusCodeValue(497);
     }
 
     public class MoreHttpStatusCodeValue

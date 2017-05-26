@@ -1,5 +1,4 @@
-﻿using System.Net;
-using System.Web.Http;
+﻿using System.Web.Http;
 
 namespace Unlimitedinf.Apis.Controllers
 {
@@ -9,7 +8,7 @@ namespace Unlimitedinf.Apis.Controllers
         [Route, HttpGet, HttpHead, HttpOptions]
         public IHttpActionResult Ping()
         {
-            return Content<object>(HttpStatusCode.NoContent, null);
+            return this.Ok();
         }
     }
 }
