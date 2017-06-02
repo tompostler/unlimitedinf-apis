@@ -19,7 +19,7 @@ namespace Unlimitedinf.Apis.Controllers.v1.Versioning
         {
             // All versions are publicly gettable
             var retrieve = TableOperation.Retrieve<VersionEntity>(username.ToLowerInvariant(), versionName.ToLowerInvariant());
-            var result = await TableStorage.Version.ExecuteAsync(retrieve);
+            var result = await TableStorage.Versioning.ExecuteAsync(retrieve);
             return Content((HttpStatusCode)result.HttpStatusCode, (Version)(VersionEntity)result.Result);
         }
 
@@ -29,7 +29,7 @@ namespace Unlimitedinf.Apis.Controllers.v1.Versioning
             // All versions are publicly gettable
             var versionEntitiesQuery = new TableQuery<VersionEntity>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, username.ToLowerInvariant()));
             var versions = new List<Version>();
-            foreach (VersionEntity versionEntity in await TableStorage.Version.ExecuteQueryAsync(versionEntitiesQuery))
+            foreach (VersionEntity versionEntity in await TableStorage.Versioning.ExecuteQueryAsync(versionEntitiesQuery))
                 versions.Add(versionEntity);
 
             return Ok(versions);
@@ -44,7 +44,7 @@ namespace Unlimitedinf.Apis.Controllers.v1.Versioning
 
             // Add the version
             var insert = TableOperation.Insert(new VersionEntity(version), true);
-            var result = await TableStorage.Version.ExecuteAsync(insert);
+            var result = await TableStorage.Versioning.ExecuteAsync(insert);
 
             return Content((HttpStatusCode)result.HttpStatusCode, (Version)(VersionEntity)result.Result);
         }
@@ -57,7 +57,7 @@ namespace Unlimitedinf.Apis.Controllers.v1.Versioning
                 return this.Unauthorized();
 
             // Get the existing version
-            var result = await TableStorage.Version.ExecuteAsync(versionIncrement.GetExistingOperation());
+            var result = await TableStorage.Versioning.ExecuteAsync(versionIncrement.GetExistingOperation());
             var versionEntity = (VersionEntity)result.Result;
             if (versionEntity == null)
                 return StatusCode((HttpStatusCode)result.HttpStatusCode);
@@ -86,7 +86,7 @@ namespace Unlimitedinf.Apis.Controllers.v1.Versioning
 
             // Replace
             var replace = TableOperation.Replace(versionEntity);
-            result = await TableStorage.Version.ExecuteAsync(replace);
+            result = await TableStorage.Versioning.ExecuteAsync(replace);
 
             // Annoying
             var returnCode = (HttpStatusCode)result.HttpStatusCode;
@@ -105,14 +105,14 @@ namespace Unlimitedinf.Apis.Controllers.v1.Versioning
 
             // Get
             var retrieve = TableOperation.Retrieve<VersionEntity>(username.ToLowerInvariant(), versionName.ToLowerInvariant());
-            var result = await TableStorage.Version.ExecuteAsync(retrieve);
+            var result = await TableStorage.Versioning.ExecuteAsync(retrieve);
             var versionEntity = (VersionEntity)result.Result;
             if (versionEntity == null)
                 return StatusCode((HttpStatusCode)result.HttpStatusCode);
 
             // Remove
             var delete = TableOperation.Delete(versionEntity);
-            result = await TableStorage.Version.ExecuteAsync(delete);
+            result = await TableStorage.Versioning.ExecuteAsync(delete);
 
             // Annoying
             var returnCode = (HttpStatusCode)result.HttpStatusCode;

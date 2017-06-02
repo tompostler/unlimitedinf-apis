@@ -193,8 +193,8 @@
     <Compile Include="Controllers\TeapotController.cs" />
     <Compile Include="Controllers\v1\Auth\TokensController.cs" />
     <Compile Include="Controllers\v1\Auth\AccountsController.cs" />
-    <Compile Include="Controllers\v1\ValuesController.cs" />
     <Compile Include="Controllers\v1\Versioning\VersionsController.cs" />
+    <Compile Include="Controllers\v1\Random\NumberController.cs" />
     <Compile Include="Filters\ValidateViewModelAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -229,6 +229,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\Random\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
