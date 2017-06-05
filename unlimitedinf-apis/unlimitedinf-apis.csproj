@@ -193,6 +193,7 @@
     <Compile Include="Controllers\TeapotController.cs" />
     <Compile Include="Controllers\v1\Auth\TokensController.cs" />
     <Compile Include="Controllers\v1\Auth\AccountsController.cs" />
+    <Compile Include="Controllers\v1\Random\OtherController.cs" />
     <Compile Include="Controllers\v1\Versioning\VersionsController.cs" />
     <Compile Include="Controllers\v1\Random\NumberController.cs" />
     <Compile Include="Filters\ValidateViewModelAttribute.cs" />
