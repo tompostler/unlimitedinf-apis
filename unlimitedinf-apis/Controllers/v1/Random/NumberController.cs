@@ -6,7 +6,7 @@ namespace Unlimitedinf.Apis.Controllers.v1.Random
 {
     [ApiVersion("1.0")]
     [RoutePrefix("random/number")]
-    public class NumberController : ApiController
+    public class NumberController : BaseController
     {
         private static RNGCryptoServiceProvider _rngCsp = new RNGCryptoServiceProvider();
 

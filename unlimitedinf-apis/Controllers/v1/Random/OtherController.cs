@@ -6,7 +6,7 @@ namespace Unlimitedinf.Apis.Controllers.v1.Random
 {
     [ApiVersion("1.0")]
     [RoutePrefix("random")]
-    public class OtherController : ApiController
+    public class OtherController : BaseController
     {
         [Route("guid"), HttpGet]
         public IHttpActionResult GuidMethod()

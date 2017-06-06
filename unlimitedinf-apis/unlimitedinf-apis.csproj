@@ -189,6 +189,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Auth\RequireHttpsAttribute.cs" />
     <Compile Include="Auth\TokenWallAttribute.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\PingController.cs" />
     <Compile Include="Controllers\TeapotController.cs" />
     <Compile Include="Controllers\v1\Auth\TokensController.cs" />
