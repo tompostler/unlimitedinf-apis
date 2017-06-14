@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Runtime.Caching;
@@ -20,17 +21,24 @@ namespace Unlimitedinf.Apis.Auth
 
         public override void OnAuthorization(HttpActionContext actionContext)
         {
+            // Providing a token via the URL will supersede checking for an Authorization header
+            var urlToken = actionContext.Request.GetQueryNameValuePairs().SingleOrDefault(kvp => kvp.Key.Equals("token", StringComparison.OrdinalIgnoreCase)).Value;
+            var noUrlToken = string.IsNullOrWhiteSpace(urlToken);
+
             // All the ways we can fail
-            if (actionContext.Request.Headers.Authorization == null)
-                actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized) { ReasonPhrase = "Authorization header with 'Token' scheme required." };
-            else if (actionContext.Request.Headers.Authorization.Scheme != "Token")
-                actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized) { ReasonPhrase = "Authorization header 'Token' scheme required." };
-            else if (string.IsNullOrWhiteSpace(actionContext.Request.Headers.Authorization.Parameter))
-                actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized) { ReasonPhrase = "Authorization header token parameter required." };
+            if (noUrlToken)
+                if (actionContext.Request.Headers.Authorization == null)
+                    actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized) { ReasonPhrase = "Authorization header with 'Token' scheme required." };
+                else if (actionContext.Request.Headers.Authorization.Scheme != "Token")
+                    actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized) { ReasonPhrase = "Authorization header 'Token' scheme required." };
+                else if (string.IsNullOrWhiteSpace(actionContext.Request.Headers.Authorization.Parameter))
+                    actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized) { ReasonPhrase = "Authorization header token parameter required." };
+                else
+                    actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized) { ReasonPhrase = "Authorization header with 'Token' scheme required." };
 
             if (actionContext.Response != null)
                 return;
-            string token = actionContext.Request.Headers.Authorization.Parameter;
+            string token = noUrlToken ? actionContext.Request.Headers.Authorization.Parameter : urlToken;
 
             // Check the token, easy
             if (Contracts.Auth.Token.IsTokenExpired(token))
