@@ -51,7 +51,7 @@ namespace Unlimitedinf.Apis.Auth
             if (tokenCache.Contains(token))
             {
                 // Check the token, medium
-                principal = (MyPrincipal)tokenCache.Get(token);
+                principal = tokenCache.Get(token) as MyPrincipal;
                 if (principal == null)
                 {
                     // We've seen this bad token before.
@@ -72,7 +72,7 @@ namespace Unlimitedinf.Apis.Auth
                 var result = TableStorage.Auth.Execute(TokenExtensions.GetExistingOperation(token));
                 if (result.HttpStatusCode == (int)HttpStatusCode.NotFound)
                 {
-                    tokenCache.Add(token, null, defaultCachePolicy);
+                    tokenCache.Add(token, false, defaultCachePolicy);
                     Trace.TraceWarning("Token does not exist: based on tablestorage.");
                     actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized) { ReasonPhrase = "Token does not exist." };
                     return;
