@@ -23,7 +23,7 @@ namespace Unlimitedinf.Apis
         {
             Auth = TableClient.GetTableReference("apisauth");
             Versioning = TableClient.GetTableReference("apisversion");
-            Versioning = TableClient.GetTableReference("apisrandom");
+            Random = TableClient.GetTableReference("apisrandom");
 
             Task.WaitAll(
                 Auth.CreateIfNotExistsAsync(),
