@@ -33,8 +33,6 @@ namespace Unlimitedinf.Apis.Auth
                     actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized) { ReasonPhrase = "Authorization header 'Token' scheme required." };
                 else if (string.IsNullOrWhiteSpace(actionContext.Request.Headers.Authorization.Parameter))
                     actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized) { ReasonPhrase = "Authorization header token parameter required." };
-                else
-                    actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized) { ReasonPhrase = "Authorization header with 'Token' scheme required." };
 
             if (actionContext.Response != null)
                 return;
