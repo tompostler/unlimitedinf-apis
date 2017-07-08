@@ -37,6 +37,7 @@ namespace Unlimitedinf.Apis.Auth
             if (actionContext.Response != null)
                 return;
             string token = noUrlToken ? actionContext.Request.Headers.Authorization.Parameter : urlToken;
+            Trace.TraceInformation("Token " + token);
 
             // Check the token, easy
             if (Contracts.Auth.Token.IsTokenExpired(token))
