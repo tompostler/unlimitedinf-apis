@@ -10,5 +10,6 @@
 
         private const string VBase = BaseUrl + "/versioning";
         internal const string VVersion = VBase + "/versions";
+        internal const string VCount = VBase + "/counts";
     }
 }

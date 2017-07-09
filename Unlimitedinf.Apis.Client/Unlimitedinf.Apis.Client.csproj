@@ -67,6 +67,7 @@
     <Compile Include="Exceptions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="HttpCommunicators.cs" />
+    <Compile Include="Program\VCount.cs" />
     <Compile Include="Program\VVersion.cs" />
     <Compile Include="Program\AToken.cs" />
     <Compile Include="Program\AAccount.cs" />

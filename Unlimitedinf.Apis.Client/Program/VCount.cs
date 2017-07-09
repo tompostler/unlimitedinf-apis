@@ -1,11 +1,10 @@
 ﻿using Newtonsoft.Json;
 using System;
+using Unlimitedinf.Apis.Contracts.Versioning;
 
 namespace Unlimitedinf.Apis.Client.Program
 {
-    using Unlimitedinf.Apis.Contracts.Versioning;
-
-    internal static class VVersion
+    internal static class VCount
     {
         internal static int Run(string[] args)
         {
@@ -17,13 +16,13 @@ namespace Unlimitedinf.Apis.Client.Program
             switch (args[0])
             {
                 case "create":
-                    return VVersion.Create(rargs);
+                    return VCount.Create(rargs);
                 case "read":
-                    return VVersion.Read(rargs);
+                    return VCount.Read(rargs);
                 case "update":
-                    return VVersion.Update(rargs);
+                    return VCount.Update(rargs);
                 case "delete":
-                    return VVersion.Delete(rargs);
+                    return VCount.Delete(rargs);
 
                 default:
                     return App.PrintHelp();
@@ -32,18 +31,18 @@ namespace Unlimitedinf.Apis.Client.Program
 
         private static int Create(string[] args)
         {
-            Version version = null;
+            Count count = null;
             string token = null;
             if (args.Length == 1)
-                version = args[0].Deserialize<Version>(out token);
+                count = args[0].Deserialize<Count>(out token);
             else
-                version = Input.Get<Version>(out token);
-            Input.Validate(version, token);
+                count = Input.Get<Count>(out token);
+            Input.Validate(count, token);
 
             var client = new ApiClient(token);
 
-            version = client.Versioning.VersionCreate(version).GetAwaiter().GetResult();
-            Console.WriteLine(JsonConvert.SerializeObject(version, Formatting.Indented));
+            count = client.Versioning.CountCreate(count).GetAwaiter().GetResult();
+            Console.WriteLine(JsonConvert.SerializeObject(count, Formatting.Indented));
 
             return ExitCode.Success;
         }
@@ -58,7 +57,7 @@ namespace Unlimitedinf.Apis.Client.Program
                     return ExitCode.ValidationFailed;
                 }
 
-                var result = ApiClient_Versioning.VersionRead(args[0]).GetAwaiter().GetResult();
+                var result = ApiClient_Versioning.CountRead(args[0]).GetAwaiter().GetResult();
                 Console.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
                 return ExitCode.Success;
             }
@@ -67,11 +66,11 @@ namespace Unlimitedinf.Apis.Client.Program
             {
                 if (string.IsNullOrWhiteSpace(args[0]) || string.IsNullOrWhiteSpace(args[1]))
                 {
-                    Console.Error.WriteLine("Did not supply username or versionName argument.");
+                    Console.Error.WriteLine("Did not supply username or countName argument.");
                     return ExitCode.ValidationFailed;
                 }
 
-                var result = ApiClient_Versioning.VersionRead(args[0], args[1]).GetAwaiter().GetResult();
+                var result = ApiClient_Versioning.CountRead(args[0], args[1]).GetAwaiter().GetResult();
                 Console.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
                 return ExitCode.Success;
             }
@@ -82,16 +81,16 @@ namespace Unlimitedinf.Apis.Client.Program
 
         private static int Update(string[] args)
         {
-            VersionIncrement versionInc = null;
+            CountChange countChange = null;
             string token = null;
             if (args.Length == 1)
-                versionInc = args[0].Deserialize<VersionIncrement>(out token);
+                countChange = args[0].Deserialize<CountChange>(out token);
             else
-                versionInc = Input.Get<VersionIncrement>(out token);
-            Input.Validate(versionInc, token);
+                countChange = Input.Get<CountChange>(out token);
+            Input.Validate(countChange, token);
 
             var client = new ApiClient(token);
-            var version = client.Versioning.VersionUpdate(versionInc).GetAwaiter().GetResult();
+            var version = client.Versioning.CountUpdate(countChange).GetAwaiter().GetResult();
             Console.WriteLine(JsonConvert.SerializeObject(version, Formatting.Indented));
 
             return ExitCode.Success;
@@ -99,18 +98,18 @@ namespace Unlimitedinf.Apis.Client.Program
 
         private static int Delete(string[] args)
         {
-            Version version = null;
+            Count count = null;
             string token = null;
             if (args.Length == 1)
-                version = args[0].Deserialize<Version>(out token);
+                count = args[0].Deserialize<Count>(out token);
             else
-                version = Input.Get<Version>(out token);
-            Input.Validate(version, token);
+                count = Input.Get<Count>(out token);
+            Input.Validate(count, token);
 
             var client = new ApiClient(token);
 
-            version = client.Versioning.VersionDelete(version.username, version.name).GetAwaiter().GetResult();
-            Console.WriteLine(JsonConvert.SerializeObject(version, Formatting.Indented));
+            count = client.Versioning.CountDelete(count.username, count.name).GetAwaiter().GetResult();
+            Console.WriteLine(JsonConvert.SerializeObject(count, Formatting.Indented));
 
             return ExitCode.Success;
         }

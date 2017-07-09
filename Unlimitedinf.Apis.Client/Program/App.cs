@@ -43,6 +43,8 @@ namespace Unlimitedinf.Apis.Client.Program
                         return AToken.Run(rargs);
                     case "version":
                         return VVersion.Run(rargs);
+                    case "count":
+                        return VCount.Run(rargs);
 
                     default:
                         return PrintHelp();
@@ -88,6 +90,9 @@ The following are valid commands:
                 belonging to the user with username 'u'
         update  Update an existing version. Prompts for additional information.
         delete  Deletes an existing version. Prompts for additional information.
+
+    count       The module dealing with count interactions. Usage is exactly the
+                same as the version module.
 
 Note: In any of the commands that mention prompting for additional information,
       a serialized version of the information being prompted for will short
