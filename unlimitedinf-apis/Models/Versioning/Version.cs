@@ -58,6 +58,9 @@ namespace Unlimitedinf.Apis.Models.Versioning
 
         public static implicit operator Version(VersionEntity entity)
         {
+            if (entity == null)
+                return null;
+
             return new Version
             {
                 username = entity.Username,
