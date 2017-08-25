@@ -194,12 +194,16 @@
     <Compile Include="Controllers\v1\Versioning\CountsController.cs" />
     <Compile Include="Controllers\v1\Versioning\VersionsController.cs" />
     <Compile Include="Controllers\v1\Random\NumberController.cs" />
+    <Compile Include="Controllers\v1\AxiomsController.cs" />
     <Compile Include="Filters\ValidateViewModelAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Auth\Account.cs" />
     <Compile Include="Models\Auth\Token.cs" />
+    <Compile Include="Models\Axioms\Axiom.cs" />
+    <Compile Include="Models\Axioms\AxiomCache.cs" />
+    <Compile Include="Models\Axioms\HttpAxiom.cs" />
     <Compile Include="Models\TableStorage.cs" />
     <Compile Include="Models\Versioning\Count.cs" />
     <Compile Include="Models\Versioning\Version.cs" />
@@ -229,7 +233,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\Random\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

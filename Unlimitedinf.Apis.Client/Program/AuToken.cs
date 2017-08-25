@@ -4,7 +4,7 @@ using Unlimitedinf.Apis.Contracts.Auth;
 
 namespace Unlimitedinf.Apis.Client.Program
 {
-    internal static class AToken
+    internal static class AuToken
     {
         internal static int Run(string[] args)
         {
@@ -16,9 +16,9 @@ namespace Unlimitedinf.Apis.Client.Program
             switch (args[0])
             {
                 case "create":
-                    return AToken.Create(rargs);
+                    return AuToken.Create(rargs);
                 case "delete":
-                    return AToken.Delete(rargs);
+                    return AuToken.Delete(rargs);
 
                 default:
                     return App.PrintHelp();

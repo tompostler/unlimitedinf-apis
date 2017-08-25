@@ -10,25 +10,25 @@ namespace Unlimitedinf.Apis
     {
         public static readonly CloudTableClient TableClient = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("unlimitedinfapis_AzureStorageConnectionString")).CreateCloudTableClient();
 
+        public static CloudTable Axioms { get; }
         public static CloudTable Auth { get; }
         public static CloudTable Versioning { get; }
-        public static CloudTable Random { get; }
 
         public static List<CloudTable> AllTables => new List<CloudTable>
         {
-            Auth, Versioning, Random
+            Axioms, Auth, Versioning
         };
 
         static TableStorage()
         {
+            Axioms = TableClient.GetTableReference("apisaxiom");
             Auth = TableClient.GetTableReference("apisauth");
             Versioning = TableClient.GetTableReference("apisversion");
-            Random = TableClient.GetTableReference("apisrandom");
 
             Task.WaitAll(
+                Axioms.CreateIfNotExistsAsync(),
                 Auth.CreateIfNotExistsAsync(),
-                Versioning.CreateIfNotExistsAsync(),
-                Random.CreateIfNotExistsAsync()
+                Versioning.CreateIfNotExistsAsync()
                 );
         }
     }

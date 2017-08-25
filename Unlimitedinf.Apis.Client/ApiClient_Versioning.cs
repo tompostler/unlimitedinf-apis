@@ -4,7 +4,7 @@ using CV = Unlimitedinf.Apis.Contracts.Versioning;
 
 namespace Unlimitedinf.Apis.Client
 {
-    public sealed partial class ApiClient_Versioning
+    public sealed class ApiClient_Versioning
     {
         private string Token { get; set; }
         private HttpCommunicator Communicator { get; set; }

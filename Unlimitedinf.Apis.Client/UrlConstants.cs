@@ -4,9 +4,11 @@
     {
         private const string BaseUrl = "https://unlimitedinf-apis.azurewebsites.net";
 
-        private const string ABase = BaseUrl + "/auth";
-        internal const string AAccount = ABase + "/accounts";
-        internal const string AToken = ABase + "/tokens";
+        private const string AuBase = BaseUrl + "/auth";
+        internal const string AuAccount = AuBase + "/accounts";
+        internal const string AuToken = AuBase + "/tokens";
+
+        internal const string AxBase = BaseUrl + "/axioms";
 
         private const string VBase = BaseUrl + "/versioning";
         internal const string VVersion = VBase + "/versions";

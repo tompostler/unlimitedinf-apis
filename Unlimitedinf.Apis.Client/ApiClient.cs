@@ -6,7 +6,7 @@ namespace Unlimitedinf.Apis.Client
     /// <summary>
     /// The main client for the APIs.
     /// </summary>
-    public sealed partial class ApiClient
+    public sealed class ApiClient
     {
         private string Token { get; set; }
         private HttpCommunicator Communicator { get; set; }

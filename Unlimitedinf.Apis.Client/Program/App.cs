@@ -38,9 +38,11 @@ namespace Unlimitedinf.Apis.Client.Program
                 switch (args[0])
                 {
                     case "account":
-                        return AAccount.Run(rargs);
+                        return AuAccount.Run(rargs);
                     case "token":
-                        return AToken.Run(rargs);
+                        return AuToken.Run(rargs);
+                    case "axiom":
+                        return AxBase.Run(rargs);
                     case "version":
                         return VVersion.Run(rargs);
                     case "count":
@@ -81,6 +83,11 @@ The following are valid commands:
     token       The module dealing with token interactions.
         create  Create a new token. Prompts for additional information.
         delete  Deletes an existing token. Prompts for additional information.
+
+    axiom       The module dealing with axiom interactions.
+                Axiom is special. Merely provide the type and id, and receive
+                the axiom. Example:
+                    Unlimitedinf.Apis.Client.exe axiom http 403
 
     version     The module dealing with version interactions.
         create  Create a new version. Prompts for additional information.

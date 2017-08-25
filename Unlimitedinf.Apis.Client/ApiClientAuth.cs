@@ -18,7 +18,7 @@ namespace Unlimitedinf.Apis.Client
             /// </summary>
             public static async Task<CA.Account> Create(CA.Account account)
             {
-                return await StaticHttpCommunicator.Post<CA.Account, CA.Account>(Curl.AAccount, account);
+                return await StaticHttpCommunicator.Post<CA.Account, CA.Account>(Curl.AuAccount, account);
             }
 
             /// <summary>
@@ -26,7 +26,7 @@ namespace Unlimitedinf.Apis.Client
             /// </summary>
             public static async Task<CA.Account> Read(string username)
             {
-                return await StaticHttpCommunicator.Get<CA.Account>($"{Curl.AAccount}?username={username}");
+                return await StaticHttpCommunicator.Get<CA.Account>($"{Curl.AuAccount}?username={username}");
             }
 
             /// <summary>
@@ -35,7 +35,7 @@ namespace Unlimitedinf.Apis.Client
             /// </summary>
             public static async Task Update(CA.AccountUpdate account)
             {
-                await StaticHttpCommunicator.Put(Curl.AAccount, account);
+                await StaticHttpCommunicator.Put(Curl.AuAccount, account);
             }
 
             /// <summary>
@@ -44,7 +44,7 @@ namespace Unlimitedinf.Apis.Client
             /// </summary>
             public static async Task Delete(CA.Account account)
             {
-                await StaticHttpCommunicator.Delete(Curl.AAccount, account);
+                await StaticHttpCommunicator.Delete(Curl.AuAccount, account);
             }
         }
 
@@ -58,7 +58,7 @@ namespace Unlimitedinf.Apis.Client
             /// </summary>
             public static async Task<CA.Token> Create(CA.TokenCreate creation)
             {
-                return await StaticHttpCommunicator.Post<CA.TokenCreate, CA.Token>(Curl.AToken, creation);
+                return await StaticHttpCommunicator.Post<CA.TokenCreate, CA.Token>(Curl.AuToken, creation);
             }
 
             /// <summary>
@@ -67,7 +67,7 @@ namespace Unlimitedinf.Apis.Client
             /// </summary>
             public static async Task Delete(CA.TokenDelete deletion)
             {
-                await StaticHttpCommunicator.Delete(Curl.AToken, deletion);
+                await StaticHttpCommunicator.Delete(Curl.AuToken, deletion);
             }
         }
 

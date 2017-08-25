@@ -12,7 +12,7 @@ namespace Unlimitedinf.Apis.Controllers.v1.Versioning
 {
     [RequireHttps, ApiVersion("1.0")]
     [RoutePrefix("versioning/versions")]
-    public class VersionsController : ApiController
+    public class VersionsController : BaseController
     {
         [Route, HttpGet]
         public async Task<IHttpActionResult> GetVersion(string username, string versionName)
@@ -20,7 +20,10 @@ namespace Unlimitedinf.Apis.Controllers.v1.Versioning
             // All versions are publicly gettable
             var retrieve = TableOperation.Retrieve<VersionEntity>(username.ToLowerInvariant(), versionName.ToLowerInvariant());
             var result = await TableStorage.Versioning.ExecuteAsync(retrieve);
-            return Content((HttpStatusCode)result.HttpStatusCode, (Version)(VersionEntity)result.Result);
+
+            if (result.Result == null)
+                return NotFound();
+            return Ok((Version)(VersionEntity)result.Result);
         }
 
         [Route, HttpGet]

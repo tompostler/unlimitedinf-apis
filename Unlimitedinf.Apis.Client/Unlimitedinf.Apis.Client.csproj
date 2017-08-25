@@ -61,16 +61,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiClient_Axioms.cs" />
     <Compile Include="ApiClient_Versioning.cs" />
     <Compile Include="ApiClient.cs" />
     <Compile Include="ApiClientAuth.cs" />
     <Compile Include="Exceptions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="HttpCommunicators.cs" />
+    <Compile Include="Program\AxBase.cs" />
     <Compile Include="Program\VCount.cs" />
     <Compile Include="Program\VVersion.cs" />
-    <Compile Include="Program\AToken.cs" />
-    <Compile Include="Program\AAccount.cs" />
+    <Compile Include="Program\AuToken.cs" />
+    <Compile Include="Program\AuAccount.cs" />
     <Compile Include="Program\Input.cs" />
     <Compile Include="Program\App.cs" />
     <Compile Include="Properties\LocalAssemblyInfo.cs" />

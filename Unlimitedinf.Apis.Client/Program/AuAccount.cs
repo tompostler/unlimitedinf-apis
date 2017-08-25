@@ -4,7 +4,7 @@ using Unlimitedinf.Apis.Contracts.Auth;
 
 namespace Unlimitedinf.Apis.Client.Program
 {
-    internal static class AAccount
+    internal static class AuAccount
     {
         internal static int Run(string[] args)
         {
@@ -16,13 +16,13 @@ namespace Unlimitedinf.Apis.Client.Program
             switch (args[0])
             {
                 case "create":
-                    return AAccount.Create(rargs);
+                    return AuAccount.Create(rargs);
                 case "read":
-                    return AAccount.Read(rargs);
+                    return AuAccount.Read(rargs);
                 case "update":
-                    return AAccount.Update(rargs);
+                    return AuAccount.Update(rargs);
                 case "delete":
-                    return AAccount.Delete(rargs);
+                    return AuAccount.Delete(rargs);
 
                 default:
                     return App.PrintHelp();

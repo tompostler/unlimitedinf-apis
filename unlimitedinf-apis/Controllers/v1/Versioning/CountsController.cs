@@ -12,7 +12,7 @@ namespace Unlimitedinf.Apis.Controllers.v1.Versioning
 {
     [RequireHttps, ApiVersion("1.0")]
     [RoutePrefix("versioning/counts")]
-    public class CountsController : ApiController
+    public class CountsController : BaseController
     {
         [Route, HttpGet]
         public async Task<IHttpActionResult> GetCount(string username, string countName)
@@ -20,7 +20,10 @@ namespace Unlimitedinf.Apis.Controllers.v1.Versioning
             // All counts are publicly gettable
             var retrieve = TableOperation.Retrieve<CountEntity>(username.ToLowerInvariant(), countName.ToLowerInvariant());
             var result = await TableStorage.Versioning.ExecuteAsync(retrieve);
-            return Content((HttpStatusCode)result.HttpStatusCode, (Count)(CountEntity)result.Result);
+
+            if (result.Result == null)
+                return NotFound();
+            return Ok((Count)(CountEntity)result.Result);
         }
 
         [Route, HttpGet]
