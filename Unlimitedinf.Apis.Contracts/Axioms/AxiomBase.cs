@@ -53,7 +53,7 @@ namespace Unlimitedinf.Apis.Contracts.Axioms
         /// <summary>
         /// The axiom description. Should be a handful of sentences describing the axiom.
         /// </summary>
-        [StringLength(512)]
+        [StringLength(1024)]
         public string desc { get; set; }
 
         /// <summary>

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.7
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "unlimitedinf-apis", "unlimitedinf-apis\unlimitedinf-apis.csproj", "{11697A6E-646B-4DF8-B453-5AFDA9583E2D}"
 EndProject
@@ -32,6 +32,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unlimitedinf.Apis.Client", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unlimitedinf.Apis.Contracts", "Unlimitedinf.Apis.Contracts\Unlimitedinf.Apis.Contracts.csproj", "{D0AEB875-6D3D-4053-ABAF-12DE9D4DDE2E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unlimitedinf.Apis.AxiomsUpsert", "Unlimitedinf.Apis.AxiomsUpsert\Unlimitedinf.Apis.AxiomsUpsert.csproj", "{4FDB4EAD-BBA2-4396-9CA0-F86E454A295F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +60,10 @@ Global
 		{D0AEB875-6D3D-4053-ABAF-12DE9D4DDE2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0AEB875-6D3D-4053-ABAF-12DE9D4DDE2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0AEB875-6D3D-4053-ABAF-12DE9D4DDE2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FDB4EAD-BBA2-4396-9CA0-F86E454A295F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FDB4EAD-BBA2-4396-9CA0-F86E454A295F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FDB4EAD-BBA2-4396-9CA0-F86E454A295F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FDB4EAD-BBA2-4396-9CA0-F86E454A295F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
