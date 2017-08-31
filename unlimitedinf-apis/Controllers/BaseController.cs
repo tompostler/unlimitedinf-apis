@@ -14,13 +14,20 @@ namespace Unlimitedinf.Apis.Controllers
         protected internal IHttpActionResult Ok(object content)
         {
             var result = new HttpResponseMessage(HttpStatusCode.OK);
+            bool wantsHtml = false, wantsJson = false;
 
-            if (!(content is string) && HttpContext.Current.Request.AcceptTypes.Contains("text/html"))
+            if (HttpContext.Current.Request.AcceptTypes != null)
+            {
+                wantsHtml = HttpContext.Current.Request.AcceptTypes.Contains("text/html");
+                wantsJson = HttpContext.Current.Request.AcceptTypes.Contains("application/json");
+            }
+
+            if (!(content is string) && wantsHtml)
                 // If the content is not a string and the accept types ask for text/html
                 // (aka the browser is hitting this url)
                 //  then pretty-print the json
                 result.Content = new StringContent(JsonConvert.SerializeObject(content, Formatting.Indented), Encoding.UTF8, "application/json");
-            else if (!(content is string) || HttpContext.Current.Request.AcceptTypes.Contains("application/json"))
+            else if (!(content is string) || wantsJson)
                 // If the content is not a string or the accept types asks for application/json
                 //  then return application/json
                 result.Content = new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json");
