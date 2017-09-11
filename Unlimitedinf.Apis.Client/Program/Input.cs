@@ -72,6 +72,8 @@ namespace Unlimitedinf.Apis.Client.Program
                         property.SetValue(result, value);
                     else if (property.PropertyType == typeof(Boolean))
                         property.SetValue(result, Boolean.Parse(value));
+                    else if (property.PropertyType == typeof(Int64))
+                        property.SetValue(result, Int64.Parse(value));
 
                     // Objects
                     else if (property.PropertyType == typeof(Tools.SemVer))

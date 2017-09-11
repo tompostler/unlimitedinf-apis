@@ -3,9 +3,13 @@
   <PropertyGroup Label="Configuration">
     
     <LastUpdated>2017-09-11</LastUpdated>
-    <Version>1.2.1</Version>
+    <Version>1.2.2</Version>
     
     <ReleaseNotes>
+1.2.2
+
+  - Fix Apis.Client wrt Int64.
+
 1.2.1
 
   - Added reset capability to count.
