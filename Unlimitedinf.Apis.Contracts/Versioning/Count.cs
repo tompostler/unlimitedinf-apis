@@ -24,7 +24,7 @@ namespace Unlimitedinf.Apis.Contracts.Versioning
         /// The actual count.
         /// </summary>
         [Required]
-        public long count { get; set; }
+        public long count { get; set; } = 0;
     }
 
     /// <summary>
@@ -45,7 +45,7 @@ namespace Unlimitedinf.Apis.Contracts.Versioning
         public string name { get; set; }
 
         /// <summary>
-        /// Whether we should increment or decrement the count. Default: increment.
+        /// Whether we should increment, decrement, or reset the count to 0. Default: increment.
         /// </summary>
         public CountChangeOption type { get; set; } = CountChangeOption.inc;
     }
@@ -57,7 +57,8 @@ namespace Unlimitedinf.Apis.Contracts.Versioning
     {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         inc,
-        dec
+        dec,
+        res
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     }
 }

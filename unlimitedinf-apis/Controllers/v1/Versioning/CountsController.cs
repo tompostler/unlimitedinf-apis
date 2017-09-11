@@ -75,6 +75,10 @@ namespace Unlimitedinf.Apis.Controllers.v1.Versioning
                 case CountChangeOption.dec:
                     countEntity.Count--;
                     break;
+
+                case CountChangeOption.res:
+                    countEntity.Count = 0;
+                    break;
             }
 
             // Replace
