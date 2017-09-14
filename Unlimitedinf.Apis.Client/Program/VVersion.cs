@@ -4,6 +4,7 @@ using System;
 namespace Unlimitedinf.Apis.Client.Program
 {
     using Unlimitedinf.Apis.Contracts.Versioning;
+    using Unlimitedinf.Tools;
 
     internal static class VVersion
     {
@@ -43,7 +44,7 @@ namespace Unlimitedinf.Apis.Client.Program
             var client = new ApiClient(token);
 
             version = client.Versioning.VersionCreate(version).GetAwaiter().GetResult();
-            Console.WriteLine(JsonConvert.SerializeObject(version, Formatting.Indented));
+            Log.Inf(JsonConvert.SerializeObject(version, Formatting.Indented));
 
             return ExitCode.Success;
         }
@@ -72,11 +73,11 @@ namespace Unlimitedinf.Apis.Client.Program
                 }
 
                 var result = ApiClient_Versioning.VersionRead(args[0], args[1]).GetAwaiter().GetResult();
-                Console.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
+                Log.Inf(JsonConvert.SerializeObject(result, Formatting.Indented));
                 return ExitCode.Success;
             }
 
-            Console.Error.WriteLine("Unexpected arguments.");
+            Log.Err("Unexpected arguments.");
             return ExitCode.ValidationFailed;
         }
 
@@ -92,7 +93,7 @@ namespace Unlimitedinf.Apis.Client.Program
 
             var client = new ApiClient(token);
             var version = client.Versioning.VersionUpdate(versionInc).GetAwaiter().GetResult();
-            Console.WriteLine(JsonConvert.SerializeObject(version, Formatting.Indented));
+            Log.Inf(JsonConvert.SerializeObject(version, Formatting.Indented));
 
             return ExitCode.Success;
         }
@@ -110,7 +111,7 @@ namespace Unlimitedinf.Apis.Client.Program
             var client = new ApiClient(token);
 
             version = client.Versioning.VersionDelete(version.username, version.name).GetAwaiter().GetResult();
-            Console.WriteLine(JsonConvert.SerializeObject(version, Formatting.Indented));
+            Log.Inf(JsonConvert.SerializeObject(version, Formatting.Indented));
 
             return ExitCode.Success;
         }

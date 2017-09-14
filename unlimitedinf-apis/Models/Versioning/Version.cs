@@ -6,6 +6,8 @@ namespace Unlimitedinf.Apis.Models.Versioning
 {
     public class VersionEntity : TableEntity
     {
+        public const string PartitionKeySuffix = "_v";
+
         [IgnoreProperty]
         public string Username
         {
@@ -15,7 +17,7 @@ namespace Unlimitedinf.Apis.Models.Versioning
             }
             set
             {
-                this.PartitionKey = value.ToLowerInvariant();
+                this.PartitionKey = value.ToLowerInvariant() + PartitionKeySuffix;
             }
         }
 
@@ -74,12 +76,12 @@ namespace Unlimitedinf.Apis.Models.Versioning
     {
         public static TableOperation GetExistingOperation(this Version version)
         {
-            return TableOperation.Retrieve<VersionEntity>(version.username.ToLowerInvariant(), version.name.ToLowerInvariant());
+            return TableOperation.Retrieve<VersionEntity>(version.username.ToLowerInvariant() + VersionEntity.PartitionKeySuffix, version.name.ToLowerInvariant());
         }
 
         public static TableOperation GetExistingOperation(this VersionIncrement versionInc)
         {
-            return TableOperation.Retrieve<VersionEntity>(versionInc.username.ToLowerInvariant(), versionInc.name.ToLowerInvariant());
+            return TableOperation.Retrieve<VersionEntity>(versionInc.username.ToLowerInvariant() + VersionEntity.PartitionKeySuffix, versionInc.name.ToLowerInvariant());
         }
     }
 }

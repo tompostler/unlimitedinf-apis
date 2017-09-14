@@ -18,7 +18,7 @@ namespace Unlimitedinf.Apis.Controllers.v1.Versioning
         public async Task<IHttpActionResult> GetCount(string username, string countName)
         {
             // All counts are publicly gettable
-            var retrieve = TableOperation.Retrieve<CountEntity>(username.ToLowerInvariant(), countName.ToLowerInvariant());
+            var retrieve = TableOperation.Retrieve<CountEntity>(username.ToLowerInvariant() + CountEntity.PartitionKeySuffix, countName.ToLowerInvariant());
             var result = await TableStorage.Versioning.ExecuteAsync(retrieve);
 
             if (result.Result == null)
@@ -30,7 +30,7 @@ namespace Unlimitedinf.Apis.Controllers.v1.Versioning
         public async Task<IHttpActionResult> GetCounts(string username)
         {
             // All counts are publicly gettable
-            var countEntitiesQuery = new TableQuery<CountEntity>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, username.ToLowerInvariant()));
+            var countEntitiesQuery = new TableQuery<CountEntity>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, username.ToLowerInvariant() + CountEntity.PartitionKeySuffix));
             var counts = new List<Count>();
             foreach (CountEntity countEntity in await TableStorage.Versioning.ExecuteQueryAsync(countEntitiesQuery))
                 counts.Add(countEntity);
@@ -101,7 +101,7 @@ namespace Unlimitedinf.Apis.Controllers.v1.Versioning
                 return this.Unauthorized();
 
             // Get
-            var retrieve = TableOperation.Retrieve<CountEntity>(username.ToLowerInvariant(), countName.ToLowerInvariant());
+            var retrieve = TableOperation.Retrieve<CountEntity>(username.ToLowerInvariant() + CountEntity.PartitionKeySuffix, countName.ToLowerInvariant());
             var result = await TableStorage.Versioning.ExecuteAsync(retrieve);
             var countEntity = (CountEntity)result.Result;
             if (countEntity == null)

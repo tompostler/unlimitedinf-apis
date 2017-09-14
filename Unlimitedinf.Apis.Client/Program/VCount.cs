@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using Unlimitedinf.Apis.Contracts.Versioning;
+using Unlimitedinf.Tools;
 
 namespace Unlimitedinf.Apis.Client.Program
 {
@@ -42,7 +43,7 @@ namespace Unlimitedinf.Apis.Client.Program
             var client = new ApiClient(token);
 
             count = client.Versioning.CountCreate(count).GetAwaiter().GetResult();
-            Console.WriteLine(JsonConvert.SerializeObject(count, Formatting.Indented));
+            Log.Inf(JsonConvert.SerializeObject(count, Formatting.Indented));
 
             return ExitCode.Success;
         }
@@ -58,7 +59,7 @@ namespace Unlimitedinf.Apis.Client.Program
                 }
 
                 var result = ApiClient_Versioning.CountRead(args[0]).GetAwaiter().GetResult();
-                Console.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
+                Log.Inf(JsonConvert.SerializeObject(result, Formatting.Indented));
                 return ExitCode.Success;
             }
 
@@ -71,11 +72,11 @@ namespace Unlimitedinf.Apis.Client.Program
                 }
 
                 var result = ApiClient_Versioning.CountRead(args[0], args[1]).GetAwaiter().GetResult();
-                Console.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
+                Log.Inf(JsonConvert.SerializeObject(result, Formatting.Indented));
                 return ExitCode.Success;
             }
 
-            Console.Error.WriteLine("Unexpected arguments.");
+            Log.Err("Unexpected arguments.");
             return ExitCode.ValidationFailed;
         }
 
@@ -91,7 +92,7 @@ namespace Unlimitedinf.Apis.Client.Program
 
             var client = new ApiClient(token);
             var version = client.Versioning.CountUpdate(countChange).GetAwaiter().GetResult();
-            Console.WriteLine(JsonConvert.SerializeObject(version, Formatting.Indented));
+            Log.Inf(JsonConvert.SerializeObject(version, Formatting.Indented));
 
             return ExitCode.Success;
         }
@@ -109,7 +110,7 @@ namespace Unlimitedinf.Apis.Client.Program
             var client = new ApiClient(token);
 
             count = client.Versioning.CountDelete(count.username, count.name).GetAwaiter().GetResult();
-            Console.WriteLine(JsonConvert.SerializeObject(count, Formatting.Indented));
+            Log.Inf(JsonConvert.SerializeObject(count, Formatting.Indented));
 
             return ExitCode.Success;
         }

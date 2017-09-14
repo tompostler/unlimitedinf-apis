@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using Unlimitedinf.Tools;
 
 namespace Unlimitedinf.Apis.Client.Program
 {
@@ -10,11 +12,15 @@ namespace Unlimitedinf.Apis.Client.Program
     {
         public static int Main(string[] args)
         {
+            Log.PrintVerbosityLevel = false;
+
 #if DEBUG
+            Log.PrintVerbosityLevel = true;
+            Log.Verbosity = Log.VerbositySetting.Verbose;
             if (args.Length == 0)
             {
                 var lst = new List<string>();
-                Console.WriteLine("Args, one per line:");
+                Log.Inf("Args, one per line:");
                 var arg = Console.ReadLine();
                 while (!string.IsNullOrWhiteSpace(arg))
                 {
@@ -30,6 +36,14 @@ namespace Unlimitedinf.Apis.Client.Program
                     return PrintHelpError();
                 else
                     return PrintHelp();
+
+            // If we're running a new version, we need to see if there are existing settings from an older version of the app
+            if (Properties.Settings.Default.UpgradeRequired)
+            {
+                Properties.Settings.Default.Upgrade();
+                Properties.Settings.Default.UpgradeRequired = false;
+                Properties.Settings.Default.Save();
+            }
 
             try
             {
@@ -54,14 +68,24 @@ namespace Unlimitedinf.Apis.Client.Program
             }
             catch (ApiException e)
             {
-                Console.Error.WriteLine($"{e.GetType().Name}! Code {(int)e.StatusCode}.");
+                Log.Err($"{e.GetType().Name}! Code {(int)e.StatusCode}.");
                 return (int)e.StatusCode;
+            }
+            catch (Exception e)
+            {
+                Log.Err("Other exception hit! Message:");
+                Log.Inf(e.Message);
+                Log.Ver(JsonConvert.SerializeObject(e, Formatting.Indented)
+                    .Replace("\\r", "\r")
+                    .Replace("\\n", "\n")
+                    .Replace("\\\\", "\\"));
+                return ExitCode.GenericError;
             }
         }
 
         internal static int PrintHelp()
         {
-            Console.WriteLine($@"
+            Log.Inf($@"
 Unlimitedinf.Apis.Client.exe v{FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion}
 
 An executable tool to work with the endpoints at the API app hosted at:
@@ -83,6 +107,7 @@ The following are valid commands:
     token       The module dealing with token interactions.
         create  Create a new token. Prompts for additional information.
         delete  Deletes an existing token. Prompts for additional information.
+        save t  Saves/Overwrites the token in user settings.
 
     axiom       The module dealing with axiom interactions.
                 Axiom is special. Merely provide the type and id, and receive
@@ -110,7 +135,7 @@ Note: In any of the commands that mention prompting for additional information,
 
         private static int PrintHelpError()
         {
-            Console.WriteLine($@"
+            Log.Inf($@"
 Unlimitedinf.Apis.Client.exe v{FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion}
 
 Error/exit codes and what they mean:

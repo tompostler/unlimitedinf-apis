@@ -5,6 +5,8 @@ namespace Unlimitedinf.Apis.Models.Versioning
 {
     public class CountEntity : TableEntity
     {
+        public const string PartitionKeySuffix = "_c";
+
         [IgnoreProperty]
         public string Username
         {
@@ -14,7 +16,7 @@ namespace Unlimitedinf.Apis.Models.Versioning
             }
             set
             {
-                this.PartitionKey = value.ToLowerInvariant();
+                this.PartitionKey = value.ToLowerInvariant() + PartitionKeySuffix;
             }
         }
 
@@ -57,12 +59,12 @@ namespace Unlimitedinf.Apis.Models.Versioning
     {
         public static TableOperation GetExistingOperation(this Count count)
         {
-            return TableOperation.Retrieve<CountEntity>(count.username.ToLowerInvariant(), count.name.ToLowerInvariant());
+            return TableOperation.Retrieve<CountEntity>(count.username.ToLowerInvariant() + CountEntity.PartitionKeySuffix, count.name.ToLowerInvariant());
         }
 
         public static TableOperation GetExistingOperation(this CountChange countInc)
         {
-            return TableOperation.Retrieve<CountEntity>(countInc.username.ToLowerInvariant(), countInc.name.ToLowerInvariant());
+            return TableOperation.Retrieve<CountEntity>(countInc.username.ToLowerInvariant() + CountEntity.PartitionKeySuffix, countInc.name.ToLowerInvariant());
         }
     }
 }

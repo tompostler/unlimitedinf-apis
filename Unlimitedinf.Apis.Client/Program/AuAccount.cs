@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using Unlimitedinf.Apis.Contracts.Auth;
+using Unlimitedinf.Tools;
 
 namespace Unlimitedinf.Apis.Client.Program
 {
@@ -39,7 +40,7 @@ namespace Unlimitedinf.Apis.Client.Program
             Input.Validate(account);
 
             account = ApiClientAuth.Account.Create(account).GetAwaiter().GetResult();
-            Console.WriteLine(JsonConvert.SerializeObject(account, Formatting.Indented));
+            Log.Inf(JsonConvert.SerializeObject(account, Formatting.Indented));
 
             return ExitCode.Success;
         }
@@ -53,7 +54,7 @@ namespace Unlimitedinf.Apis.Client.Program
             }
 
             var account = ApiClientAuth.Account.Read(args[0]).GetAwaiter().GetResult();
-            Console.WriteLine(JsonConvert.SerializeObject(account, Formatting.Indented));
+            Log.Inf(JsonConvert.SerializeObject(account, Formatting.Indented));
 
             return ExitCode.Success;
         }
@@ -68,7 +69,7 @@ namespace Unlimitedinf.Apis.Client.Program
             Input.Validate(account);
 
             ApiClientAuth.Account.Update(account).GetAwaiter().GetResult();
-            Console.WriteLine(JsonConvert.SerializeObject(new Account { email = account.email, username = account.username }, Formatting.Indented));
+            Log.Inf(JsonConvert.SerializeObject(new Account { email = account.email, username = account.username }, Formatting.Indented));
 
             return ExitCode.Success;
         }
@@ -83,7 +84,7 @@ namespace Unlimitedinf.Apis.Client.Program
             Input.Validate(account);
 
             ApiClientAuth.Account.Delete(account).GetAwaiter().GetResult();
-            Console.WriteLine(JsonConvert.SerializeObject(new Account { email = account.email, username = account.username }, Formatting.Indented));
+            Log.Inf(JsonConvert.SerializeObject(new Account { email = account.email, username = account.username }, Formatting.Indented));
 
             return ExitCode.Success;
         }

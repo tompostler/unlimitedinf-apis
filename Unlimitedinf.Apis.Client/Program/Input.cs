@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
+using Unlimitedinf.Tools;
 
 namespace Unlimitedinf.Apis.Client.Program
 {
@@ -29,6 +30,8 @@ namespace Unlimitedinf.Apis.Client.Program
             where T : new()
         {
             token = (string)JObject.Parse(obj)["token"];
+            if (string.IsNullOrWhiteSpace(token))
+                token = GetToken();
             return JsonConvert.DeserializeObject<T>(obj);
         }
 
@@ -96,13 +99,20 @@ namespace Unlimitedinf.Apis.Client.Program
 
         internal static string GetToken(bool validate = false)
         {
-            Console.Write("token: ");
-            var value = Console.ReadLine().Trim();
+            string token = string.Empty;
+            if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.ApiToken))
+                token = Properties.Settings.Default.ApiToken;
+            else
+            {
+
+                Console.Write("token: ");
+                token = Console.ReadLine().Trim();
+            }
 
             if (validate)
-                ValidateToken(value);
+                ValidateToken(token);
 
-            return value;
+            return token;
         }
 
         internal static void Validate<T>(T toValidate)
@@ -112,7 +122,7 @@ namespace Unlimitedinf.Apis.Client.Program
             var vr = Validator.TryValidateObject(toValidate, vc, errs, true);
 
             foreach (var result in errs)
-                Console.Error.WriteLine(result.ErrorMessage);
+                Log.Err(result.ErrorMessage);
 
             if (!vr)
                 Environment.Exit(ExitCode.ValidationFailed);
@@ -128,7 +138,7 @@ namespace Unlimitedinf.Apis.Client.Program
         {
             if (Contracts.Auth.Token.IsTokenExpired(token))
             {
-                Console.Error.WriteLine("Invalid token.");
+                Log.Err("Invalid token.");
                 Environment.Exit(ExitCode.ValidationFailed);
             }
         }

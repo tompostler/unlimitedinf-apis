@@ -18,7 +18,7 @@ namespace Unlimitedinf.Apis.Controllers.v1.Versioning
         public async Task<IHttpActionResult> GetVersion(string username, string versionName)
         {
             // All versions are publicly gettable
-            var retrieve = TableOperation.Retrieve<VersionEntity>(username.ToLowerInvariant(), versionName.ToLowerInvariant());
+            var retrieve = TableOperation.Retrieve<VersionEntity>(username.ToLowerInvariant() + VersionEntity.PartitionKeySuffix, versionName.ToLowerInvariant());
             var result = await TableStorage.Versioning.ExecuteAsync(retrieve);
 
             if (result.Result == null)
@@ -30,7 +30,7 @@ namespace Unlimitedinf.Apis.Controllers.v1.Versioning
         public async Task<IHttpActionResult> GetVersions(string username)
         {
             // All versions are publicly gettable
-            var versionEntitiesQuery = new TableQuery<VersionEntity>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, username.ToLowerInvariant()));
+            var versionEntitiesQuery = new TableQuery<VersionEntity>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, username.ToLowerInvariant() + VersionEntity.PartitionKeySuffix));
             var versions = new List<Version>();
             foreach (VersionEntity versionEntity in await TableStorage.Versioning.ExecuteQueryAsync(versionEntitiesQuery))
                 versions.Add(versionEntity);
@@ -107,7 +107,7 @@ namespace Unlimitedinf.Apis.Controllers.v1.Versioning
                 return this.Unauthorized();
 
             // Get
-            var retrieve = TableOperation.Retrieve<VersionEntity>(username.ToLowerInvariant(), versionName.ToLowerInvariant());
+            var retrieve = TableOperation.Retrieve<VersionEntity>(username.ToLowerInvariant() + VersionEntity.PartitionKeySuffix, versionName.ToLowerInvariant());
             var result = await TableStorage.Versioning.ExecuteAsync(retrieve);
             var versionEntity = (VersionEntity)result.Result;
             if (versionEntity == null)

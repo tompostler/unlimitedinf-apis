@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using Unlimitedinf.Apis.Contracts.Auth;
+using Unlimitedinf.Tools;
 
 namespace Unlimitedinf.Apis.Client.Program
 {
@@ -19,6 +20,8 @@ namespace Unlimitedinf.Apis.Client.Program
                     return AuToken.Create(rargs);
                 case "delete":
                     return AuToken.Delete(rargs);
+                case "save":
+                    return AuToken.Save(rargs);
 
                 default:
                     return App.PrintHelp();
@@ -35,7 +38,7 @@ namespace Unlimitedinf.Apis.Client.Program
             Input.Validate(tokenc);
 
             var token = ApiClientAuth.Token.Create(tokenc).GetAwaiter().GetResult();
-            Console.WriteLine(JsonConvert.SerializeObject(token, Formatting.Indented));
+            Log.Inf(JsonConvert.SerializeObject(token, Formatting.Indented));
 
             return ExitCode.Success;
         }
@@ -50,8 +53,26 @@ namespace Unlimitedinf.Apis.Client.Program
             Input.Validate(token);
 
             ApiClientAuth.Token.Delete(token).GetAwaiter().GetResult();
-            Console.WriteLine(JsonConvert.SerializeObject(new Token { name = token.name, token = token.token, username = token.username }, Formatting.Indented));
+            Log.Inf(JsonConvert.SerializeObject(new Token { name = token.name, token = token.token, username = token.username }, Formatting.Indented));
 
+            return ExitCode.Success;
+        }
+
+        private static int Save(string[] args)
+        {
+            if (args.Length != 1)
+            {
+                Log.Err("You did not supply a token.");
+                return ExitCode.ValidationFailed;
+            }
+            else if (Token.IsTokenExpired(args[0]))
+            {
+                Log.Err("You supplied an invalid or expired token.");
+                return ExitCode.ValidationFailed;
+            }
+
+            Properties.Settings.Default.ApiToken = args[0];
+            Properties.Settings.Default.Save();
             return ExitCode.Success;
         }
     }

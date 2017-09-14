@@ -2,10 +2,15 @@
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="Configuration">
     
-    <LastUpdated>2017-09-11</LastUpdated>
-    <Version>1.2.2</Version>
+    <LastUpdated>2017-09-14</LastUpdated>
+    <Version>1.3.0</Version>
     
     <ReleaseNotes>
+1.3.0
+
+  - Fixed the collision of Versions and Counts.
+  - Updated Apis.Client to enable using a saved token on the filesystem for the current user.
+
 1.2.2
 
   - Fix Apis.Client wrt Int64.

@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using Unlimitedinf.Tools;
 
 namespace Unlimitedinf.Apis.Client.Program
 {
@@ -24,7 +25,7 @@ namespace Unlimitedinf.Apis.Client.Program
             }
 
             var result = ApiClient_Axioms.AxiomRead(args[0], args[1]).GetAwaiter().GetResult();
-            Console.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
+            Log.Inf(JsonConvert.SerializeObject(result, Formatting.Indented));
             return ExitCode.Success;
         }
     }
