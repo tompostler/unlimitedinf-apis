@@ -12,7 +12,7 @@ namespace Unlimitedinf.Apis.Models.Versioning
         {
             get
             {
-                return this.PartitionKey;
+                return this.PartitionKey.Substring(0, this.PartitionKey.Length - PartitionKeySuffix.Length);
             }
             set
             {
