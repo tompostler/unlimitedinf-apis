@@ -13,5 +13,8 @@
         private const string VBase = BaseUrl + "/versioning";
         internal const string VVersion = VBase + "/versions";
         internal const string VCount = VBase + "/counts";
+
+        private const string NBase = BaseUrl + "/notes";
+        internal const string NRepo = NBase + "/repos";
     }
 }

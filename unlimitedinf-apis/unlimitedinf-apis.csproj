@@ -191,6 +191,7 @@
     <Compile Include="Controllers\v1\Auth\TokensController.cs" />
     <Compile Include="Controllers\v1\Auth\AccountsController.cs" />
     <Compile Include="Controllers\v1\DateTiming\DateTimesController.cs" />
+    <Compile Include="Controllers\v1\Notes\ReposController.cs" />
     <Compile Include="Controllers\v1\Random\OtherController.cs" />
     <Compile Include="Controllers\v1\Versioning\CountsController.cs" />
     <Compile Include="Controllers\v1\Versioning\VersionsController.cs" />
@@ -205,6 +206,7 @@
     <Compile Include="Models\Axioms\Axiom.cs" />
     <Compile Include="Models\Axioms\AxiomCache.cs" />
     <Compile Include="Models\Axioms\HttpAxiom.cs" />
+    <Compile Include="Models\Notes\Repo.cs" />
     <Compile Include="Models\TableStorage.cs" />
     <Compile Include="Models\Versioning\Count.cs" />
     <Compile Include="Models\Versioning\Version.cs" />

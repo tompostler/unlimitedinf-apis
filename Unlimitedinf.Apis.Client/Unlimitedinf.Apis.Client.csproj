@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiClient_Axioms.cs" />
+    <Compile Include="ApiClient_Notes.cs" />
     <Compile Include="ApiClient_Versioning.cs" />
     <Compile Include="ApiClient.cs" />
     <Compile Include="ApiClientAuth.cs" />
