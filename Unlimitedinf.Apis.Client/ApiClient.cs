@@ -22,8 +22,10 @@ namespace Unlimitedinf.Apis.Client
             this.Communicator = new HttpCommunicator(this.Token);
 
             this.Versioning = new ApiClient_Versioning(this.Token, this.Communicator);
+            this.Notes = new ApiClient_Notes(this.Token, this.Communicator);
         }
 
         public ApiClient_Versioning Versioning { get; }
+        public ApiClient_Notes Notes { get; }
     }
 }

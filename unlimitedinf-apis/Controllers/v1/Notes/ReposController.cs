@@ -53,7 +53,7 @@ namespace Unlimitedinf.Apis.Controllers.v1.Notes
             if (repoEntity == null)
                 return StatusCode((HttpStatusCode)result.HttpStatusCode);
 
-            repoEntity.Uri = repo.repo;
+            repoEntity.Uri = repo.repo.AbsoluteUri;
             repoEntity.GitUserName = repo.gitusername;
             repoEntity.GitUserEmail = repo.gituseremail;
 

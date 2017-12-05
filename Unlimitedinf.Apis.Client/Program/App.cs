@@ -61,6 +61,8 @@ namespace Unlimitedinf.Apis.Client.Program
                         return VVersion.Run(rargs);
                     case "count":
                         return VCount.Run(rargs);
+                    case "repo":
+                        return NRepo.Run(rargs);
 
                     default:
                         return PrintHelp();
@@ -113,6 +115,12 @@ The following are valid commands:
                 Axiom is special. Merely provide the type and id, and receive
                 the axiom. Example:
                     Unlimitedinf.Apis.Client.exe axiom http 403
+
+    repo        The module dealing with repo interactions.
+        create  Create a new repo. Prompts for additional information.
+        read    Read all the repos for the current user.
+        update  Update an existing repo. Prompts for additional information.
+        delete r Deletes an existing repo by name.
 
     version     The module dealing with version interactions.
         create  Create a new version. Prompts for additional information.

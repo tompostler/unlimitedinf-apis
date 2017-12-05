@@ -81,6 +81,8 @@ namespace Unlimitedinf.Apis.Client.Program
                     // Objects
                     else if (property.PropertyType == typeof(Tools.SemVer))
                         property.SetValue(result, Tools.SemVer.Parse(value));
+                    else if (property.PropertyType == typeof(Uri))
+                        property.SetValue(result, new Uri(value));
 
                     else
                         throw new NotImplementedException($"Property '{property.Name}' of type '{property.PropertyType}' does not have a valid conversion defined.");
@@ -101,10 +103,12 @@ namespace Unlimitedinf.Apis.Client.Program
         {
             string token = string.Empty;
             if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.ApiToken))
+            {
                 token = Properties.Settings.Default.ApiToken;
+                Log.Ver("Retrieved token from user settings.");
+            }
             else
             {
-
                 Console.Write("token: ");
                 token = Console.ReadLine().Trim();
             }

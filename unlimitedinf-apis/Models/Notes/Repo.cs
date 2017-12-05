@@ -32,7 +32,7 @@ namespace Unlimitedinf.Apis.Models.Notes
             }
         }
 
-        public Uri Uri { get; set; }
+        public string Uri { get; set; }
         public string GitUserName { get; set; }
         public string GitUserEmail { get; set; }
 
@@ -42,7 +42,7 @@ namespace Unlimitedinf.Apis.Models.Notes
         {
             this.Username = repo.username;
             this.Name = repo.name;
-            this.Uri = repo.repo;
+            this.Uri = repo.repo.AbsoluteUri;
             this.GitUserName = repo.gitusername;
             this.GitUserEmail = repo.gituseremail;
         }
@@ -56,7 +56,7 @@ namespace Unlimitedinf.Apis.Models.Notes
             {
                 username = entity.Username,
                 name = entity.Name,
-                repo = entity.Uri,
+                repo = new Uri(entity.Uri),
                 gitusername = entity.GitUserName,
                 gituseremail = entity.GitUserEmail
             };

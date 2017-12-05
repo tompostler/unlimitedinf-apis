@@ -72,6 +72,7 @@
     <Compile Include="HttpCommunicators.cs" />
     <Compile Include="Program\AxBase.cs" />
     <Compile Include="Program\VCount.cs" />
+    <Compile Include="Program\NRepo.cs" />
     <Compile Include="Program\VVersion.cs" />
     <Compile Include="Program\AuToken.cs" />
     <Compile Include="Program\AuAccount.cs" />
