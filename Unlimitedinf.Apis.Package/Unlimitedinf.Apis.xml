@@ -2,10 +2,14 @@
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="Configuration">
     
-    <LastUpdated>2017-12-05</LastUpdated>
-    <Version>1.4.1</Version>
+    <LastUpdated>2017-12-06</LastUpdated>
+    <Version>1.4.2</Version>
     
     <ReleaseNotes>
+1.4.2
+
+  - Added ability to export Notes/Repos as PS script.
+
 1.4.1
 
   - Added Notes/Repos.

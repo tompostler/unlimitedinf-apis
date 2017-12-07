@@ -119,6 +119,7 @@ The following are valid commands:
     repo        The module dealing with repo interactions.
         create  Create a new repo. Prompts for additional information.
         read    Read all the repos for the current user.
+        readps  Get a PS script to clone all of your repos.
         update  Update an existing repo. Prompts for additional information.
         delete r Deletes an existing repo by name.
 

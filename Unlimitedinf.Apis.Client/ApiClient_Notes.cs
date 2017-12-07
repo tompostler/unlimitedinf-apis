@@ -28,6 +28,10 @@ namespace Unlimitedinf.Apis.Client
         {
             return await this.Communicator.Get<List<CN.Repo>>(Curl.NRepo);
         }
+        public async Task<string> RepoReadPsScript()
+        {
+            return await this.Communicator.Get<string>(Curl.NRepoPsScript);
+        }
 
         public async Task<CN.Repo> RepoUpdate(CN.Repo repo)
         {

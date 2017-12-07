@@ -16,5 +16,6 @@
 
         private const string NBase = BaseUrl + "/notes";
         internal const string NRepo = NBase + "/repos";
+        internal const string NRepoPsScript = NRepo + "/ps-script";
     }
 }

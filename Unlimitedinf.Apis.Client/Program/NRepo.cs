@@ -21,6 +21,8 @@ namespace Unlimitedinf.Apis.Client.Program
                     return NRepo.Create(rargs);
                 case "read":
                     return NRepo.Read();
+                case "readps":
+                    return NRepo.ReadPsScript();
                 case "update":
                     return NRepo.Update(rargs);
                 case "delete":
@@ -55,6 +57,15 @@ namespace Unlimitedinf.Apis.Client.Program
 
             var result = client.Notes.RepoRead().GetAwaiter().GetResult();
             Log.Inf(JsonConvert.SerializeObject(result, Formatting.Indented));
+            return ExitCode.Success;
+        }
+
+        private static int ReadPsScript()
+        {
+            var client = new ApiClient(Input.GetToken());
+
+            var result = client.Notes.RepoReadPsScript().GetAwaiter().GetResult();
+            Log.Inf(result);
             return ExitCode.Success;
         }
 
