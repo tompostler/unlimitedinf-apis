@@ -55,7 +55,7 @@ namespace Unlimitedinf.Apis.Contracts.Auth
         /// <summary>
         /// The Base64 token.
         /// </summary>
-        [Required, StringLength(64)]
+        [Required, StringLength(128)]
         public string token { get; set; }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace Unlimitedinf.Apis.Contracts.Auth
         [Required]
         public DateTime expiration { get; set; }
 
-        internal const string DateTimeFmt = "yyMMddHHmmss";
+        internal const string DateTimeFmt = "yyyyMMddHHmmss";
 
         /// <summary>
         /// Without hitting the service, easily determine if a token is expired.
@@ -106,7 +106,7 @@ namespace Unlimitedinf.Apis.Contracts.Auth
         /// <summary>
         /// The Base64 token.
         /// </summary>
-        [Required, StringLength(64)]
+        [Required, StringLength(128)]
         public string token { get; set; }
     }
 

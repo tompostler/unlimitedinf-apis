@@ -78,15 +78,15 @@ namespace Unlimitedinf.Apis.Models.Auth
                     break;
             }
 
-            // <datetime string> <username> <hex fill to 48 chars>
+            // <datetime string> <username> <hex fill to 96 chars>
             // Since usernames cannot contain whitespace, this will work
             this.Token = string.Format(
                 CultureInfo.InvariantCulture,
                 "{0} {1} {2}",
                 this.Expiration.ToString(Contracts.Auth.Token.DateTimeFmt),
                 this.Username,
-                GenerateRandom.HexToken(40)
-                ).Chop(48).ToBase64String();
+                GenerateRandom.HexToken(96)
+                ).Chop(96).ToBase64String();
         }
 
         public static implicit operator Token(TokenEntity entity)
