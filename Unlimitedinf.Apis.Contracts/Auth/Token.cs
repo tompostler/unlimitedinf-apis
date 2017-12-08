@@ -84,6 +84,20 @@ namespace Unlimitedinf.Apis.Contracts.Auth
 
             return tdt < DateTime.UtcNow;
         }
+
+        /// <summary>
+        /// Without hitting the servie, get the username from a token.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="IndexOutOfRangeException"></exception>
+        public static string GetUsernameFrom(string token)
+        {
+            if (string.IsNullOrWhiteSpace(token))
+                throw new ArgumentNullException(nameof(token));
+
+            token = token.FromBase64String();
+            return token.Split(' ')[1];
+        }
     }
 
     /// <summary>

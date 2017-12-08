@@ -15,6 +15,8 @@
         internal const string VCount = VBase + "/counts";
 
         private const string NBase = BaseUrl + "/notes";
+        internal const string NCatan = NBase + "/catans";
+        internal const string NCatanStats = NCatan + "/stats";
         internal const string NRepo = NBase + "/repos";
         internal const string NRepoPsScript = NRepo + "/ps-script";
     }

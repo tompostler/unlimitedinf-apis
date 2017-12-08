@@ -63,6 +63,7 @@
     <Compile Include="Auth\Token.cs" />
     <Compile Include="Axioms\AxiomBase.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Notes\Catan.cs" />
     <Compile Include="Notes\Repo.cs" />
     <Compile Include="Versioning\Count.cs" />
     <Compile Include="Versioning\Version.cs" />

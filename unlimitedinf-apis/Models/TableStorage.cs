@@ -12,24 +12,27 @@ namespace Unlimitedinf.Apis
 
         public static CloudTable Axioms { get; }
         public static CloudTable Auth { get; }
+        public static CloudTable NotesCatans { get; }
         public static CloudTable NotesRepos { get; }
         public static CloudTable Versioning { get; }
 
         public static List<CloudTable> AllTables => new List<CloudTable>
         {
-            Axioms, Auth, NotesRepos, Versioning
+            Axioms, Auth, NotesCatans, NotesRepos, Versioning
         };
 
         static TableStorage()
         {
             Axioms = TableClient.GetTableReference("apisaxiom");
             Auth = TableClient.GetTableReference("apisauth");
+            NotesCatans = TableClient.GetTableReference("apisnotescatans");
             NotesRepos = TableClient.GetTableReference("apisnotesrepos");
             Versioning = TableClient.GetTableReference("apisversion");
 
             Task.WaitAll(
                 Axioms.CreateIfNotExistsAsync(),
                 Auth.CreateIfNotExistsAsync(),
+                NotesCatans.CreateIfNotExistsAsync(),
                 NotesRepos.CreateIfNotExistsAsync(),
                 Versioning.CreateIfNotExistsAsync()
                 );

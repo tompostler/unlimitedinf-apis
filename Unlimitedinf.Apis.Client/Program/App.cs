@@ -57,12 +57,14 @@ namespace Unlimitedinf.Apis.Client.Program
                         return AuToken.Run(rargs);
                     case "axiom":
                         return AxBase.Run(rargs);
+                    case "catan":
+                        return NCatan.Run(rargs);
+                    case "repo":
+                        return NRepo.Run(rargs);
                     case "version":
                         return VVersion.Run(rargs);
                     case "count":
                         return VCount.Run(rargs);
-                    case "repo":
-                        return NRepo.Run(rargs);
 
                     default:
                         return PrintHelp();
@@ -115,6 +117,14 @@ The following are valid commands:
                 Axiom is special. Merely provide the type and id, and receive
                 the axiom. Example:
                     Unlimitedinf.Apis.Client.exe axiom http 403
+
+    catan       The module dealing with recording games of catan.
+        create+ Create a new catan game, printing stats as you go.
+        read u g Will read additional information for the catan game 'g' that
+                belongs to the user with username 'u'.
+        reads u g Will read a statistical printout for the catan game 'g' that
+                belongs to the user with username 'u'.
+        delete g Deletes an existing catan game by name.
 
     repo        The module dealing with repo interactions.
         create  Create a new repo. Prompts for additional information.
