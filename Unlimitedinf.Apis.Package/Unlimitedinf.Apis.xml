@@ -2,10 +2,14 @@
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="Configuration">
     
-    <LastUpdated>2017-12-08</LastUpdated>
-    <Version>2.1.0</Version>
+    <LastUpdated>2017-12-27</LastUpdated>
+    <Version>2.2.0</Version>
     
     <ReleaseNotes>
+2.2.0
+
+  - Added messages. Recommendation is to not create messages interactively but instead send JSON on the command line.
+
 2.1.0
 
   - Added Catan roll tracking.

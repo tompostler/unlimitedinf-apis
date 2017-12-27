@@ -93,8 +93,8 @@ namespace Unlimitedinf.Apis.Controllers.v1.Auth
 
             // Clear tokens first
             var query = new TableQuery<DynamicTableEntity>()
-                .Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, account.username.ToLowerInvariant()))
-                .Select(new string[] { "RowKey" });
+                .Where(TableQuery.GenerateFilterCondition(C.TS.PK, QueryComparisons.Equal, account.username.ToLowerInvariant()))
+                .Select(C.TS.PRKF);
             var batch = new TableBatchOperation();
             foreach (var token in await TableStorage.Auth.ExecuteQueryAsync(query))
                 batch.Delete(token);

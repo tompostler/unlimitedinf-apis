@@ -83,14 +83,15 @@ namespace Unlimitedinf.Apis.Client
             return JsonConvert.DeserializeObject<TResult>(rontent);
         }
 
-        internal async Task Put<TContent>(string url, TContent content)
+        internal async Task<TResult> Patch<TResult>(string url)
         {
-            var sontent = JsonConvert.SerializeObject(content);
-            Log.Ver($"{nameof(url)}: PUT {url}");
-            Log.Ver($"{nameof(content)}: {sontent}");
-            HttpResponseMessage response = await this.Client.PutAsync(url, new StringContent(sontent, Encoding.UTF8, "application/json"));
+            Log.Ver($"{nameof(url)}: PATCH {url}");
+            HttpMethod method = new HttpMethod("PATCH");
+            HttpRequestMessage request = new HttpRequestMessage(method, url);
+            HttpResponseMessage response = await this.Client.SendAsync(request);
             string rontent = await response.Content.ReadAsStringAsync();
             ExceptionCreator.ThrowMaybe(response.StatusCode, rontent);
+            return JsonConvert.DeserializeObject<TResult>(rontent);
         }
 
         internal async Task<TResult> Put<TContent, TResult>(string url, TContent content)

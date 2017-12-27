@@ -19,5 +19,8 @@
         internal const string NCatanStats = NCatan + "/stats";
         internal const string NRepo = NBase + "/repos";
         internal const string NRepoPsScript = NRepo + "/ps-script";
+
+        private const string MBase = BaseUrl + "/messaging";
+        internal const string MMessage = MBase + "/messages";
     }
 }

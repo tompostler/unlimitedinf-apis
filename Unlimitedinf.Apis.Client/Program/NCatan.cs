@@ -1,11 +1,10 @@
 ﻿using Newtonsoft.Json;
 using System;
+using Unlimitedinf.Apis.Contracts.Notes;
+using Unlimitedinf.Tools;
 
 namespace Unlimitedinf.Apis.Client.Program
 {
-    using Unlimitedinf.Apis.Contracts.Notes;
-    using Unlimitedinf.Tools;
-
     internal static class NCatan
     {
         internal static int Run(string[] args)

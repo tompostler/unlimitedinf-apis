@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text.RegularExpressions;
+﻿using System.ComponentModel.DataAnnotations;
+using Unlimitedinf.Apis.Contracts.CustomValidators;
 
 namespace Unlimitedinf.Apis.Contracts.Auth
 {
@@ -39,28 +38,4 @@ namespace Unlimitedinf.Apis.Contracts.Auth
         [Required, StringLength(100)]
         public string oldsecret { get; set; }
     }
-
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-    public static class AccountValidator
-    {
-        private static Regex Whitespace = new Regex(@"\s", RegexOptions.Compiled);
-
-        private static readonly HashSet<string> CantUse = new HashSet<string>
-        {
-            "accounts"
-        };
-
-        public static ValidationResult UsernameValidation(string username, ValidationContext context)
-        {
-            if (username == null)
-                return new ValidationResult("Username cannot be null.");
-            else if (CantUse.Contains(username.ToLowerInvariant()))
-                return new ValidationResult($"Username cannot be '{username}'");
-            else if (Whitespace.IsMatch(username))
-                return new ValidationResult("Username cannot contain whitespace.");
-            else
-                return null;
-        }
-    }
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }

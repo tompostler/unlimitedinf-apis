@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Unlimitedinf.Apis.Contracts.Auth;
+using Unlimitedinf.Apis.Contracts.CustomValidators;
 
 namespace Unlimitedinf.Apis.Contracts.Notes
 {
@@ -10,7 +10,7 @@ namespace Unlimitedinf.Apis.Contracts.Notes
     public class Repo
     {
         /// <summary>
-        /// <see cref="Account.username"/>.
+        /// <see cref="Auth.Account.username"/>.
         /// </summary>
         [Required, StringLength(100), CustomValidation(typeof(AccountValidator), nameof(AccountValidator.UsernameValidation))]
         public string username { get; set; }

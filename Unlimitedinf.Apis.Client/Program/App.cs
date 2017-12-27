@@ -118,6 +118,16 @@ The following are valid commands:
                 the axiom. Example:
                     Unlimitedinf.Apis.Client.exe axiom http 403
 
+    message     The module dealing with message interactions.
+        create  Create a new message. Prompts for additional information.
+        read    Read all unread messages for the current user.
+        reada   Read all messages for the current user.
+        mread m Will mark the message 'm' as read.
+        delete m* Will delete as many messages as you supply 'm' space-delimited
+                ids for. If one message id is given, will show the deleted
+                message. If multiple message ids are given, will only show the
+                status for each deleted message.
+
     catan       The module dealing with recording games of catan.
         create+ Create a new catan game, printing stats as you go.
         read u g Will read additional information for the catan game 'g' that

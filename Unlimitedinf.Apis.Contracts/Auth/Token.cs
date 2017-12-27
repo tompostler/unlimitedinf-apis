@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
+using Unlimitedinf.Apis.Contracts.CustomValidators;
 using Unlimitedinf.Tools;
 
 namespace Unlimitedinf.Apis.Contracts.Auth

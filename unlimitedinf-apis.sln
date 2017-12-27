@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2009
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "unlimitedinf-apis", "unlimitedinf-apis\unlimitedinf-apis.csproj", "{11697A6E-646B-4DF8-B453-5AFDA9583E2D}"
 EndProject
@@ -32,6 +32,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unlimitedinf.Apis.Contracts
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unlimitedinf.Apis.AxiomsUpsert", "Unlimitedinf.Apis.AxiomsUpsert\Unlimitedinf.Apis.AxiomsUpsert.csproj", "{4FDB4EAD-BBA2-4396-9CA0-F86E454A295F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unlimitedinf.Apis.Trials", "Unlimitedinf.Apis.Trials", "{AB7C40F4-5E88-417D-8F84-862FA30FA173}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BatchDelete", "BatchDelete\BatchDelete.csproj", "{844A4012-A16F-4BEB-9459-256290FF3955}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,12 +62,17 @@ Global
 		{4FDB4EAD-BBA2-4396-9CA0-F86E454A295F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4FDB4EAD-BBA2-4396-9CA0-F86E454A295F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4FDB4EAD-BBA2-4396-9CA0-F86E454A295F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{844A4012-A16F-4BEB-9459-256290FF3955}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{844A4012-A16F-4BEB-9459-256290FF3955}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{844A4012-A16F-4BEB-9459-256290FF3955}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{844A4012-A16F-4BEB-9459-256290FF3955}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{69B29A6E-8B67-479C-837E-D356CA7DE576} = {1B806328-87F2-47F9-BE01-012B014CA5B1}
+		{844A4012-A16F-4BEB-9459-256290FF3955} = {AB7C40F4-5E88-417D-8F84-862FA30FA173}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1C00D121-91AF-468C-96D7-30C8963C5710}

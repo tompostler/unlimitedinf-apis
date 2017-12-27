@@ -71,12 +71,16 @@ namespace Unlimitedinf.Apis.Client.Program
                         property.SetValue(result, Enum.Parse(property.PropertyType, value));
 
                     // Base types
-                    else if (property.PropertyType == typeof(String))
-                        property.SetValue(result, value);
                     else if (property.PropertyType == typeof(Boolean))
                         property.SetValue(result, Boolean.Parse(value));
+                    else if (property.PropertyType == typeof(Guid))
+                        property.SetValue(result, Guid.Parse(value));
+                    else if (property.PropertyType == typeof(Int32))
+                        property.SetValue(result, Int32.Parse(value));
                     else if (property.PropertyType == typeof(Int64))
                         property.SetValue(result, Int64.Parse(value));
+                    else if (property.PropertyType == typeof(String))
+                        property.SetValue(result, value);
 
                     // Objects
                     else if (property.PropertyType == typeof(Tools.SemVer))

@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Unlimitedinf.Apis.Contracts.Auth;
+using Unlimitedinf.Apis.Contracts.CustomValidators;
 using Unlimitedinf.Tools;
 
 namespace Unlimitedinf.Apis.Contracts.Versioning
@@ -10,7 +10,7 @@ namespace Unlimitedinf.Apis.Contracts.Versioning
     public class Version
     {
         /// <summary>
-        /// <see cref="Account.username"/>.
+        /// <see cref="Auth.Account.username"/>.
         /// </summary>
         [Required, StringLength(100), CustomValidation(typeof(AccountValidator), nameof(AccountValidator.UsernameValidation))]
         public string username { get; set; }
@@ -34,7 +34,7 @@ namespace Unlimitedinf.Apis.Contracts.Versioning
     public class VersionIncrement
     {
         /// <summary>
-        /// See <see cref="Account.username"/>.
+        /// See <see cref="Auth.Account.username"/>.
         /// </summary>
         [Required, StringLength(100), CustomValidation(typeof(AccountValidator), nameof(AccountValidator.UsernameValidation))]
         public string username { get; set; }
