@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using Unlimitedinf.Apis.Contracts.CustomValidators;
 
-namespace Unlimitedinf.Apis.Contracts.Notes
+namespace Unlimitedinf.Apis.Contracts
 {
     /// <summary>
     /// Representing a game of Catan's dice rolls.

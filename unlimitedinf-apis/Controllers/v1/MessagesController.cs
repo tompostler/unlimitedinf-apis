@@ -8,10 +8,10 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Unlimitedinf.Apis.Auth;
-using Unlimitedinf.Apis.Contracts.Messaging;
-using Unlimitedinf.Apis.Models.Messaging;
+using Unlimitedinf.Apis.Contracts;
+using Unlimitedinf.Apis.Models;
 
-namespace Unlimitedinf.Apis.Controllers.v1.Messaging
+namespace Unlimitedinf.Apis.Controllers.v1
 {
     /// <summary>
     /// Actions that can be taken on messages:
@@ -28,7 +28,7 @@ namespace Unlimitedinf.Apis.Controllers.v1.Messaging
     ///     - Older than a specific timestamp
     /// </summary>
     [TokenWall, RequireHttps, ApiVersion("1.0")]
-    [RoutePrefix("messaging/messages")]
+    [RoutePrefix("messages")]
     public class MessagesController : BaseController
     {
         /// <summary>
@@ -51,7 +51,7 @@ namespace Unlimitedinf.Apis.Controllers.v1.Messaging
 
             // Get the results
             var msgs = new List<Message>();
-            foreach (MessageEntity msgEnt in await TableStorage.MessagingMessages.ExecuteQueryAsync(msgQry))
+            foreach (MessageEntity msgEnt in await TableStorage.Messages.ExecuteQueryAsync(msgQry))
                 msgs.Add(msgEnt);
             return this.Ok(msgs);
         }
@@ -74,7 +74,7 @@ namespace Unlimitedinf.Apis.Controllers.v1.Messaging
 
             // Post the message
             var insert = TableOperation.Insert(new MessageEntity(message), true);
-            var result = await TableStorage.MessagingMessages.ExecuteAsync(insert);
+            var result = await TableStorage.Messages.ExecuteAsync(insert);
 
             return Content((HttpStatusCode)result.HttpStatusCode, (Message)(MessageEntity)result.Result);
         }
@@ -88,7 +88,7 @@ namespace Unlimitedinf.Apis.Controllers.v1.Messaging
         {
             // Get existing
             var op = MessageExtensions.GetExistingOperation(this.User.Identity.Name, id);
-            var msgRes = await TableStorage.MessagingMessages.ExecuteAsync(op);
+            var msgRes = await TableStorage.Messages.ExecuteAsync(op);
             if (msgRes.Result == null)
                 return this.NotFound();
 
@@ -98,7 +98,7 @@ namespace Unlimitedinf.Apis.Controllers.v1.Messaging
 
             // Update
             op = TableOperation.Replace(msgEnt);
-            msgRes = await TableStorage.MessagingMessages.ExecuteAsync(op);
+            msgRes = await TableStorage.Messages.ExecuteAsync(op);
 
             // Annoying
             var returnCode = (HttpStatusCode)msgRes.HttpStatusCode;
@@ -117,7 +117,7 @@ namespace Unlimitedinf.Apis.Controllers.v1.Messaging
             // Remove
             var msgEnt = new MessageEntity() { PartitionKey = this.User.Identity.Name, RowKey = id.ToString(), ETag = "*" };
             var op = TableOperation.Delete(msgEnt);
-            var result = await TableStorage.MessagingMessages.ExecuteAsync(op);
+            var result = await TableStorage.Messages.ExecuteAsync(op);
 
             // Annoying
             var returnCode = (HttpStatusCode)result.HttpStatusCode;
@@ -141,7 +141,7 @@ namespace Unlimitedinf.Apis.Controllers.v1.Messaging
                 // Remove
                 var msgEnt = new MessageEntity() { PartitionKey = this.User.Identity.Name, RowKey = id.ToString(), ETag = "*" };
                 var op = TableOperation.Delete(msgEnt);
-                var result = await TableStorage.MessagingMessages.ExecuteAsync(op);
+                var result = await TableStorage.Messages.ExecuteAsync(op);
 
                 // Annoying
                 var returnCode = (HttpStatusCode)result.HttpStatusCode;

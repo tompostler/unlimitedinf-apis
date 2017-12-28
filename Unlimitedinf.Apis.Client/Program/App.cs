@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using Unlimitedinf.Apis.Client.Program.Auth;
+using Unlimitedinf.Apis.Client.Program.Versioning;
 using Unlimitedinf.Tools;
 
 namespace Unlimitedinf.Apis.Client.Program
@@ -52,19 +54,19 @@ namespace Unlimitedinf.Apis.Client.Program
                 switch (args[0])
                 {
                     case "account":
-                        return AuAccount.Run(rargs);
+                        return AccountProgram.Run(rargs);
                     case "token":
-                        return AuToken.Run(rargs);
+                        return TokenProgram.Run(rargs);
                     case "axiom":
                         return AxBase.Run(rargs);
                     case "catan":
-                        return NCatan.Run(rargs);
+                        return CatanProgram.Run(rargs);
                     case "repo":
-                        return NRepo.Run(rargs);
+                        return RepoProgram.Run(rargs);
                     case "version":
-                        return VVersion.Run(rargs);
+                        return VersionProgram.Run(rargs);
                     case "count":
-                        return VCount.Run(rargs);
+                        return CountProgram.Run(rargs);
 
                     default:
                         return PrintHelp();

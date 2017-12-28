@@ -21,13 +21,15 @@ namespace Unlimitedinf.Apis.Client
             this.Token = token;
             this.Communicator = new HttpCommunicator(this.Token);
 
-            this.Messaging = new ApiClient_Messaging(this.Token, this.Communicator);
-            this.Notes = new ApiClient_Notes(this.Token, this.Communicator);
-            this.Versioning = new ApiClient_Versioning(this.Token, this.Communicator);
+            this.Messages = new ApiClient_Messages(this.Communicator);
+            this.Catans = new ApiClient_Catans(this.Communicator);
+            this.Repos = new ApiClient_Repos(this.Communicator);
+            this.Versioning = new ApiClient_Versioning(this.Communicator);
         }
 
-        public ApiClient_Messaging Messaging { get; set; }
-        public ApiClient_Notes Notes { get; }
+        public ApiClient_Messages Messages { get; set; }
+        public ApiClient_Catans Catans { get; }
+        public ApiClient_Repos Repos { get; }
         public ApiClient_Versioning Versioning { get; }
     }
 }

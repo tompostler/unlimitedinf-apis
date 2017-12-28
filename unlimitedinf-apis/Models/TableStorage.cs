@@ -12,31 +12,31 @@ namespace Unlimitedinf.Apis
 
         public static CloudTable Axioms { get; }
         public static CloudTable Auth { get; }
-        public static CloudTable MessagingMessages { get; }
-        public static CloudTable NotesCatans { get; }
-        public static CloudTable NotesRepos { get; }
+        public static CloudTable Catans { get; }
+        public static CloudTable Messages { get; }
+        public static CloudTable Repos { get; }
         public static CloudTable Versioning { get; }
 
         public static List<CloudTable> AllTables => new List<CloudTable>
         {
-            Axioms, Auth, NotesCatans, NotesRepos, Versioning
+            Axioms, Auth, Catans, Repos, Versioning
         };
 
         static TableStorage()
         {
             Axioms = TableClient.GetTableReference("apisaxiom");
             Auth = TableClient.GetTableReference("apisauth");
-            MessagingMessages = TableClient.GetTableReference("apismessagingmessages");
-            NotesCatans = TableClient.GetTableReference("apisnotescatans");
-            NotesRepos = TableClient.GetTableReference("apisnotesrepos");
+            Catans = TableClient.GetTableReference("apiscatans");
+            Messages = TableClient.GetTableReference("apismessages");
+            Repos = TableClient.GetTableReference("apisrepos");
             Versioning = TableClient.GetTableReference("apisversion");
 
             Task.WaitAll(
                 Axioms.CreateIfNotExistsAsync(),
                 Auth.CreateIfNotExistsAsync(),
-                MessagingMessages.CreateIfNotExistsAsync(),
-                NotesCatans.CreateIfNotExistsAsync(),
-                NotesRepos.CreateIfNotExistsAsync(),
+                Catans.CreateIfNotExistsAsync(),
+                Messages.CreateIfNotExistsAsync(),
+                Repos.CreateIfNotExistsAsync(),
                 Versioning.CreateIfNotExistsAsync()
                 );
         }

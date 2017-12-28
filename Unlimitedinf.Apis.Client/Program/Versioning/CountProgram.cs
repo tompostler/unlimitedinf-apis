@@ -3,9 +3,9 @@ using System;
 using Unlimitedinf.Apis.Contracts.Versioning;
 using Unlimitedinf.Tools;
 
-namespace Unlimitedinf.Apis.Client.Program
+namespace Unlimitedinf.Apis.Client.Program.Versioning
 {
-    internal static class VCount
+    internal static class CountProgram
     {
         internal static int Run(string[] args)
         {
@@ -17,13 +17,13 @@ namespace Unlimitedinf.Apis.Client.Program
             switch (args[0])
             {
                 case "create":
-                    return VCount.Create(rargs);
+                    return CountProgram.Create(rargs);
                 case "read":
-                    return VCount.Read(rargs);
+                    return CountProgram.Read(rargs);
                 case "update":
-                    return VCount.Update(rargs);
+                    return CountProgram.Update(rargs);
                 case "delete":
-                    return VCount.Delete(rargs);
+                    return CountProgram.Delete(rargs);
 
                 default:
                     return App.PrintHelp();

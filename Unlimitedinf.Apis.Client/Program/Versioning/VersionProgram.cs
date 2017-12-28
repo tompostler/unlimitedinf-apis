@@ -1,12 +1,12 @@
 ﻿using Newtonsoft.Json;
 using System;
+using Unlimitedinf.Tools;
 
-namespace Unlimitedinf.Apis.Client.Program
+namespace Unlimitedinf.Apis.Client.Program.Versioning
 {
     using Unlimitedinf.Apis.Contracts.Versioning;
-    using Unlimitedinf.Tools;
 
-    internal static class VVersion
+    internal static class VersionProgram
     {
         internal static int Run(string[] args)
         {
@@ -18,13 +18,13 @@ namespace Unlimitedinf.Apis.Client.Program
             switch (args[0])
             {
                 case "create":
-                    return VVersion.Create(rargs);
+                    return VersionProgram.Create(rargs);
                 case "read":
-                    return VVersion.Read(rargs);
+                    return VersionProgram.Read(rargs);
                 case "update":
-                    return VVersion.Update(rargs);
+                    return VersionProgram.Update(rargs);
                 case "delete":
-                    return VVersion.Delete(rargs);
+                    return VersionProgram.Delete(rargs);
 
                 default:
                     return App.PrintHelp();

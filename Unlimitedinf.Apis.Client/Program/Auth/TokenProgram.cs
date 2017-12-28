@@ -3,9 +3,9 @@ using System;
 using Unlimitedinf.Apis.Contracts.Auth;
 using Unlimitedinf.Tools;
 
-namespace Unlimitedinf.Apis.Client.Program
+namespace Unlimitedinf.Apis.Client.Program.Auth
 {
-    internal static class AuToken
+    internal static class TokenProgram
     {
         internal static int Run(string[] args)
         {
@@ -17,11 +17,11 @@ namespace Unlimitedinf.Apis.Client.Program
             switch (args[0])
             {
                 case "create":
-                    return AuToken.Create(rargs);
+                    return TokenProgram.Create(rargs);
                 case "delete":
-                    return AuToken.Delete(rargs);
+                    return TokenProgram.Delete(rargs);
                 case "save":
-                    return AuToken.Save(rargs);
+                    return TokenProgram.Save(rargs);
 
                 default:
                     return App.PrintHelp();

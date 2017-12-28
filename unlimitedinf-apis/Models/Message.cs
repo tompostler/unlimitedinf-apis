@@ -1,8 +1,8 @@
 ﻿using Microsoft.WindowsAzure.Storage.Table;
 using System;
-using Unlimitedinf.Apis.Contracts.Messaging;
+using Unlimitedinf.Apis.Contracts;
 
-namespace Unlimitedinf.Apis.Models.Messaging
+namespace Unlimitedinf.Apis.Models
 {
     public class MessageEntity : TableEntity
     {

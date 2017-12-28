@@ -1,8 +1,8 @@
 ﻿using Microsoft.WindowsAzure.Storage.Table;
 using System;
-using Unlimitedinf.Apis.Contracts.Notes;
+using Unlimitedinf.Apis.Contracts;
 
-namespace Unlimitedinf.Apis.Models.Notes
+namespace Unlimitedinf.Apis.Models
 {
     public class RepoEntity : TableEntity
     {

@@ -3,9 +3,9 @@ using System;
 using Unlimitedinf.Apis.Contracts.Auth;
 using Unlimitedinf.Tools;
 
-namespace Unlimitedinf.Apis.Client.Program
+namespace Unlimitedinf.Apis.Client.Program.Auth
 {
-    internal static class AuAccount
+    internal static class AccountProgram
     {
         internal static int Run(string[] args)
         {
@@ -17,13 +17,13 @@ namespace Unlimitedinf.Apis.Client.Program
             switch (args[0])
             {
                 case "create":
-                    return AuAccount.Create(rargs);
+                    return AccountProgram.Create(rargs);
                 case "read":
-                    return AuAccount.Read(rargs);
+                    return AccountProgram.Read(rargs);
                 case "update":
-                    return AuAccount.Update(rargs);
+                    return AccountProgram.Update(rargs);
                 case "delete":
-                    return AuAccount.Delete(rargs);
+                    return AccountProgram.Delete(rargs);
 
                 default:
                     return App.PrintHelp();

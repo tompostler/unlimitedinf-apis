@@ -65,9 +65,9 @@
     <Compile Include="CustomValidators\KeyFieldValidator.cs" />
     <Compile Include="CustomValidators\AccountValidator.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Messaging\Message.cs" />
-    <Compile Include="Notes\Catan.cs" />
-    <Compile Include="Notes\Repo.cs" />
+    <Compile Include="Message.cs" />
+    <Compile Include="Catan.cs" />
+    <Compile Include="Repo.cs" />
     <Compile Include="Versioning\Count.cs" />
     <Compile Include="Versioning\Version.cs" />
     <Compile Include="Properties\LocalAssemblyInfo.cs" />

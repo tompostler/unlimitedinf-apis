@@ -2,12 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unlimitedinf.Apis.Contracts.Messaging;
+using Unlimitedinf.Apis.Contracts;
 using Unlimitedinf.Tools;
 
 namespace Unlimitedinf.Apis.Client.Program
 {
-    internal static class MMessage
+    internal static class MessageProgram
     {
         internal static int Run(string[] args)
         {
@@ -19,15 +19,15 @@ namespace Unlimitedinf.Apis.Client.Program
             switch (args[0])
             {
                 case "create":
-                    return MMessage.Create(rargs);
+                    return MessageProgram.Create(rargs);
                 case "read":
-                    return MMessage.Read();
+                    return MessageProgram.Read();
                 case "reada":
-                    return MMessage.ReadAll();
+                    return MessageProgram.ReadAll();
                 case "mread":
-                    return MMessage.MarkAsRead(rargs);
+                    return MessageProgram.MarkAsRead(rargs);
                 case "delete":
-                    return MMessage.Delete(rargs);
+                    return MessageProgram.Delete(rargs);
 
                 default:
                     return App.PrintHelp();
@@ -46,7 +46,7 @@ namespace Unlimitedinf.Apis.Client.Program
 
             var client = new ApiClient(token);
 
-            message = client.Messaging.MessageCreate(message).GetAwaiter().GetResult();
+            message = client.Messages.Create(message).GetAwaiter().GetResult();
             Log.Inf(JsonConvert.SerializeObject(message, Formatting.Indented));
 
             return ExitCode.Success;
@@ -56,7 +56,7 @@ namespace Unlimitedinf.Apis.Client.Program
         {
             var client = new ApiClient(Input.GetToken());
 
-            var result = client.Messaging.MessageRead().GetAwaiter().GetResult();
+            var result = client.Messages.Read().GetAwaiter().GetResult();
             Log.Inf(JsonConvert.SerializeObject(result, Formatting.Indented));
             return ExitCode.Success;
         }
@@ -65,7 +65,7 @@ namespace Unlimitedinf.Apis.Client.Program
         {
             var client = new ApiClient(Input.GetToken());
 
-            var result = client.Messaging.MessageReadWithRead().GetAwaiter().GetResult();
+            var result = client.Messages.ReadAll().GetAwaiter().GetResult();
             Log.Inf(JsonConvert.SerializeObject(result, Formatting.Indented));
             return ExitCode.Success;
         }
@@ -82,7 +82,7 @@ namespace Unlimitedinf.Apis.Client.Program
 
                 var client = new ApiClient(Input.GetToken());
 
-                var result = client.Messaging.MessageMarkAsRead(Guid.Parse(args[0])).GetAwaiter().GetResult();
+                var result = client.Messages.MarkAsRead(Guid.Parse(args[0])).GetAwaiter().GetResult();
                 Console.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
                 return ExitCode.Success;
             }
@@ -103,7 +103,7 @@ namespace Unlimitedinf.Apis.Client.Program
 
                 var client = new ApiClient(Input.GetToken());
 
-                var result = client.Messaging.MessageDelete(Guid.Parse(args[0])).GetAwaiter().GetResult();
+                var result = client.Messages.Delete(Guid.Parse(args[0])).GetAwaiter().GetResult();
                 Console.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
                 return ExitCode.Success;
             }
@@ -128,7 +128,7 @@ namespace Unlimitedinf.Apis.Client.Program
 
                 var client = new ApiClient(Input.GetToken());
 
-                var result = client.Messaging.MessagesDelete(ids).GetAwaiter().GetResult();
+                var result = client.Messages.Delete(ids).GetAwaiter().GetResult();
                 Console.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
                 return ExitCode.Success;
             }

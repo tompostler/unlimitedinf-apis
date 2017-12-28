@@ -63,8 +63,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiClient_Axioms.cs" />
-    <Compile Include="ApiClient_Messaging.cs" />
-    <Compile Include="ApiClient_Notes.cs" />
+    <Compile Include="ApiClient_Messages.cs" />
+    <Compile Include="ApiClient_Repos.cs" />
+    <Compile Include="ApiClient_Catans.cs" />
     <Compile Include="ApiClient_Versioning.cs" />
     <Compile Include="ApiClient.cs" />
     <Compile Include="ApiClientAuth.cs" />
@@ -72,13 +73,13 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="HttpCommunicators.cs" />
     <Compile Include="Program\AxBase.cs" />
-    <Compile Include="Program\NCatan.cs" />
-    <Compile Include="Program\MMessage.cs" />
-    <Compile Include="Program\VCount.cs" />
-    <Compile Include="Program\NRepo.cs" />
-    <Compile Include="Program\VVersion.cs" />
-    <Compile Include="Program\AuToken.cs" />
-    <Compile Include="Program\AuAccount.cs" />
+    <Compile Include="Program\CatanProgram.cs" />
+    <Compile Include="Program\MessageProgram.cs" />
+    <Compile Include="Program\Versioning\CountProgram.cs" />
+    <Compile Include="Program\RepoProgram.cs" />
+    <Compile Include="Program\Versioning\VersionProgram.cs" />
+    <Compile Include="Program\Auth\TokenProgram.cs" />
+    <Compile Include="Program\Auth\AccountProgram.cs" />
     <Compile Include="Program\Input.cs" />
     <Compile Include="Program\App.cs" />
     <Compile Include="Properties\LocalAssemblyInfo.cs" />

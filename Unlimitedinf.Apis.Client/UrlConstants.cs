@@ -8,19 +8,18 @@
         internal const string AuAccount = AuBase + "/accounts";
         internal const string AuToken = AuBase + "/tokens";
 
-        internal const string AxBase = BaseUrl + "/axioms";
-
         private const string VBase = BaseUrl + "/versioning";
         internal const string VVersion = VBase + "/versions";
         internal const string VCount = VBase + "/counts";
 
-        private const string NBase = BaseUrl + "/notes";
-        internal const string NCatan = NBase + "/catans";
-        internal const string NCatanStats = NCatan + "/stats";
-        internal const string NRepo = NBase + "/repos";
-        internal const string NRepoPsScript = NRepo + "/ps-script";
+        internal const string AxBase = BaseUrl + "/axioms";
 
-        private const string MBase = BaseUrl + "/messaging";
-        internal const string MMessage = MBase + "/messages";
+        internal const string Catan = BaseUrl + "/catans";
+        internal const string CatanStats = Catan + "/stats";
+
+        internal const string Message = BaseUrl + "/messages";
+
+        internal const string Repo = BaseUrl + "/repos";
+        internal const string RepoPsScript = Repo + "/ps-script";
     }
 }

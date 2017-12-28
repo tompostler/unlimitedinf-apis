@@ -7,20 +7,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Unlimitedinf.Apis.Auth;
-using Unlimitedinf.Apis.Contracts.Notes;
-using Unlimitedinf.Apis.Models.Notes;
+using Unlimitedinf.Apis.Contracts;
+using Unlimitedinf.Apis.Models;
 
-namespace Unlimitedinf.Apis.Controllers.v1.Notes
+namespace Unlimitedinf.Apis.Controllers.v1
 {
     [RequireHttps, ApiVersion("1.0")]
-    [RoutePrefix("notes/catans")]
+    [RoutePrefix("catans")]
     public class CatansController : BaseController
     {
         private async Task<Catan> GetCatanInternal(string username, string catanName)
         {
             // All catan games are publicly gettable
             var retrieve = TableOperation.Retrieve<CatanEntity>(username.ToLowerInvariant(), catanName);
-            var result = await TableStorage.NotesCatans.ExecuteAsync(retrieve);
+            var result = await TableStorage.Catans.ExecuteAsync(retrieve);
             return (Catan)(CatanEntity)result.Result;
         }
 
@@ -41,7 +41,7 @@ namespace Unlimitedinf.Apis.Controllers.v1.Notes
             // All catan games are publicly gettable
             var catanEntitiesQuery = new TableQuery<CatanEntity>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, username.ToLowerInvariant()));
             var catans = new List<Catan>();
-            foreach (CatanEntity catanEntity in await TableStorage.NotesCatans.ExecuteQueryAsync(catanEntitiesQuery))
+            foreach (CatanEntity catanEntity in await TableStorage.Catans.ExecuteQueryAsync(catanEntitiesQuery))
                 catans.Add(catanEntity);
 
             return Ok(catans);
@@ -56,7 +56,7 @@ namespace Unlimitedinf.Apis.Controllers.v1.Notes
 
             // Add the catan
             var insert = TableOperation.Insert(new CatanEntity(catan), true);
-            var result = await TableStorage.NotesCatans.ExecuteAsync(insert);
+            var result = await TableStorage.Catans.ExecuteAsync(insert);
 
             return Content((HttpStatusCode)result.HttpStatusCode, (Catan)(CatanEntity)result.Result);
         }
@@ -66,14 +66,14 @@ namespace Unlimitedinf.Apis.Controllers.v1.Notes
         {
             // Get
             var retrieve = TableOperation.Retrieve<CatanEntity>(this.User.Identity.Name, catanName.ToLowerInvariant());
-            var result = await TableStorage.NotesCatans.ExecuteAsync(retrieve);
+            var result = await TableStorage.Catans.ExecuteAsync(retrieve);
             var catanEntity = (CatanEntity)result.Result;
             if (catanEntity == null)
                 return StatusCode((HttpStatusCode)result.HttpStatusCode);
 
             // Remove
             var delete = TableOperation.Delete(catanEntity);
-            result = await TableStorage.NotesCatans.ExecuteAsync(delete);
+            result = await TableStorage.Catans.ExecuteAsync(delete);
 
             // Annoying
             var returnCode = (HttpStatusCode)result.HttpStatusCode;

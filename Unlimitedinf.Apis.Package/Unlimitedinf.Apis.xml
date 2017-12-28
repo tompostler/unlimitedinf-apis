@@ -2,20 +2,18 @@
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="Configuration">
     
-    <LastUpdated>2017-12-27</LastUpdated>
-    <Version>2.2.0</Version>
+    <LastUpdated>2017-12-28</LastUpdated>
+    <Version>3.0.0</Version>
     
     <ReleaseNotes>
-2.2.0
+3.0.0
+
+  - Collapse some URL paths.
+
+2.*.*
 
   - Added messages. Recommendation is to not create messages interactively but instead send JSON on the command line.
-
-2.1.0
-
   - Added Catan roll tracking.
-
-2.0.0
-
   - Tokens changed to 128 characters. All existing tokens invalidated.
 
 1.*.*
@@ -31,7 +29,7 @@
   - A client side library that can work with the end auth, token, and version APIs.
     </ReleaseNotes>
     
-    <Tags>api apis unlimitedinf version semver count catan random</Tags>
+    <Tags>api apis unlimitedinf version semver count catan random message</Tags>
     <Description>
 Client-side libraries to work with the apis made available on https://unlimitedinf-apis.azurewebsites.net/
 

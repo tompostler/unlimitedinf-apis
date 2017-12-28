@@ -2,7 +2,7 @@
 using System;
 using System.Web.Http;
 
-namespace Unlimitedinf.Apis.Controllers.v1.DateTiming
+namespace Unlimitedinf.Apis.Controllers.v1
 {
     [ApiVersion("1.0")]
     [RoutePrefix("datetime")]

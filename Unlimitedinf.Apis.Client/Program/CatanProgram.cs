@@ -1,11 +1,11 @@
 ﻿using Newtonsoft.Json;
 using System;
-using Unlimitedinf.Apis.Contracts.Notes;
+using Unlimitedinf.Apis.Contracts;
 using Unlimitedinf.Tools;
 
 namespace Unlimitedinf.Apis.Client.Program
 {
-    internal static class NCatan
+    internal static class CatanProgram
     {
         internal static int Run(string[] args)
         {
@@ -17,13 +17,13 @@ namespace Unlimitedinf.Apis.Client.Program
             switch (args[0])
             {
                 case "create+":
-                    return NCatan.Create();
+                    return CatanProgram.Create();
                 case "read":
-                    return NCatan.Read(rargs);
+                    return CatanProgram.Read(rargs);
                 case "reads":
-                    return NCatan.ReadStats(rargs);
+                    return CatanProgram.ReadStats(rargs);
                 case "delete":
-                    return NCatan.Delete(rargs);
+                    return CatanProgram.Delete(rargs);
 
                 default:
                     return App.PrintHelp();
@@ -81,7 +81,7 @@ namespace Unlimitedinf.Apis.Client.Program
             catan.username = Contracts.Auth.Token.GetUsernameFrom(token);
             Input.Validate(catan, token);
             var client = new ApiClient(token);
-            catan = client.Notes.CatanCreate(catan).GetAwaiter().GetResult();
+            catan = client.Catans.Create(catan).GetAwaiter().GetResult();
             Log.Inf(JsonConvert.SerializeObject(catan, Formatting.Indented));
 
             return ExitCode.Success;
@@ -102,7 +102,7 @@ namespace Unlimitedinf.Apis.Client.Program
                     return ExitCode.ValidationFailed;
                 }
 
-                var result = ApiClient_Notes.CatanRead(args[0], args[1]).GetAwaiter().GetResult();
+                var result = ApiClient_Catans.Read(args[0], args[1]).GetAwaiter().GetResult();
                 Console.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
                 return ExitCode.Success;
             }
@@ -126,7 +126,7 @@ namespace Unlimitedinf.Apis.Client.Program
                     return ExitCode.ValidationFailed;
                 }
 
-                var result = ApiClient_Notes.CatanReadStats(args[0], args[1]).GetAwaiter().GetResult();
+                var result = ApiClient_Catans.ReadStats(args[0], args[1]).GetAwaiter().GetResult();
                 Console.WriteLine(result);
                 return ExitCode.Success;
             }
@@ -147,7 +147,7 @@ namespace Unlimitedinf.Apis.Client.Program
 
                 var client = new ApiClient(Input.GetToken());
 
-                var result = client.Notes.CatanDelete(args[0]).GetAwaiter().GetResult();
+                var result = client.Catans.Delete(args[0]).GetAwaiter().GetResult();
                 Console.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
                 return ExitCode.Success;
             }

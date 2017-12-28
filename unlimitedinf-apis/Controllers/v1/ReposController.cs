@@ -6,13 +6,13 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Unlimitedinf.Apis.Auth;
-using Unlimitedinf.Apis.Contracts.Notes;
-using Unlimitedinf.Apis.Models.Notes;
+using Unlimitedinf.Apis.Contracts;
+using Unlimitedinf.Apis.Models;
 
-namespace Unlimitedinf.Apis.Controllers.v1.Notes
+namespace Unlimitedinf.Apis.Controllers.v1
 {
     [RequireHttps, ApiVersion("1.0")]
-    [RoutePrefix("notes/repos")]
+    [RoutePrefix("repos")]
     public class ReposController : BaseController
     {
         private async Task<List<Repo>> GetRepoList()
@@ -20,7 +20,7 @@ namespace Unlimitedinf.Apis.Controllers.v1.Notes
             // Only a user can get their own list of repos
             var repoEntitiesQuery = new TableQuery<RepoEntity>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, this.User.Identity.Name));
             var repos = new List<Repo>();
-            foreach (RepoEntity repoEntity in await TableStorage.NotesRepos.ExecuteQueryAsync(repoEntitiesQuery))
+            foreach (RepoEntity repoEntity in await TableStorage.Repos.ExecuteQueryAsync(repoEntitiesQuery))
                 repos.Add(repoEntity);
             return repos;
         }
@@ -40,7 +40,7 @@ namespace Unlimitedinf.Apis.Controllers.v1.Notes
 
             // Add the repo
             var insert = TableOperation.Insert(new RepoEntity(repo), true);
-            var result = await TableStorage.NotesRepos.ExecuteAsync(insert);
+            var result = await TableStorage.Repos.ExecuteAsync(insert);
 
             return Content((HttpStatusCode)result.HttpStatusCode, (Repo)(RepoEntity)result.Result);
         }
@@ -53,7 +53,7 @@ namespace Unlimitedinf.Apis.Controllers.v1.Notes
                 return this.Unauthorized();
 
             // Get the existing repo
-            var result = await TableStorage.NotesRepos.ExecuteAsync(repo.GetExistingOperation());
+            var result = await TableStorage.Repos.ExecuteAsync(repo.GetExistingOperation());
             var repoEntity = (RepoEntity)result.Result;
             if (repoEntity == null)
                 return StatusCode((HttpStatusCode)result.HttpStatusCode);
@@ -64,7 +64,7 @@ namespace Unlimitedinf.Apis.Controllers.v1.Notes
 
             // Replace
             var replace = TableOperation.Replace(repoEntity);
-            result = await TableStorage.NotesRepos.ExecuteAsync(replace);
+            result = await TableStorage.Repos.ExecuteAsync(replace);
 
             // Annoying
             var returnCode = (HttpStatusCode)result.HttpStatusCode;
@@ -79,14 +79,14 @@ namespace Unlimitedinf.Apis.Controllers.v1.Notes
         {
             // Get
             var retrieve = TableOperation.Retrieve<RepoEntity>(this.User.Identity.Name, repoName.ToLowerInvariant());
-            var result = await TableStorage.NotesRepos.ExecuteAsync(retrieve);
+            var result = await TableStorage.Repos.ExecuteAsync(retrieve);
             var repoEntity = (RepoEntity)result.Result;
             if (repoEntity == null)
                 return StatusCode((HttpStatusCode)result.HttpStatusCode);
 
             // Remove
             var delete = TableOperation.Delete(repoEntity);
-            result = await TableStorage.NotesRepos.ExecuteAsync(delete);
+            result = await TableStorage.Repos.ExecuteAsync(delete);
 
             // Annoying
             var returnCode = (HttpStatusCode)result.HttpStatusCode;

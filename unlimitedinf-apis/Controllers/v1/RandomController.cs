@@ -1,12 +1,13 @@
 ﻿using Microsoft.Web.Http;
+using System;
 using System.Security.Cryptography;
 using System.Web.Http;
 
-namespace Unlimitedinf.Apis.Controllers.v1.Random
+namespace Unlimitedinf.Apis.Controllers.v1
 {
     [ApiVersion("1.0")]
-    [RoutePrefix("random/number")]
-    public class NumberController : BaseController
+    [RoutePrefix("random")]
+    public class RandomController : BaseController
     {
         private static RNGCryptoServiceProvider _rngCsp = new RNGCryptoServiceProvider();
 
@@ -74,6 +75,12 @@ namespace Unlimitedinf.Apis.Controllers.v1.Random
                 return BadRequest("That is not a valid value for 'num'.");
 
             return Ok(Generate(num));
+        }
+
+        [Route("guid"), HttpGet]
+        public IHttpActionResult GuidMethod()
+        {
+            return Ok(Guid.NewGuid().ToString("D"));
         }
 
         private static readonly ulong[] bitmaps = new ulong[]

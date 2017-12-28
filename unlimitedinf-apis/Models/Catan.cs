@@ -1,9 +1,9 @@
 ﻿using Microsoft.WindowsAzure.Storage.Table;
 using Newtonsoft.Json;
 using System.Collections.Generic;
-using Unlimitedinf.Apis.Contracts.Notes;
+using Unlimitedinf.Apis.Contracts;
 
-namespace Unlimitedinf.Apis.Models.Notes
+namespace Unlimitedinf.Apis.Models
 {
     public class CatanEntity : TableEntity
     {

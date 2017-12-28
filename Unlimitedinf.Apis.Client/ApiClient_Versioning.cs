@@ -6,14 +6,12 @@ namespace Unlimitedinf.Apis.Client
 {
     public sealed class ApiClient_Versioning
     {
-        private string Token { get; set; }
         private HttpCommunicator Communicator { get; set; }
 
         private ApiClient_Versioning() { }
 
-        internal ApiClient_Versioning(string token, HttpCommunicator communicator)
+        internal ApiClient_Versioning(HttpCommunicator communicator)
         {
-            this.Token = token;
             this.Communicator = communicator;
         }
 

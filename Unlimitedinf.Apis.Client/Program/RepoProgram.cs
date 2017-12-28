@@ -1,12 +1,11 @@
 ﻿using Newtonsoft.Json;
 using System;
+using Unlimitedinf.Apis.Contracts;
+using Unlimitedinf.Tools;
 
 namespace Unlimitedinf.Apis.Client.Program
 {
-    using Unlimitedinf.Apis.Contracts.Notes;
-    using Unlimitedinf.Tools;
-
-    internal static class NRepo
+    internal static class RepoProgram
     {
         internal static int Run(string[] args)
         {
@@ -18,15 +17,15 @@ namespace Unlimitedinf.Apis.Client.Program
             switch (args[0])
             {
                 case "create":
-                    return NRepo.Create(rargs);
+                    return RepoProgram.Create(rargs);
                 case "read":
-                    return NRepo.Read();
+                    return RepoProgram.Read();
                 case "readps":
-                    return NRepo.ReadPsScript();
+                    return RepoProgram.ReadPsScript();
                 case "update":
-                    return NRepo.Update(rargs);
+                    return RepoProgram.Update(rargs);
                 case "delete":
-                    return NRepo.Delete(rargs);
+                    return RepoProgram.Delete(rargs);
 
                 default:
                     return App.PrintHelp();
@@ -45,7 +44,7 @@ namespace Unlimitedinf.Apis.Client.Program
 
             var client = new ApiClient(token);
 
-            repo = client.Notes.RepoCreate(repo).GetAwaiter().GetResult();
+            repo = client.Repos.Create(repo).GetAwaiter().GetResult();
             Log.Inf(JsonConvert.SerializeObject(repo, Formatting.Indented));
 
             return ExitCode.Success;
@@ -55,7 +54,7 @@ namespace Unlimitedinf.Apis.Client.Program
         {
             var client = new ApiClient(Input.GetToken());
 
-            var result = client.Notes.RepoRead().GetAwaiter().GetResult();
+            var result = client.Repos.Read().GetAwaiter().GetResult();
             Log.Inf(JsonConvert.SerializeObject(result, Formatting.Indented));
             return ExitCode.Success;
         }
@@ -64,7 +63,7 @@ namespace Unlimitedinf.Apis.Client.Program
         {
             var client = new ApiClient(Input.GetToken());
 
-            var result = client.Notes.RepoReadPsScript().GetAwaiter().GetResult();
+            var result = client.Repos.ReadPsScript().GetAwaiter().GetResult();
             Log.Inf(result);
             return ExitCode.Success;
         }
@@ -81,7 +80,7 @@ namespace Unlimitedinf.Apis.Client.Program
 
             var client = new ApiClient(token);
 
-            var version = client.Notes.RepoUpdate(repo).GetAwaiter().GetResult();
+            var version = client.Repos.Update(repo).GetAwaiter().GetResult();
             Log.Inf(JsonConvert.SerializeObject(version, Formatting.Indented));
 
             return ExitCode.Success;
@@ -99,7 +98,7 @@ namespace Unlimitedinf.Apis.Client.Program
 
                 var client = new ApiClient(Input.GetToken());
 
-                var result = client.Notes.RepoDelete(args[0]).GetAwaiter().GetResult();
+                var result = client.Repos.Delete(args[0]).GetAwaiter().GetResult();
                 Console.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
                 return ExitCode.Success;
             }

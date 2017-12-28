@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Unlimitedinf.Apis.Contracts.CustomValidators;
 
-namespace Unlimitedinf.Apis.Contracts.Messaging
+namespace Unlimitedinf.Apis.Contracts
 {
     /// <summary>
     /// Representing a message.
