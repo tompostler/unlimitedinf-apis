@@ -14,7 +14,7 @@
     <ProjectGuid>69b29a6e-8b67-479c-837e-d356ca7de576</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup>
-    <NuProjPath Condition=" '$(NuProjPath)' == '' ">..\packages\NuProj.0.11.14-beta\tools\</NuProjPath>
+    <NuProjPath Condition=" '$(NuProjPath)' == '' ">..\packages\NuProj.0.20.4-beta\tools\</NuProjPath>
   </PropertyGroup>
   <Import Project="$(NuProjPath)\NuProj.props" Condition="Exists('$(NuProjPath)\NuProj.props')" />
   <Import Project="Unlimitedinf.Apis.xml" />
