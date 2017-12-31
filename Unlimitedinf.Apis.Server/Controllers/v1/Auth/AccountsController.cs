@@ -39,7 +39,7 @@ namespace Unlimitedinf.Apis.Server.Controllers.v1.Auth
             account = (Account)(AccountEntity)result.Result;
             account.secret = null;
 
-            return this.StatusCode(result.HttpStatusCode, account);
+            return this.TableResultStatus(result.HttpStatusCode, account);
         }
 
         [Route("{username?}"), HttpGet]
