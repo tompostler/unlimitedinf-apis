@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.WindowsAzure.Storage.Table;
+using System;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -45,8 +46,7 @@ namespace Unlimitedinf.Apis.Server.Controllers.v1.Auth
         public async Task<IActionResult> ReadAccount(string username)
         {
             // Get existing
-            var retreive = TableOperation.Retrieve<AccountEntity>(AccountExtensions.PartitionKey, username.ToLowerInvariant());
-            var result = await this.TableStorage.Auth.ExecuteAsync(retreive);
+            var result = await this.TableStorage.Auth.ExecuteAsync(AccountExtensions.GetExistingOperation(username));
             if (result.Result == null)
                 return this.NotFound();
 
@@ -57,15 +57,15 @@ namespace Unlimitedinf.Apis.Server.Controllers.v1.Auth
             return this.Ok(account);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> UpdateAccount([FromBody] AccountUpdate account)
+        [Route("{username?}"), HttpPut]
+        public async Task<IActionResult> UpdateAccount(string username, [FromBody] AccountUpdate account)
         {
             // Oldsecret and secret cannot be the same
             if (account.oldsecret == account.secret)
                 return this.BadRequest("You must use a different secret.");
 
             // Get/check for existence
-            var result = await this.TableStorage.Auth.ExecuteAsync(account.GetExistingOperation());
+            var result = await this.TableStorage.Auth.ExecuteAsync(AccountExtensions.GetExistingOperation(username));
             if (result.Result == null)
                 return NotFound();
 
@@ -87,18 +87,26 @@ namespace Unlimitedinf.Apis.Server.Controllers.v1.Auth
         }
 
         [Route("{username?}"), HttpDelete, TokenWall]
-        public async Task<IActionResult> DeleteAccount(string username, [FromBody] AccountDelete secret)
+        public async Task<IActionResult> DeleteAccount(string username, [FromBody] AccountDelete account)
         {
+            // Verify token matches username
+            if (!this.User.Identity.Name.Equals(username, StringComparison.OrdinalIgnoreCase))
+                return this.BadRequest("'username' does not match the token.");
+
             // Get/Check for existence
             var result = await this.TableStorage.Auth.ExecuteAsync(AccountExtensions.GetExistingOperation(username));
             if (result.Result == null)
-                return NotFound();
+                return this.NotFound();
 
             // Verify secret
-            if (!BCrypt.Net.BCrypt.Verify(secret.secret, ((Account)(AccountEntity)result.Result).secret))
-                return Unauthorized();
+            if (!BCrypt.Net.BCrypt.Verify(account.secret, ((Account)(AccountEntity)result.Result).secret))
+                return this.Unauthorized();
 
-            // Clear tokens first
+            // Verify email
+            if (!((Account)(AccountEntity)result.Result).email.Equals(account.email))
+                return this.BadRequest("Provided email does not match email on account.");
+
+            // Clear tokens first. This will cause problems if someone for some reason has more than 100 tokens
             var query = new TableQuery<DynamicTableEntity>()
                 .Where(TableQuery.GenerateFilterCondition(C.TS.PK, QueryComparisons.Equal, username.ToLowerInvariant()))
                 .Select(C.TS.PRKF);

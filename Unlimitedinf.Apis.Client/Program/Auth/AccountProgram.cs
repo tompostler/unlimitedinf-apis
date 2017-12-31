@@ -69,7 +69,7 @@ namespace Unlimitedinf.Apis.Client.Program.Auth
             Input.Validate(account);
 
             ApiClientAuth.Account.Update(account).GetAwaiter().GetResult();
-            Log.Inf(JsonConvert.SerializeObject(new Account { email = account.email, username = account.username }, Formatting.Indented));
+            Log.Inf(JsonConvert.SerializeObject(new AccountUpdate { email = account.email }, Formatting.Indented));
 
             return ExitCode.Success;
         }

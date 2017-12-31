@@ -30,4 +30,8 @@
     <WCFMetadata Include="Connected Services" />
   </ItemGroup>
 
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="copy /Y &quot;$(SolutionDir)\unlimitedinf.ico&quot; &quot;$(ProjectDir)\favicon.ico&quot;" />
+  </Target>
+
 </Project>

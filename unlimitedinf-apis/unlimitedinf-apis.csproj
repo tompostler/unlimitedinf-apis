@@ -191,7 +191,6 @@
     <Compile Include="Controllers\PingController.cs" />
     <Compile Include="Controllers\TeapotController.cs" />
     <Compile Include="Controllers\v1\Auth\TokensController.cs" />
-    <Compile Include="Controllers\v1\Auth\AccountsController.cs" />
     <Compile Include="Controllers\v1\DateTimesController.cs" />
     <Compile Include="Controllers\v1\MessagesController.cs" />
     <Compile Include="Controllers\v1\CatansController.cs" />
