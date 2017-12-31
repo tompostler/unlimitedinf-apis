@@ -34,7 +34,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unlimitedinf.Apis.AxiomsUps
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unlimitedinf.Apis.Trials", "Unlimitedinf.Apis.Trials", "{AB7C40F4-5E88-417D-8F84-862FA30FA173}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BatchDelete", "BatchDelete\BatchDelete.csproj", "{844A4012-A16F-4BEB-9459-256290FF3955}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BatchDelete", "BatchDelete\BatchDelete.csproj", "{844A4012-A16F-4BEB-9459-256290FF3955}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unlimitedinf.Apis.Server", "Unlimitedinf.Apis.Server\Unlimitedinf.Apis.Server.csproj", "{C427A404-F463-4BBC-B1A8-E90B867D7626}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -66,6 +68,10 @@ Global
 		{844A4012-A16F-4BEB-9459-256290FF3955}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{844A4012-A16F-4BEB-9459-256290FF3955}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{844A4012-A16F-4BEB-9459-256290FF3955}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C427A404-F463-4BBC-B1A8-E90B867D7626}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C427A404-F463-4BBC-B1A8-E90B867D7626}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C427A404-F463-4BBC-B1A8-E90B867D7626}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C427A404-F463-4BBC-B1A8-E90B867D7626}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

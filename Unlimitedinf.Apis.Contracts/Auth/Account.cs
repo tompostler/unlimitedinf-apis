@@ -4,9 +4,21 @@ using Unlimitedinf.Apis.Contracts.CustomValidators;
 namespace Unlimitedinf.Apis.Contracts.Auth
 {
     /// <summary>
+    /// Representing an account delete.
+    /// </summary>
+    public class AccountDelete
+    {
+        /// <summary>
+        /// The secret used to protect the account.
+        /// </summary>
+        [Required, StringLength(100)]
+        public string secret { get; set; }
+    }
+
+    /// <summary>
     /// Representing an account.
     /// </summary>
-    public class Account
+    public class Account : AccountDelete
     {
         /// <summary>
         /// Unique identifier.
@@ -19,12 +31,6 @@ namespace Unlimitedinf.Apis.Contracts.Auth
         /// </summary>
         [Required, EmailAddress]
         public string email { get; set; }
-
-        /// <summary>
-        /// The secret used to protect the account.
-        /// </summary>
-        [Required, StringLength(100)]
-        public string secret { get; set; }
     }
 
     /// <summary>
