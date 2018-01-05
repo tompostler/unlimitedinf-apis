@@ -14,7 +14,7 @@ namespace Unlimitedinf.Apis.Server.Tests
             I = JsonConvert.DeserializeObject<TestSettings>(
                 File.ReadAllText(
                     Path.Combine(
-                        Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+                        Directory.GetCurrentDirectory(),
                         "TestSettings",
                         "testsettings.json")));
         }
