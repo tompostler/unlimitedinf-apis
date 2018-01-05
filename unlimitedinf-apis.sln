@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "unlimitedinf-apis", "unlimitedinf-apis\unlimitedinf-apis.csproj", "{11697A6E-646B-4DF8-B453-5AFDA9583E2D}"
 EndProject
@@ -36,7 +36,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unlimitedinf.Apis.Trials", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BatchDelete", "BatchDelete\BatchDelete.csproj", "{844A4012-A16F-4BEB-9459-256290FF3955}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unlimitedinf.Apis.Server", "Unlimitedinf.Apis.Server\Unlimitedinf.Apis.Server.csproj", "{C427A404-F463-4BBC-B1A8-E90B867D7626}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unlimitedinf.Apis.Server", "Unlimitedinf.Apis.Server\Unlimitedinf.Apis.Server.csproj", "{C427A404-F463-4BBC-B1A8-E90B867D7626}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unlimitedinf.Apis.Server.Tests", "Unlimitedinf.Apis.Server.Tests\Unlimitedinf.Apis.Server.Tests.csproj", "{3F1AD789-AF5F-41CF-AFC5-2CDD4E46AC67}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -72,6 +74,10 @@ Global
 		{C427A404-F463-4BBC-B1A8-E90B867D7626}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C427A404-F463-4BBC-B1A8-E90B867D7626}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C427A404-F463-4BBC-B1A8-E90B867D7626}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F1AD789-AF5F-41CF-AFC5-2CDD4E46AC67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F1AD789-AF5F-41CF-AFC5-2CDD4E46AC67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F1AD789-AF5F-41CF-AFC5-2CDD4E46AC67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F1AD789-AF5F-41CF-AFC5-2CDD4E46AC67}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
