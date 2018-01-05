@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace Unlimitedinf.Apis.Server
 {
@@ -13,6 +14,7 @@ namespace Unlimitedinf.Apis.Server
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseApplicationInsights()
+                .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseStartup<Startup>()
                 .Build();
     }

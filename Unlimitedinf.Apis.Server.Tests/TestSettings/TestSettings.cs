@@ -1,17 +1,16 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.IO;
-using System.Reflection;
 
 namespace Unlimitedinf.Apis.Server.Tests
 {
-    public sealed class TestSettings
+    public sealed class S
     {
-        public static TestSettings I { get; }
+        public static S I { get; }
 
-        static TestSettings()
+        static S()
         {
-            I = JsonConvert.DeserializeObject<TestSettings>(
+            I = JsonConvert.DeserializeObject<S>(
                 File.ReadAllText(
                     Path.Combine(
                         Directory.GetCurrentDirectory(),
@@ -19,6 +18,6 @@ namespace Unlimitedinf.Apis.Server.Tests
                         "testsettings.json")));
         }
 
-        public Uri BaseUri { get; set; }
+        public string BaseUri { get; set; }
     }
 }

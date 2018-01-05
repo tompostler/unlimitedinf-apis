@@ -6,7 +6,7 @@ namespace Unlimitedinf.Apis.Server.Controllers
     [Route("teapot")]
     public class TeapotController : Controller
     {
-        [HttpDelete, HttpGet, HttpHead, HttpOptions, HttpPost, HttpPut]
+        [HttpDelete, HttpGet, HttpHead, HttpOptions, HttpPatch, HttpPost, HttpPut]
         public IActionResult ImATeapot()
         {
             return this.StatusCode(MoreHttpStatusCodes.ImATeapot, "I'm a teapot!");

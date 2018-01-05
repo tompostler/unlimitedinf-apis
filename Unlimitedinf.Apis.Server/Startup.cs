@@ -45,6 +45,7 @@ namespace Unlimitedinf.Apis.Server
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
 
+            app.UseStaticFiles();
             app.UseMvc();
         }
     }
