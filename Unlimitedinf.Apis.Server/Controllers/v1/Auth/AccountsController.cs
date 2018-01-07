@@ -102,10 +102,6 @@ namespace Unlimitedinf.Apis.Server.Controllers.v1.Auth
             if (!BCrypt.Net.BCrypt.Verify(account.secret, ((Account)(AccountEntity)result.Result).secret))
                 return this.Unauthorized();
 
-            // Verify email
-            if (!((Account)(AccountEntity)result.Result).email.Equals(account.email))
-                return this.BadRequest("Provided email does not match email on account.");
-
             // Clear tokens first. This will cause problems if someone for some reason has more than 100 tokens
             var query = new TableQuery<DynamicTableEntity>()
                 .Where(TableQuery.GenerateFilterCondition(C.TS.PK, QueryComparisons.Equal, username.ToLowerInvariant()))

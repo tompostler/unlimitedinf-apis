@@ -13,12 +13,6 @@ namespace Unlimitedinf.Apis.Contracts.Auth
         /// </summary>
         [Required, StringLength(100)]
         public string secret { get; set; }
-
-        /// <summary>
-        /// Point of contact.
-        /// </summary>
-        [Required, EmailAddress]
-        public string email { get; set; }
     }
 
     /// <summary>
@@ -31,6 +25,12 @@ namespace Unlimitedinf.Apis.Contracts.Auth
         /// </summary>
         [Required, StringLength(32), CustomValidation(typeof(AccountValidator), nameof(AccountValidator.UsernameValidation))]
         public string username { get; set; }
+
+        /// <summary>
+        /// Point of contact.
+        /// </summary>
+        [Required, EmailAddress]
+        public string email { get; set; }
     }
 
     /// <summary>

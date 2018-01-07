@@ -71,7 +71,7 @@
     <Compile Include="Repo.cs" />
     <Compile Include="Versioning\Count.cs" />
     <Compile Include="Versioning\Version.cs" />
-    <Compile Include="Properties\LocalAssemblyInfo.cs" />
+    <!--<Compile Include="Properties\LocalAssemblyInfo.cs" />-->
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
@@ -93,7 +93,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>powershell "$(SolutionDir)LocalAssemblyInfo.ps1 $(ProjectDir) $(AssemblyName) Unlimitedinf.Apis"</PreBuildEvent>
+    <!--<PreBuildEvent>powershell "$(SolutionDir)LocalAssemblyInfo.ps1 $(ProjectDir) $(AssemblyName) Unlimitedinf.Apis"</PreBuildEvent>-->
   </PropertyGroup>
   <Import Project="..\packages\NuProj.Common.0.20.4-beta\build\dotnet\NuProj.Common.targets" Condition="Exists('..\packages\NuProj.Common.0.20.4-beta\build\dotnet\NuProj.Common.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

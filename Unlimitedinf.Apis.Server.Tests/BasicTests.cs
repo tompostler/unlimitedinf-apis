@@ -1,10 +1,9 @@
-using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Unlimitedinf.Apis.Server.Tests
+namespace Unlimitedinf.Apis.Server.IntTests
 {
     public class BasicTests
     {

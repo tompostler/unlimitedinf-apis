@@ -2,7 +2,7 @@
 using System;
 using System.IO;
 
-namespace Unlimitedinf.Apis.Server.Tests
+namespace Unlimitedinf.Apis.Server.IntTests
 {
     public sealed class S
     {

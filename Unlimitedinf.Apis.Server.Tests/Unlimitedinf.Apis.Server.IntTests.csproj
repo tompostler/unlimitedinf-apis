@@ -23,6 +23,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Unlimitedinf.Apis.Contracts\Unlimitedinf.Apis.Contracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="System.Net.Http">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6\System.Net.Http.dll</HintPath>
     </Reference>

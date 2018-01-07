@@ -1,4 +1,4 @@
-﻿namespace Unlimitedinf.Apis.Server.Tests
+﻿namespace Unlimitedinf.Apis.Server.IntTests
 {
     public static class C
     {
