@@ -26,6 +26,8 @@ namespace Unlimitedinf.Apis.Server.IntTests
             var res = await client.SendAsync(req);
 
             Assert.Equal(HttpStatusCode.Created, res.StatusCode);
+            var act = JsonConvert.DeserializeObject<Account>(await res.Content.ReadAsStringAsync());
+            TAssert.Equal(acc, act);
         }
 
         [Fact]
@@ -48,12 +50,6 @@ namespace Unlimitedinf.Apis.Server.IntTests
             var res = await client.SendAsync(req);
             Assert.Equal(HttpStatusCode.OK, res.StatusCode);
             var act = JsonConvert.DeserializeObject<Account>(await res.Content.ReadAsStringAsync());
-            TAssert.Equal(acc, act);
-
-            req = new HttpRequestMessage(HttpMethod.Get, C.U.AuAccount + "?username=" + acc.username);
-            res = await client.SendAsync(req);
-            Assert.Equal(HttpStatusCode.OK, res.StatusCode);
-            act = JsonConvert.DeserializeObject<Account>(await res.Content.ReadAsStringAsync());
             TAssert.Equal(acc, act);
         }
 
@@ -135,6 +131,126 @@ namespace Unlimitedinf.Apis.Server.IntTests
             var res = await client.SendAsync(req);
 
             Assert.Equal(HttpStatusCode.Unauthorized, res.StatusCode);
+        }
+
+        [Fact]
+        public async Task TokenCreate()
+        {
+            var acc = await H.A.Create();
+            var tok = new TokenCreate
+            {
+                username = acc.username,
+                secret = acc.secret,
+                name = H.CreateUniqueTokenName(),
+                expire = TokenExpiration.hour
+            };
+
+            var req = new HttpRequestMessage(HttpMethod.Post, C.U.AuToken);
+            req.Content = H.JsonContent(tok);
+            var res = await client.SendAsync(req);
+            Assert.Equal(HttpStatusCode.Created, res.StatusCode);
+
+            var con = await res.Content.ReadAsStringAsync();
+            var act = JsonConvert.DeserializeObject<Token>(con);
+            TAssert.Equal(tok, act);
+        }
+
+        [Fact]
+        public async Task TokenCreateInvalidAccount()
+        {
+            var acc = await H.A.Create();
+            var tok = new TokenCreate
+            {
+                username = H.CreateUniqueAccountName(),
+                secret = acc.secret,
+                name = H.CreateUniqueTokenName(),
+                expire = TokenExpiration.hour
+            };
+
+            var req = new HttpRequestMessage(HttpMethod.Post, C.U.AuToken);
+            req.Content = H.JsonContent(tok);
+            var res = await client.SendAsync(req);
+
+            Assert.Equal(HttpStatusCode.NotFound, res.StatusCode);
+        }
+
+        [Fact]
+        public async Task TokenCreateInvalidSecret()
+        {
+            var acc = await H.A.Create();
+            var tok = new TokenCreate
+            {
+                username = acc.username,
+                secret = acc.secret + "1",
+                name = H.CreateUniqueTokenName(),
+                expire = TokenExpiration.hour
+            };
+
+            var req = new HttpRequestMessage(HttpMethod.Post, C.U.AuToken);
+            req.Content = H.JsonContent(tok);
+            var res = await client.SendAsync(req);
+
+            Assert.Equal(HttpStatusCode.Unauthorized, res.StatusCode);
+        }
+
+        [Fact]
+        public async Task TokenCreateDuplicate()
+        {
+            var acc = await H.A.Create();
+            var tok = await H.T.Create();
+
+            var tokCre = new TokenCreate
+            {
+                username = tok.username,
+                name = tok.name,
+                secret = acc.secret,
+                expire = TokenExpiration.minute
+            };
+
+            var req = new HttpRequestMessage(HttpMethod.Post, C.U.AuToken);
+            req.Content = H.JsonContent(tokCre);
+            var res = await client.SendAsync(req);
+            Assert.Equal(HttpStatusCode.Conflict, res.StatusCode);
+        }
+
+        [Fact]
+        public async Task TokenDelete()
+        {
+            // Need to create a token that can be deleted separate from the rest of the tests
+            var tok = await H.T.Create(useStored: false);
+
+            var req = new HttpRequestMessage(HttpMethod.Delete, C.U.AuToken);
+            req.Content = H.JsonContent(tok as TokenDelete);
+            var res = await client.SendAsync(req);
+            Assert.Equal(HttpStatusCode.OK, res.StatusCode);
+
+            var con = await res.Content.ReadAsStringAsync();
+            var act = JsonConvert.DeserializeObject<Token>(con);
+            TAssert.Equal(tok, act);
+        }
+
+        [Fact]
+        public async Task TokenDeleteUsernameNotFound()
+        {
+            var tok = await H.T.Create(useStored: false);
+            tok.username = H.CreateUniqueAccountName();
+
+            var req = new HttpRequestMessage(HttpMethod.Delete, C.U.AuToken);
+            req.Content = H.JsonContent(tok as TokenDelete);
+            var res = await client.SendAsync(req);
+            Assert.Equal(HttpStatusCode.NotFound, res.StatusCode);
+        }
+
+        [Fact]
+        public async Task TokenDeleteTokenNotFound()
+        {
+            var tok = await H.T.Create(useStored: false);
+            tok.token = tok.token.Substring(0, 127) + "1";
+
+            var req = new HttpRequestMessage(HttpMethod.Delete, C.U.AuToken);
+            req.Content = H.JsonContent(tok as TokenDelete);
+            var res = await client.SendAsync(req);
+            Assert.Equal(HttpStatusCode.NotFound, res.StatusCode);
         }
     }
 }

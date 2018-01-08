@@ -25,7 +25,7 @@ namespace Unlimitedinf.Apis.Server.Models.Auth
             }
         }
 
-        public DateTime Expiration { get; set; }
+        public DateTimeOffset Expiration { get; set; }
 
         public TokenEntity() { }
 
@@ -46,35 +46,35 @@ namespace Unlimitedinf.Apis.Server.Models.Auth
             switch (token.expire)
             {
                 case TokenExpiration.minute:
-                    this.Expiration = DateTime.UtcNow.AddMinutes(1);
+                    this.Expiration = DateTimeOffset.UtcNow.AddMinutes(1);
                     break;
 
                 case TokenExpiration.hour:
-                    this.Expiration = DateTime.UtcNow.AddHours(1);
+                    this.Expiration = DateTimeOffset.UtcNow.AddHours(1);
                     break;
 
                 case TokenExpiration.day:
-                    this.Expiration = DateTime.UtcNow.AddDays(1);
+                    this.Expiration = DateTimeOffset.UtcNow.AddDays(1);
                     break;
 
                 case TokenExpiration.week:
-                    this.Expiration = DateTime.UtcNow.AddDays(7);
+                    this.Expiration = DateTimeOffset.UtcNow.AddDays(7);
                     break;
 
                 case TokenExpiration.month:
-                    this.Expiration = DateTime.UtcNow.AddMonths(1);
+                    this.Expiration = DateTimeOffset.UtcNow.AddMonths(1);
                     break;
 
                 case TokenExpiration.quarter:
-                    this.Expiration = DateTime.UtcNow.AddMonths(3);
+                    this.Expiration = DateTimeOffset.UtcNow.AddMonths(3);
                     break;
 
                 case TokenExpiration.year:
-                    this.Expiration = DateTime.UtcNow.AddYears(1);
+                    this.Expiration = DateTimeOffset.UtcNow.AddYears(1);
                     break;
 
                 case TokenExpiration.never:
-                    this.Expiration = DateTime.MaxValue;
+                    this.Expiration = DateTimeOffset.MaxValue;
                     break;
             }
 

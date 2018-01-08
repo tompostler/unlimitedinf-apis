@@ -39,31 +39,13 @@ namespace Unlimitedinf.Apis.Contracts.Auth
     /// <summary>
     /// Representing a token. A single account can have unlimited tokens.
     /// </summary>
-    public class Token
+    public class Token : TokenDelete
     {
-        /// <summary>
-        /// Unique identifier.
-        /// </summary>
-        [Required, StringLength(32), CustomValidation(typeof(AccountValidator), nameof(AccountValidator.UsernameValidation))]
-        public string username { get; set; }
-
-        /// <summary>
-        /// Give a friendly name to the token. Required if you want multiple tokens.
-        /// </summary>
-        [StringLength(64)]
-        public string name { get; set; }
-
-        /// <summary>
-        /// The Base64 token.
-        /// </summary>
-        [Required, StringLength(128)]
-        public string token { get; set; }
-
         /// <summary>
         /// When this token expires.
         /// </summary>
         [Required]
-        public DateTime expiration { get; set; }
+        public DateTimeOffset expiration { get; set; }
 
         internal const string DateTimeFmt = "yyyyMMddHHmmss";
 
@@ -79,11 +61,11 @@ namespace Unlimitedinf.Apis.Contracts.Auth
             if (token.Length < DateTimeFmt.Length)
                 return true;
 
-            DateTime tdt;
-            if (!DateTime.TryParseExact(token.Chop(DateTimeFmt.Length), DateTimeFmt, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out tdt))
+            DateTimeOffset tdt;
+            if (!DateTimeOffset.TryParseExact(token.Chop(DateTimeFmt.Length), DateTimeFmt, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out tdt))
                 return true;
 
-            return tdt < DateTime.UtcNow;
+            return tdt < DateTimeOffset.UtcNow;
         }
 
         /// <summary>
@@ -131,35 +113,35 @@ namespace Unlimitedinf.Apis.Contracts.Auth
     public enum TokenExpiration
     {
         /// <summary>
-        /// The token expires after one minute (<c>DateTime.UtcNow.AddMinutes(1)</c>).
+        /// The token expires after one minute (<c>DateTimeOffset.UtcNow.AddMinutes(1)</c>).
         /// </summary>
         minute,
         /// <summary>
-        /// The token expires after one hour (<c>DateTime.UtcNow.AddHours(1)</c>).
+        /// The token expires after one hour (<c>DateTimeOffset.UtcNow.AddHours(1)</c>).
         /// </summary>
         hour,
         /// <summary>
-        /// The token expires after one day (<c>DateTime.UtcNow.AddDays(1)</c>).
+        /// The token expires after one day (<c>DateTimeOffset.UtcNow.AddDays(1)</c>).
         /// </summary>
         day,
         /// <summary>
-        /// The token expires after one week (<c>DateTime.UtcNow.AddDays(7)</c>).
+        /// The token expires after one week (<c>DateTimeOffset.UtcNow.AddDays(7)</c>).
         /// </summary>
         week,
         /// <summary>
-        /// The token expires after one month (<c>DateTime.UtcNow.AddMonths(1)</c>).
+        /// The token expires after one month (<c>DateTimeOffset.UtcNow.AddMonths(1)</c>).
         /// </summary>
         month,
         /// <summary>
-        /// The token expires after one quarter (approx 90 days, <c>DateTime.UtcNow.AddMonths(3)</c>).
+        /// The token expires after one quarter (approx 90 days, <c>DateTimeOffset.UtcNow.AddMonths(3)</c>).
         /// </summary>
         quarter,
         /// <summary>
-        /// The token expires after one year (<c>DateTime.UtcNow.AddYears(1)</c>).
+        /// The token expires after one year (<c>DateTimeOffset.UtcNow.AddYears(1)</c>).
         /// </summary>
         year,
         /// <summary>
-        /// The token expires never. This is not recommended, for obvious reasons. However, will set to <c>DateTime.MaxValue</c>.
+        /// The token expires never. This is not recommended, for obvious reasons. However, will set to <c>DateTimeOffset.MaxValue</c>.
         /// </summary>
         never
     }

@@ -22,7 +22,7 @@ namespace Unlimitedinf.Apis.Server.Controllers.v1.Auth
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateToken(TokenCreate token)
+        public async Task<IActionResult> CreateToken([FromBody] TokenCreate token)
         {
             // Validate user
             var result = await this.TableStorage.Auth.ExecuteAsync(AccountExtensions.GetExistingOperation(token.username));
@@ -45,7 +45,7 @@ namespace Unlimitedinf.Apis.Server.Controllers.v1.Auth
         }
 
         [HttpDelete]
-        public async Task<IActionResult> DeleteToken(TokenDelete token)
+        public async Task<IActionResult> DeleteToken([FromBody] TokenDelete token)
         {
             // Validate user
             var result = await this.TableStorage.Auth.ExecuteAsync(AccountExtensions.GetExistingOperation(token.username));
