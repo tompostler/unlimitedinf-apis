@@ -239,7 +239,7 @@ namespace Unlimitedinf.Apis.Server.IntTests
         public async Task TokenDelete()
         {
             // Need to create a token that can be deleted separate from the rest of the tests
-            var tok = await H.T.Create(useStored: false);
+            var tok = await H.T.CreateNew();
 
             var req = new HttpRequestMessage(HttpMethod.Delete, C.U.AuToken)
             {
@@ -256,7 +256,7 @@ namespace Unlimitedinf.Apis.Server.IntTests
         [Fact]
         public async Task TokenDeleteUsernameNotFound()
         {
-            var tok = await H.T.Create(useStored: false);
+            var tok = await H.T.CreateNew();
             tok.username = H.CreateUniqueAccountName();
 
             var req = new HttpRequestMessage(HttpMethod.Delete, C.U.AuToken)
@@ -270,7 +270,7 @@ namespace Unlimitedinf.Apis.Server.IntTests
         [Fact]
         public async Task TokenDeleteTokenNotFound()
         {
-            var tok = await H.T.Create(useStored: false);
+            var tok = await H.T.CreateNew();
             tok.token = tok.token.Substring(0, 127) + "1";
 
             var req = new HttpRequestMessage(HttpMethod.Delete, C.U.AuToken)
@@ -279,6 +279,66 @@ namespace Unlimitedinf.Apis.Server.IntTests
             };
             var res = await client.SendAsync(req);
             Assert.Equal(HttpStatusCode.NotFound, res.StatusCode);
+        }
+
+        [Fact]
+        public async Task AccountDelete()
+        {
+            var acc = await H.A.CreateNew();
+            var tok = await H.T.CreateNew(acc);
+            var accDel = new AccountDelete
+            {
+                secret = acc.secret
+            };
+
+            var req = new HttpRequestMessage(HttpMethod.Delete, C.U.AuAccount + "/" + acc.username)
+            {
+                Content = H.JsonContent(accDel)
+            };
+            req.AddAuthorization(tok.token);
+            var res = await client.SendAsync(req);
+            Assert.Equal(HttpStatusCode.OK, res.StatusCode);
+
+            var con = await res.Content.ReadAsStringAsync();
+            var act = JsonConvert.DeserializeObject<Account>(con);
+        }
+
+        [Fact]
+        public async Task AccountDeleteTokenDoesntMatch()
+        {
+            var acc = await H.A.Create();
+            var tok = await H.T.Create();
+            var accDel = new AccountDelete
+            {
+                secret = acc.secret
+            };
+
+            var req = new HttpRequestMessage(HttpMethod.Delete, C.U.AuAccount + "/" + acc.username + "1")
+            {
+                Content = H.JsonContent(accDel)
+            };
+            req.AddAuthorization(tok.token);
+            var res = await client.SendAsync(req);
+            Assert.Equal(HttpStatusCode.BadRequest, res.StatusCode);
+        }
+
+        [Fact]
+        public async Task AccountDeleteBadAccountSecret()
+        {
+            var acc = await H.A.Create();
+            var tok = await H.T.Create();
+            var accDel = new AccountDelete
+            {
+                secret = acc.secret + "1"
+            };
+
+            var req = new HttpRequestMessage(HttpMethod.Delete, C.U.AuAccount + "/" + acc.username)
+            {
+                Content = H.JsonContent(accDel)
+            };
+            req.AddAuthorization(tok.token);
+            var res = await client.SendAsync(req);
+            Assert.Equal(HttpStatusCode.Unauthorized, res.StatusCode);
         }
     }
 }

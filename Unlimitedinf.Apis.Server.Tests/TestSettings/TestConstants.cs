@@ -15,6 +15,8 @@
 
             public static readonly string Ping = BaseUrl + "/ping";
 
+            public static readonly string Random = BaseUrl + "/random";
+
             public static readonly string Teapot = BaseUrl + "/teapot";
         }
     }

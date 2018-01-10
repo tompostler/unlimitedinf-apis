@@ -44,21 +44,27 @@ namespace Unlimitedinf.Apis.Server.IntTests
             {
                 if (!AlreadyCreated)
                 {
-                    account = new Account
-                    {
-                        username = H.CreateUniqueAccountName(),
-                        email = "test@postler.me",
-                        secret = "test"
-                    };
-
-                    var req = new HttpRequestMessage(HttpMethod.Post, C.U.AuAccount);
-                    req.Content = H.JsonContent(account);
-                    var res = await client.SendAsync(req);
-                    Assert.Equal(HttpStatusCode.Created, res.StatusCode);
-
+                    account = await CreateNew();
                     AlreadyCreated = true;
                 }
                 return account;
+            }
+
+            public static async Task<Account> CreateNew()
+            {
+                var acc = new Account
+                {
+                    username = H.CreateUniqueAccountName(),
+                    email = "test@postler.me",
+                    secret = "test"
+                };
+
+                var req = new HttpRequestMessage(HttpMethod.Post, C.U.AuAccount);
+                req.Content = H.JsonContent(acc);
+                var res = await client.SendAsync(req);
+                Assert.Equal(HttpStatusCode.Created, res.StatusCode);
+
+                return acc;
             }
         }
 
@@ -68,32 +74,38 @@ namespace Unlimitedinf.Apis.Server.IntTests
             private static Token token;
 
             private static bool AlreadyCreated = false;
-            public static async Task<Token> Create(Account acc = null, bool useHA = true, bool useStored = true)
+            public static async Task<Token> Create()
             {
-                if (!AlreadyCreated || !useStored)
+                if (!AlreadyCreated)
                 {
-                    if (useHA)
-                        acc = await H.A.Create();
-                    var tokCreate = new TokenCreate
-                    {
-                        username = acc.username,
-                        secret = acc.secret,
-                        name = H.CreateUniqueTokenName(),
-                        expire = TokenExpiration.hour
-                    };
-
-                    var req = new HttpRequestMessage(HttpMethod.Post, C.U.AuToken);
-                    req.Content = H.JsonContent(tokCreate);
-                    var res = await client.SendAsync(req);
-                    Assert.Equal(HttpStatusCode.Created, res.StatusCode);
-
-                    var loctok = JsonConvert.DeserializeObject<Token>(await res.Content.ReadAsStringAsync());
-                    if (!useStored)
-                        return loctok;
-                    token = loctok;
+                    token = await CreateNew();
                     AlreadyCreated = true;
                 }
                 return token;
+            }
+
+            public static async Task<Token> CreateNew()
+            {
+                var acc = await H.A.Create();
+                return await CreateNew(acc);
+            }
+
+            public static async Task<Token> CreateNew(Account acc)
+            {
+                var tokCreate = new TokenCreate
+                {
+                    username = acc.username,
+                    secret = acc.secret,
+                    name = H.CreateUniqueTokenName(),
+                    expire = TokenExpiration.hour
+                };
+
+                var req = new HttpRequestMessage(HttpMethod.Post, C.U.AuToken);
+                req.Content = H.JsonContent(tokCreate);
+                var res = await client.SendAsync(req);
+                Assert.Equal(HttpStatusCode.Created, res.StatusCode);
+
+                return JsonConvert.DeserializeObject<Token>(await res.Content.ReadAsStringAsync());
             }
         }
     }

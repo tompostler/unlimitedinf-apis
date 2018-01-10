@@ -102,18 +102,6 @@ namespace Unlimitedinf.Apis.Server.Controllers.v1.Auth
             if (!BCrypt.Net.BCrypt.Verify(account.secret, ((Account)(AccountEntity)result.Result).secret))
                 return this.Unauthorized();
 
-            // Clear tokens first. This will cause problems if someone for some reason has more than 100 tokens
-            var query = new TableQuery<DynamicTableEntity>()
-                .Where(TableQuery.GenerateFilterCondition(C.TS.PK, QueryComparisons.Equal, username.ToLowerInvariant()))
-                .Select(C.TS.PRKF);
-            var batch = new TableBatchOperation();
-            foreach (var token in await this.TableStorage.Auth.ExecuteQueryAsync(query))
-                batch.Delete(token);
-            var tokenBatchResult = await this.TableStorage.Auth.ExecuteBatchAsync(batch);
-            // Make sure it all worked
-            if (tokenBatchResult.Any(r => r.HttpStatusCode != (int)HttpStatusCode.NoContent))
-                return this.StatusCode(tokenBatchResult.First(r => r.HttpStatusCode != (int)HttpStatusCode.NoContent).HttpStatusCode, "Failed to delete all tokens.");
-
             // Account
             var delete = TableOperation.Delete((AccountEntity)result.Result);
             result = await this.TableStorage.Auth.ExecuteAsync(delete);
