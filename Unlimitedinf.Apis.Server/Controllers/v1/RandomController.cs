@@ -25,49 +25,49 @@ namespace Unlimitedinf.Apis.Server.Controllers.v1
             return Ok(val);
         }
 
-        [Route("bit"), HttpGet]
+        [HttpGet("bit")]
         public IActionResult Bit()
         {
             return Ok(Generate(1));
         }
 
-        [Route("crumb"), HttpGet]
+        [HttpGet("crumb")]
         public IActionResult Crumb()
         {
             return Ok(Generate(2));
         }
 
-        [Route("nibble"), HttpGet]
+        [HttpGet("nibble")]
         public IActionResult Nibble()
         {
             return Ok(Generate(4));
         }
 
-        [Route("byte"), HttpGet]
+        [HttpGet("byte")]
         public IActionResult Byte()
         {
             return Ok(Generate(8));
         }
 
-        [Route("short"), HttpGet]
+        [HttpGet("short")]
         public IActionResult Short()
         {
             return Ok(Generate(16));
         }
 
-        [Route("int"), HttpGet]
+        [HttpGet("int")]
         public IActionResult Int()
         {
             return Ok(Generate(32));
         }
 
-        [Route("long"), HttpGet]
+        [HttpGet("long")]
         public IActionResult Long()
         {
             return Ok(Generate(64));
         }
 
-        [Route("bits/{num}"), HttpGet]
+        [HttpGet("bits/{num}")]
         public IActionResult Bits(byte num)
         {
             if (num <= 0 || num > 64)
@@ -76,7 +76,7 @@ namespace Unlimitedinf.Apis.Server.Controllers.v1
             return Ok(Generate(num));
         }
 
-        [Route("guid"), HttpGet]
+        [HttpGet("guid")]
         public IActionResult GuidMethod()
         {
             return Ok(Guid.NewGuid().ToString("D"));

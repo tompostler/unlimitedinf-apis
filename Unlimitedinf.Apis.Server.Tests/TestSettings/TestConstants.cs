@@ -13,6 +13,8 @@
             public static readonly string AuAccount = AuBase + "/accounts";
             public static readonly string AuToken = AuBase + "/tokens";
 
+            public static readonly string DateTime = BaseUrl + "/datetime";
+
             public static readonly string Ping = BaseUrl + "/ping";
 
             public static readonly string Random = BaseUrl + "/random";
