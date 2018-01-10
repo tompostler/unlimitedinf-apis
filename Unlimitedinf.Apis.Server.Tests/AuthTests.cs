@@ -21,8 +21,10 @@ namespace Unlimitedinf.Apis.Server.IntTests
                 secret = "test"
             };
 
-            var req = new HttpRequestMessage(HttpMethod.Post, C.U.AuAccount);
-            req.Content = H.JsonContent(acc);
+            var req = new HttpRequestMessage(HttpMethod.Post, C.U.AuAccount)
+            {
+                Content = H.JsonContent(acc)
+            };
             var res = await client.SendAsync(req);
 
             Assert.Equal(HttpStatusCode.Created, res.StatusCode);
@@ -35,8 +37,10 @@ namespace Unlimitedinf.Apis.Server.IntTests
         {
             var acc = await H.A.Create();
 
-            var req = new HttpRequestMessage(HttpMethod.Post, C.U.AuAccount);
-            req.Content = H.JsonContent(acc);
+            var req = new HttpRequestMessage(HttpMethod.Post, C.U.AuAccount)
+            {
+                Content = H.JsonContent(acc)
+            };
             var res = await client.SendAsync(req);
             Assert.Equal(HttpStatusCode.Conflict, res.StatusCode);
         }
@@ -63,8 +67,10 @@ namespace Unlimitedinf.Apis.Server.IntTests
                 email = "test@postler.me",
                 secret = "test"
             };
-            var req = new HttpRequestMessage(HttpMethod.Post, C.U.AuAccount);
-            req.Content = H.JsonContent(acc);
+            var req = new HttpRequestMessage(HttpMethod.Post, C.U.AuAccount)
+            {
+                Content = H.JsonContent(acc)
+            };
             var res = await client.SendAsync(req);
             Assert.Equal(HttpStatusCode.Created, res.StatusCode);
 
@@ -73,8 +79,10 @@ namespace Unlimitedinf.Apis.Server.IntTests
                 secret = "test2",
                 oldsecret = "test"
             };
-            req = new HttpRequestMessage(HttpMethod.Put, C.U.AuAccount + "/" + acc.username);
-            req.Content = H.JsonContent(accupd);
+            req = new HttpRequestMessage(HttpMethod.Put, C.U.AuAccount + "/" + acc.username)
+            {
+                Content = H.JsonContent(accupd)
+            };
             res = await client.SendAsync(req);
             Assert.Equal(HttpStatusCode.OK, res.StatusCode);
             var act = JsonConvert.DeserializeObject<Account>(await res.Content.ReadAsStringAsync());
@@ -92,8 +100,10 @@ namespace Unlimitedinf.Apis.Server.IntTests
                 oldsecret = "test"
             };
 
-            var req = new HttpRequestMessage(HttpMethod.Put, C.U.AuAccount + "/" + acc.username);
-            req.Content = H.JsonContent(accupd);
+            var req = new HttpRequestMessage(HttpMethod.Put, C.U.AuAccount + "/" + acc.username)
+            {
+                Content = H.JsonContent(accupd)
+            };
             var res = await client.SendAsync(req);
 
             Assert.Equal(HttpStatusCode.BadRequest, res.StatusCode);
@@ -108,8 +118,10 @@ namespace Unlimitedinf.Apis.Server.IntTests
                 oldsecret = "test"
             };
 
-            var req = new HttpRequestMessage(HttpMethod.Put, C.U.AuAccount + "/" + H.CreateUniqueAccountName());
-            req.Content = H.JsonContent(accupd);
+            var req = new HttpRequestMessage(HttpMethod.Put, C.U.AuAccount + "/" + H.CreateUniqueAccountName())
+            {
+                Content = H.JsonContent(accupd)
+            };
             var res = await client.SendAsync(req);
 
             Assert.Equal(HttpStatusCode.NotFound, res.StatusCode);
@@ -126,8 +138,10 @@ namespace Unlimitedinf.Apis.Server.IntTests
                 oldsecret = "test2"
             };
 
-            var req = new HttpRequestMessage(HttpMethod.Put, C.U.AuAccount + "/" + acc.username);
-            req.Content = H.JsonContent(accupd);
+            var req = new HttpRequestMessage(HttpMethod.Put, C.U.AuAccount + "/" + acc.username)
+            {
+                Content = H.JsonContent(accupd)
+            };
             var res = await client.SendAsync(req);
 
             Assert.Equal(HttpStatusCode.Unauthorized, res.StatusCode);
@@ -145,8 +159,10 @@ namespace Unlimitedinf.Apis.Server.IntTests
                 expire = TokenExpiration.hour
             };
 
-            var req = new HttpRequestMessage(HttpMethod.Post, C.U.AuToken);
-            req.Content = H.JsonContent(tok);
+            var req = new HttpRequestMessage(HttpMethod.Post, C.U.AuToken)
+            {
+                Content = H.JsonContent(tok)
+            };
             var res = await client.SendAsync(req);
             Assert.Equal(HttpStatusCode.Created, res.StatusCode);
 
@@ -167,8 +183,10 @@ namespace Unlimitedinf.Apis.Server.IntTests
                 expire = TokenExpiration.hour
             };
 
-            var req = new HttpRequestMessage(HttpMethod.Post, C.U.AuToken);
-            req.Content = H.JsonContent(tok);
+            var req = new HttpRequestMessage(HttpMethod.Post, C.U.AuToken)
+            {
+                Content = H.JsonContent(tok)
+            };
             var res = await client.SendAsync(req);
 
             Assert.Equal(HttpStatusCode.NotFound, res.StatusCode);
@@ -186,8 +204,10 @@ namespace Unlimitedinf.Apis.Server.IntTests
                 expire = TokenExpiration.hour
             };
 
-            var req = new HttpRequestMessage(HttpMethod.Post, C.U.AuToken);
-            req.Content = H.JsonContent(tok);
+            var req = new HttpRequestMessage(HttpMethod.Post, C.U.AuToken)
+            {
+                Content = H.JsonContent(tok)
+            };
             var res = await client.SendAsync(req);
 
             Assert.Equal(HttpStatusCode.Unauthorized, res.StatusCode);
@@ -207,8 +227,10 @@ namespace Unlimitedinf.Apis.Server.IntTests
                 expire = TokenExpiration.minute
             };
 
-            var req = new HttpRequestMessage(HttpMethod.Post, C.U.AuToken);
-            req.Content = H.JsonContent(tokCre);
+            var req = new HttpRequestMessage(HttpMethod.Post, C.U.AuToken)
+            {
+                Content = H.JsonContent(tokCre)
+            };
             var res = await client.SendAsync(req);
             Assert.Equal(HttpStatusCode.Conflict, res.StatusCode);
         }
@@ -219,8 +241,10 @@ namespace Unlimitedinf.Apis.Server.IntTests
             // Need to create a token that can be deleted separate from the rest of the tests
             var tok = await H.T.Create(useStored: false);
 
-            var req = new HttpRequestMessage(HttpMethod.Delete, C.U.AuToken);
-            req.Content = H.JsonContent(tok as TokenDelete);
+            var req = new HttpRequestMessage(HttpMethod.Delete, C.U.AuToken)
+            {
+                Content = H.JsonContent(tok as TokenDelete)
+            };
             var res = await client.SendAsync(req);
             Assert.Equal(HttpStatusCode.OK, res.StatusCode);
 
@@ -235,8 +259,10 @@ namespace Unlimitedinf.Apis.Server.IntTests
             var tok = await H.T.Create(useStored: false);
             tok.username = H.CreateUniqueAccountName();
 
-            var req = new HttpRequestMessage(HttpMethod.Delete, C.U.AuToken);
-            req.Content = H.JsonContent(tok as TokenDelete);
+            var req = new HttpRequestMessage(HttpMethod.Delete, C.U.AuToken)
+            {
+                Content = H.JsonContent(tok as TokenDelete)
+            };
             var res = await client.SendAsync(req);
             Assert.Equal(HttpStatusCode.NotFound, res.StatusCode);
         }
@@ -247,8 +273,10 @@ namespace Unlimitedinf.Apis.Server.IntTests
             var tok = await H.T.Create(useStored: false);
             tok.token = tok.token.Substring(0, 127) + "1";
 
-            var req = new HttpRequestMessage(HttpMethod.Delete, C.U.AuToken);
-            req.Content = H.JsonContent(tok as TokenDelete);
+            var req = new HttpRequestMessage(HttpMethod.Delete, C.U.AuToken)
+            {
+                Content = H.JsonContent(tok as TokenDelete)
+            };
             var res = await client.SendAsync(req);
             Assert.Equal(HttpStatusCode.NotFound, res.StatusCode);
         }

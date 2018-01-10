@@ -91,7 +91,7 @@ namespace Unlimitedinf.Apis.Auth
             }
 
             // Cache the principal based off of the token
-            tokenCache.Add(token, principal, new CacheItemPolicy { AbsoluteExpiration = new DateTimeOffset(principal.Token.Expiration) });
+            tokenCache.Add(token, principal, new CacheItemPolicy { AbsoluteExpiration = principal.Token.Expiration });
 
             // Stamp the current user
             Thread.CurrentPrincipal = principal;
