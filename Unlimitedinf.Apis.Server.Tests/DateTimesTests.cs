@@ -14,7 +14,7 @@ namespace Unlimitedinf.Apis.Server.IntTests
         [Fact]
         public async Task AllIndividual()
         {
-            // TODO: CodeGen this thing?
+            // TODO: CodeGen this thing into individual tests?
             var testCases = new Dictionary<string, int>
             {
                 { "yea", DateTimeOffset.UtcNow.Year },

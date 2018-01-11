@@ -271,7 +271,7 @@ namespace Unlimitedinf.Apis.Server.IntTests
         public async Task TokenDeleteTokenNotFound()
         {
             var tok = await H.T.CreateNew();
-            tok.token = tok.token.Substring(0, 127) + "1";
+            tok.token = tok.token.Substring(0, tok.token.Length - 1);
 
             var req = new HttpRequestMessage(HttpMethod.Delete, C.U.AuToken)
             {

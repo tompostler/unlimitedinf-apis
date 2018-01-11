@@ -33,18 +33,6 @@ namespace Unlimitedinf.Apis.Contracts.Versioning
     public class CountChange
     {
         /// <summary>
-        /// See <see cref="Auth.Account.username"/>.
-        /// </summary>
-        [Required, StringLength(100), CustomValidation(typeof(AccountValidator), nameof(AccountValidator.UsernameValidation))]
-        public string username { get; set; }
-
-        /// <summary>
-        /// See <see cref="Count.name"/>.
-        /// </summary>
-        [Required, StringLength(100)]
-        public string name { get; set; }
-
-        /// <summary>
         /// Whether we should increment, decrement, or reset the count to 0. Default: increment.
         /// </summary>
         public CountChangeOption type { get; set; } = CountChangeOption.inc;

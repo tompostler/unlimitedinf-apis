@@ -11,7 +11,7 @@ using Unlimitedinf.Apis.Server.Util;
 
 namespace Unlimitedinf.Apis.Server.Controllers.v1.Auth
 {
-    [RequireHttpsNonDebugLocalhost, ApiVersion("1.0")]
+    [RequireHttpsNonLocalhostAttribute, ApiVersion("1.0")]
     [Route("auth/tokens")]
     public class TokensController : Controller
     {

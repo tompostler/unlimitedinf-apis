@@ -24,6 +24,11 @@ namespace Unlimitedinf.Apis.Server.IntTests
             return $"{callerName.Substring(0, Math.Min(callerName.Length, 48))}_{DateTime.Now.ToString("MMdd_HHmmss_fff")}";
         }
 
+        public static string CreateUniqueName([CallerMemberName] string callerName = "")
+        {
+            return $"{callerName.Substring(0, Math.Min(callerName.Length, 49))}_{Tools.GenerateRandom.Token(10)}";
+        }
+
         public static StringContent JsonContent<T>(T content)
         {
             return JsonContent(JsonConvert.SerializeObject(content));

@@ -34,18 +34,6 @@ namespace Unlimitedinf.Apis.Contracts.Versioning
     public class VersionIncrement
     {
         /// <summary>
-        /// See <see cref="Auth.Account.username"/>.
-        /// </summary>
-        [Required, StringLength(100), CustomValidation(typeof(AccountValidator), nameof(AccountValidator.UsernameValidation))]
-        public string username { get; set; }
-
-        /// <summary>
-        /// See <see cref="Version.name"/>.
-        /// </summary>
-        [Required, StringLength(100)]
-        public string name { get; set; }
-
-        /// <summary>
         /// Which part of the version to increment.
         /// </summary>
         [Required]

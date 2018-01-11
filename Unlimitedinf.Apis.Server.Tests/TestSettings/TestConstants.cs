@@ -20,6 +20,10 @@
             public static readonly string Random = BaseUrl + "/random";
 
             public static readonly string Teapot = BaseUrl + "/teapot";
+
+            private static readonly string VeBase = BaseUrl + "/versioning";
+            public static readonly string VeCount = VeBase + "/counts";
+            public static readonly string VeVersion = VeBase + "/versions";
         }
     }
 }

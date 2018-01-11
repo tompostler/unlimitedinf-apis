@@ -1,11 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Runtime.Caching;
 using System.Security.Principal;
 using System.Threading;

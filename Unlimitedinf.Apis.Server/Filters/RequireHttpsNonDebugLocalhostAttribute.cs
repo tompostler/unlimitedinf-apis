@@ -4,7 +4,7 @@ using System;
 
 namespace Unlimitedinf.Apis.Server.Filters
 {
-    public class RequireHttpsNonDebugLocalhostAttribute : RequireHttpsAttribute
+    public class RequireHttpsNonLocalhostAttributeAttribute : RequireHttpsAttribute
     {
         public override void OnAuthorization(AuthorizationFilterContext filterContext)
         {
