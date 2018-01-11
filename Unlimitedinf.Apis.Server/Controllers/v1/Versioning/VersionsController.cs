@@ -24,7 +24,7 @@ namespace Unlimitedinf.Apis.Server.Controllers.v1.Versioning
         public async Task<IActionResult> GetVersion(string username, string versionName)
         {
             // All versions are publicly gettable
-            var retrieve = TableOperation.Retrieve<VersionEntity>(username.ToLowerInvariant() + VersionEntity.PartitionKeySuffix, versionName.ToLowerInvariant());
+            var retrieve = TableOperation.Retrieve<VersionEntity>(username.ToLowerInvariant() + VersionEntity.PartitionKeySuffix, versionName);
             var result = await TableStorage.Versioning.ExecuteAsync(retrieve);
 
             if (result.Result == null)
@@ -41,15 +41,22 @@ namespace Unlimitedinf.Apis.Server.Controllers.v1.Versioning
             foreach (VersionEntity versionEntity in await TableStorage.Versioning.ExecuteQueryAsync(versionEntitiesQuery))
                 versions.Add(versionEntity);
 
-            return this.Ok(versions);
+            // TODO: Should this only return 404 if the username was not found? or like it is where no versions is a 404?
+            if (versions.Count == 0)
+                return this.NotFound();
+            else
+                return this.Ok(versions);
         }
 
         [HttpPost, TokenWall]
         public async Task<IActionResult> InsertVersion([FromBody] Version version)
         {
             // Check username
-            if (version.username != this.User.Identity.Name)
+            if (!version.username.Equals(this.User.Identity.Name, System.StringComparison.OrdinalIgnoreCase))
                 return this.Unauthorized();
+
+            // Only keep the major.minor.patch
+            version.version = new Tools.SemVer(version.version.Major, version.version.Minor, version.version.Patch);
 
             // Add the version
             var insert = TableOperation.Insert(new VersionEntity(version), true);
@@ -116,7 +123,7 @@ namespace Unlimitedinf.Apis.Server.Controllers.v1.Versioning
             // Remove
             var delete = TableOperation.Delete(versionEntity);
             result = await TableStorage.Versioning.ExecuteAsync(delete);
-            
+
             return this.TableResultStatus(result.HttpStatusCode, (Version)(VersionEntity)result.Result);
         }
     }

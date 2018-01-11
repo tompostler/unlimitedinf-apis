@@ -72,5 +72,12 @@ namespace Unlimitedinf.Apis.Server.IntTests
             Assert.Equal(expected.name, actual.name);
             Assert.Equal(expected.token, actual.token);
         }
+
+        public static void Equal(Contracts.Versioning.Version expected, Contracts.Versioning.Version actual)
+        {
+            Assert.Equal(expected.username, actual.username, ignoreCase: true);
+            Assert.Equal(expected.name, actual.name);
+            Assert.Equal(expected.version, actual.version);
+        }
     }
 }

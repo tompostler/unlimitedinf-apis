@@ -26,7 +26,7 @@ namespace Unlimitedinf.Apis.Server.IntTests
 
         public static string CreateUniqueName([CallerMemberName] string callerName = "")
         {
-            return $"{callerName.Substring(0, Math.Min(callerName.Length, 49))}_{Tools.GenerateRandom.Token(10)}";
+            return $"{callerName.Substring(0, Math.Min(callerName.Length, 32))}_{DateTime.Now.ToString("MMdd_HHmmss_fff")}_{Tools.GenerateRandom.HexToken(10)}";
         }
 
         public static StringContent JsonContent<T>(T content)

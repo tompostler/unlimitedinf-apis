@@ -76,12 +76,12 @@ namespace Unlimitedinf.Apis.Server.Models.Versioning
     {
         public static TableOperation GetExistingOperation(this Version version)
         {
-            return TableOperation.Retrieve<VersionEntity>(version.username.ToLowerInvariant() + VersionEntity.PartitionKeySuffix, version.name.ToLowerInvariant());
+            return TableOperation.Retrieve<VersionEntity>(version.username.ToLowerInvariant() + VersionEntity.PartitionKeySuffix, version.name);
         }
 
         public static TableOperation GetExistingOperation(string username, string versionName)
         {
-            return TableOperation.Retrieve<VersionEntity>(username.ToLowerInvariant() + VersionEntity.PartitionKeySuffix, versionName.ToLowerInvariant());
+            return TableOperation.Retrieve<VersionEntity>(username.ToLowerInvariant() + VersionEntity.PartitionKeySuffix, versionName);
         }
     }
 }
