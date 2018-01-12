@@ -2,7 +2,7 @@
 using System;
 using Unlimitedinf.Apis.Contracts;
 
-namespace Unlimitedinf.Apis.Models
+namespace Unlimitedinf.Apis.Server.Models
 {
     public class MessageEntity : TableEntity
     {

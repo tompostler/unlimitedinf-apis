@@ -1,5 +1,7 @@
 ﻿using Microsoft.WindowsAzure.Storage.Table;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Unlimitedinf.Apis.Contracts.Auth;
 
 namespace Unlimitedinf.Apis.Server.Models.Auth
@@ -55,16 +57,16 @@ namespace Unlimitedinf.Apis.Server.Models.Auth
             return GetExistingOperation(account.username);
         }
 
-        //public static async Task<bool> Exists(string username)
-        //{
-        //    if (string.IsNullOrWhiteSpace(username))
-        //        throw new ArgumentNullException(nameof(username));
+        public static async Task<bool> Exists(string username)
+        {
+            if (string.IsNullOrWhiteSpace(username))
+                throw new ArgumentNullException(nameof(username));
 
-        //    var op = TableOperation.Retrieve(PartitionKey, username.ToLowerInvariant(), new List<string> { "RowKey" });
-        //    var res = await TableStorage.Auth.ExecuteAsync(op);
+            var op = TableOperation.Retrieve(PartitionKey, username.ToLowerInvariant(), C.TS.PRKFL);
+            var res = await TableStorage.Instance.Auth.ExecuteAsync(op);
 
-        //    return res.Result != null;
-        //}
+            return res.Result != null;
+        }
 
         public static TableOperation GetExistingOperation(string username)
         {

@@ -1,4 +1,4 @@
-﻿using Microsoft.Web.Http;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.WindowsAzure.Storage.Table;
 using System;
 using System.Collections.Concurrent;
@@ -6,12 +6,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using System.Web.Http;
-using Unlimitedinf.Apis.Auth;
 using Unlimitedinf.Apis.Contracts;
-using Unlimitedinf.Apis.Models;
+using Unlimitedinf.Apis.Server.Auth;
+using Unlimitedinf.Apis.Server.Filters;
+using Unlimitedinf.Apis.Server.Models;
+using Unlimitedinf.Apis.Server.Util;
 
-namespace Unlimitedinf.Apis.Controllers.v1
+namespace Unlimitedinf.Apis.Server.Controllers.v1
 {
     /// <summary>
     /// Actions that can be taken on messages:
@@ -27,16 +28,22 @@ namespace Unlimitedinf.Apis.Controllers.v1
     ///     - By message subject (include all parts)
     ///     - Older than a specific timestamp
     /// </summary>
-    [TokenWall, RequireHttps, ApiVersion("1.0")]
-    [RoutePrefix("messages")]
-    public class MessagesController : BaseController
+    [TokenWall, RequireHttpsNonLocalhostAttribute, ApiVersion("1.0")]
+    [Route("messages")]
+    public class MessagesController : Controller
     {
+        private TableStorage TableStorage;
+        public MessagesController(TableStorage ts)
+        {
+            this.TableStorage = ts;
+        }
+        
         /// <summary>
         /// Get my messages (based on user token).
         /// Optionally get all emails include read ones.
         /// </summary>
-        [Route, HttpGet]
-        public async Task<IHttpActionResult> GetMessages(bool unreadOnly = true)
+        [HttpGet]
+        public async Task<IActionResult> GetMessages(bool unreadOnly = true)
         {
             // Generate the query based on if they want unread only or not
             TableQuery<MessageEntity> msgQry;
@@ -61,8 +68,8 @@ namespace Unlimitedinf.Apis.Controllers.v1
         /// Validates that the 'from' matches the current user.
         /// Validates that the 'to' is for a valid user.
         /// </summary>
-        [Route, HttpPost]
-        public async Task<IHttpActionResult> SendMessage(Message message)
+        [HttpPost]
+        public async Task<IActionResult> SendMessage(Message message)
         {
             // Check from username
             if (message.from != this.User.Identity.Name)
@@ -76,15 +83,15 @@ namespace Unlimitedinf.Apis.Controllers.v1
             var insert = TableOperation.Insert(new MessageEntity(message), true);
             var result = await TableStorage.Messages.ExecuteAsync(insert);
 
-            return Content((HttpStatusCode)result.HttpStatusCode, (Message)(MessageEntity)result.Result);
+            return this.TableResultStatus(result.HttpStatusCode, (Message)(MessageEntity)result.Result);
         }
 
         /// <summary>
         /// Mark a message as read.
         /// Validates the 'to' of the message matches the current user's token.
         /// </summary>
-        [Route("{id}/markread"), HttpPatch]
-        public async Task<IHttpActionResult> MarkAsRead(Guid id)
+        [HttpPatch("{id}/markread")]
+        public async Task<IActionResult> MarkAsRead(Guid id)
         {
             // Get existing
             var op = MessageExtensions.GetExistingOperation(this.User.Identity.Name, id);
@@ -100,38 +107,29 @@ namespace Unlimitedinf.Apis.Controllers.v1
             op = TableOperation.Replace(msgEnt);
             msgRes = await TableStorage.Messages.ExecuteAsync(op);
 
-            // Annoying
-            var returnCode = (HttpStatusCode)msgRes.HttpStatusCode;
-            if (returnCode == HttpStatusCode.NoContent)
-                returnCode = HttpStatusCode.OK;
-
-            return Content(returnCode, (Message)(MessageEntity)msgRes.Result);
+            return this.TableResultStatus(msgRes.HttpStatusCode, (Message)(MessageEntity)msgRes.Result);
         }
 
         /// <summary>
         /// Deletes a message by id.
         /// </summary>
-        [Route("{id}"), HttpDelete]
-        public async Task<IHttpActionResult> Delete(Guid id)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
         {
             // Remove
             var msgEnt = new MessageEntity() { PartitionKey = this.User.Identity.Name, RowKey = id.ToString(), ETag = "*" };
             var op = TableOperation.Delete(msgEnt);
             var result = await TableStorage.Messages.ExecuteAsync(op);
 
-            // Annoying
-            var returnCode = (HttpStatusCode)result.HttpStatusCode;
-            if (returnCode == HttpStatusCode.NoContent)
-                returnCode = HttpStatusCode.OK;
-
-            return Content(returnCode, (Message)(MessageEntity)result.Result);
+            return this.TableResultStatus(result.HttpStatusCode, (Message)(MessageEntity)result.Result);
         }
 
         /// <summary>
         /// Deletes messages by id.
         /// </summary>
-        [Route, HttpDelete]
-        public async Task<IHttpActionResult> Delete([FromUri] List<Guid> ids)
+        /// TODO: Need to test this list thing
+        [HttpDelete]
+        public async Task<IActionResult> Delete([FromQuery] List<Guid> ids)
         {
             var results = new ConcurrentDictionary<Guid, HttpStatusCode>();
 
@@ -155,22 +153,22 @@ namespace Unlimitedinf.Apis.Controllers.v1
             return Ok(results);
         }
 
-        /// <summary>
-        /// Deletes all messages by a subject.
-        /// </summary>
-        [Route, HttpDelete]
-        public async Task<IHttpActionResult> Delete(string subject)
-        {
-            throw new NotImplementedException();
-        }
+        ///// <summary>
+        ///// Deletes all messages by a subject.
+        ///// </summary>
+        //[HttpDelete]
+        //public async Task<IActionResult> Delete(string subject)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        /// <summary>
-        /// Deletes all messages older than a timestamp.
-        /// </summary>
-        [Route, HttpDelete]
-        public async Task<IHttpActionResult> Delete(DateTimeOffset older)
-        {
-            throw new NotImplementedException();
-        }
+        ///// <summary>
+        ///// Deletes all messages older than a timestamp.
+        ///// </summary>
+        //[HttpDelete]
+        //public async Task<IActionResult> Delete(DateTimeOffset older)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

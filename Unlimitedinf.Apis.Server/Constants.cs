@@ -1,4 +1,6 @@
-﻿namespace Unlimitedinf.Apis.Server
+﻿using System.Collections.Generic;
+
+namespace Unlimitedinf.Apis.Server
 {
     /// <summary>
     /// Constants.
@@ -14,9 +16,10 @@
             public const string RK = "RowKey";
 
             /// <summary>
-            /// A list containing just PartitionKey and RowKey to help with filtering.
+            /// An array containing just PartitionKey and RowKey to help with filtering.
             /// </summary>
             public static readonly string[] PRKF = new string[] { PK, RK };
+            public static readonly List<string> PRKFL = new List<string>(PRKF);
         }
     }
 }
