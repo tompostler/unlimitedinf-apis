@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Unlimitedinf.Apis.Models.Axioms;
+using Unlimitedinf.Apis.Server.Models.Axioms;
 
 namespace Unlimitedinf.Apis.AxiomsUpsert
 {

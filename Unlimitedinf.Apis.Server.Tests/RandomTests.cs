@@ -21,7 +21,7 @@ namespace Unlimitedinf.Apis.Server.IntTests
         [InlineData("/long", 0, ulong.MaxValue)]
         [InlineData("/bits/1", 0, 1)]
         [InlineData("/bits/8", 0, 1<<8)]
-        public async Task RandomNum(string uriSuffix, ulong min, ulong max /*inclusive*/)
+        public async Task Num(string uriSuffix, ulong min, ulong max /*inclusive*/)
         {
             var req = new HttpRequestMessage(HttpMethod.Get, C.U.Random + uriSuffix);
             var res = await client.SendAsync(req);
@@ -32,14 +32,14 @@ namespace Unlimitedinf.Apis.Server.IntTests
         }
 
         [Fact]
-        public async Task RandomGuid()
+        public async Task Guid()
         {
             var req = new HttpRequestMessage(HttpMethod.Get, C.U.Random + "/guid");
             var res = await client.SendAsync(req);
             Assert.Equal(HttpStatusCode.OK, res.StatusCode);
 
             // Exception being thrown here will fail test
-            Guid.Parse(await res.Content.ReadAsStringAsync());
+            System.Guid.Parse(await res.Content.ReadAsStringAsync());
         }
     }
 }

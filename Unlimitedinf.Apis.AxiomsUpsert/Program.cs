@@ -4,7 +4,6 @@ using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using System;
 using System.Threading.Tasks;
-using Unlimitedinf.Apis.Models.Axioms;
 using Unlimitedinf.Tools;
 
 namespace Unlimitedinf.Apis.AxiomsUpsert

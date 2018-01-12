@@ -95,9 +95,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\unlimitedinf-apis\unlimitedinf-apis.csproj">
-      <Project>{11697a6e-646b-4df8-b453-5afda9583e2d}</Project>
-      <Name>unlimitedinf-apis</Name>
+    <ProjectReference Include="..\Unlimitedinf.Apis.Server\Unlimitedinf.Apis.Server.csproj">
+      <Project>{c427a404-f463-4bbc-b1a8-e90b867d7626}</Project>
+      <Name>Unlimitedinf.Apis.Server</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

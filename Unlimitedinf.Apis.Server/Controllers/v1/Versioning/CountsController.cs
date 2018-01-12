@@ -24,8 +24,7 @@ namespace Unlimitedinf.Apis.Server.Controllers.v1.Versioning
         public async Task<IActionResult> GetCount(string username, string countName)
         {
             // All counts are publicly gettable
-            var retrieve = TableOperation.Retrieve<CountEntity>(username.ToLowerInvariant() + CountEntity.PartitionKeySuffix, countName.ToLowerInvariant());
-            var result = await TableStorage.Versioning.ExecuteAsync(retrieve);
+            var result = await TableStorage.Versioning.ExecuteAsync(CountExtensions.GetExistingOperation(username, countName));
 
             if (result.Result == null)
                 return this.NotFound();
@@ -41,7 +40,11 @@ namespace Unlimitedinf.Apis.Server.Controllers.v1.Versioning
             foreach (CountEntity countEntity in await TableStorage.Versioning.ExecuteQueryAsync(countEntitiesQuery))
                 counts.Add(countEntity);
 
-            return this.Ok(counts);
+            // TODO: Should this only return 404 if the username was not found? or like it is where no counts is a 404?
+            if (counts.Count == 0)
+                return this.NotFound();
+            else
+                return this.Ok(counts);
         }
 
         [HttpPost, TokenWall]
@@ -51,7 +54,7 @@ namespace Unlimitedinf.Apis.Server.Controllers.v1.Versioning
             if (count.username != this.User.Identity.Name)
                 return this.Unauthorized();
 
-            // Add the version
+            // Add the count
             var insert = TableOperation.Insert(new CountEntity(count), true);
             var result = await TableStorage.Versioning.ExecuteAsync(insert);
 
@@ -65,7 +68,7 @@ namespace Unlimitedinf.Apis.Server.Controllers.v1.Versioning
             if (!username.Equals(this.User.Identity.Name, System.StringComparison.OrdinalIgnoreCase))
                 return this.Unauthorized();
 
-            // Get the existing version
+            // Get the existing count
             var result = await TableStorage.Versioning.ExecuteAsync(CountExtensions.GetExistingOperation(username, countName));
             var countEntity = (CountEntity)result.Result;
             if (countEntity == null)
