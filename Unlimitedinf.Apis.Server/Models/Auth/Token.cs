@@ -31,7 +31,7 @@ namespace Unlimitedinf.Apis.Server.Models.Auth
 
         public TokenEntity(Token token)
         {
-            this.PartitionKey = TokenExtensions.PartitionKey + token.username;
+            this.PartitionKey = TokenExtensions.PartitionKey + token.username.ToLowerInvariant();
             this.Username = token.username;
             this.Name = token.name;
             this.Token = token.token;
@@ -40,7 +40,7 @@ namespace Unlimitedinf.Apis.Server.Models.Auth
 
         public TokenEntity(TokenCreate token)
         {
-            this.PartitionKey = TokenExtensions.PartitionKey + token.username;
+            this.PartitionKey = TokenExtensions.PartitionKey + token.username.ToLowerInvariant();
             this.Username = token.username;
             this.Name = token.name;
             switch (token.expire)
@@ -135,7 +135,7 @@ namespace Unlimitedinf.Apis.Server.Models.Auth
                 throw new ArgumentNullException(nameof(token));
 
             return TableOperation.Retrieve<TokenEntity>(
-                PartitionKey + username,
+                PartitionKey + username.ToLowerInvariant(),
                 token);
         }
 
