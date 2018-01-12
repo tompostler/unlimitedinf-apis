@@ -69,10 +69,10 @@ namespace Unlimitedinf.Apis.Server.Controllers.v1
         /// Validates that the 'to' is for a valid user.
         /// </summary>
         [HttpPost]
-        public async Task<IActionResult> SendMessage(Message message)
+        public async Task<IActionResult> SendMessage([FromBody] Message message)
         {
             // Check from username
-            if (message.from != this.User.Identity.Name)
+            if (!message.from.Equals(this.User.Identity.Name, StringComparison.OrdinalIgnoreCase))
                 return this.Unauthorized();
 
             // Check to username

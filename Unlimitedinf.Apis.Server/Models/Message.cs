@@ -23,7 +23,7 @@ namespace Unlimitedinf.Apis.Server.Models
         
         public string From { get; set; }
         public string Subject { get; set; }
-        public Guid ReplyTo { get; set; }
+        public Guid? ReplyTo { get; set; }
         public string Message { get; set; }
         public bool Read { get; set; }
         public int Part { get; set; }

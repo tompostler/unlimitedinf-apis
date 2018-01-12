@@ -17,6 +17,8 @@
 
             public static readonly string DateTime = BaseUrl + "/datetime";
 
+            public static readonly string Message = BaseUrl + "/messages";
+
             public static readonly string Ping = BaseUrl + "/ping";
 
             public static readonly string Random = BaseUrl + "/random";

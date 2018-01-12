@@ -34,7 +34,7 @@ namespace Unlimitedinf.Apis.Contracts
         /// The id of the message this message is a response to. In multipart messages, use the first message as the
         /// reply message id.
         /// </summary>
-        public Guid rept { get; set; }
+        public Guid? rept { get; set; }
 
         /// <summary>
         /// The creation timestamp. Assigned by the server.
@@ -55,12 +55,12 @@ namespace Unlimitedinf.Apis.Contracts
         /// <summary>
         /// A message can be multipart. This is to aid in assembling in the right order. 100 message max.
         /// </summary>
-        [Range(0, 100), CustomValidation(typeof(KeyFieldValidator), nameof(KeyFieldValidator.KeyFieldValidation))]
+        [Range(0, 100)]
         public byte part { get; set; } = 0;
 
         /// <summary>
         /// Set by the server.
         /// </summary>
-        public Guid id { get; internal set; }
+        public Guid? id { get; internal set; }
     }
 }
