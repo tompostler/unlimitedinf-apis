@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Unlimitedinf.Apis.Contracts.Auth;
 using Xunit;
@@ -44,13 +45,19 @@ namespace Unlimitedinf.Apis.Server.IntTests
             // Create one account for all the tests other than the account ones
             private static Account account;
 
+            private static SemaphoreSlim semaphore = new SemaphoreSlim(1);
             private static bool AlreadyCreated = false;
             public static async Task<Account> Create()
             {
                 if (!AlreadyCreated)
                 {
-                    account = await CreateNew();
-                    AlreadyCreated = true;
+                    await semaphore.WaitAsync();
+                    if (!AlreadyCreated)
+                    {
+                        account = await CreateNew();
+                        AlreadyCreated = true;
+                    }
+                    semaphore.Release();
                 }
                 return account;
             }
@@ -78,13 +85,19 @@ namespace Unlimitedinf.Apis.Server.IntTests
             // Create one token for all the tests other than the token ones
             private static Token token;
 
+            private static SemaphoreSlim semaphore = new SemaphoreSlim(1);
             private static bool AlreadyCreated = false;
             public static async Task<Token> Create()
             {
                 if (!AlreadyCreated)
                 {
-                    token = await CreateNew();
-                    AlreadyCreated = true;
+                    await semaphore.WaitAsync();
+                    if (!AlreadyCreated)
+                    {
+                        token = await CreateNew();
+                        AlreadyCreated = true;
+                    }
+                    semaphore.Release();
                 }
                 return token;
             }
