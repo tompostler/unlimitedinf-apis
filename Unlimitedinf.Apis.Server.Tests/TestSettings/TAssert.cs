@@ -1,4 +1,5 @@
 ﻿using System;
+using Unlimitedinf.Apis.Contracts;
 using Unlimitedinf.Apis.Contracts.Auth;
 using Xunit;
 
@@ -85,6 +86,17 @@ namespace Unlimitedinf.Apis.Server.IntTests
             Assert.Equal(expected.username, actual.username, ignoreCase: true);
             Assert.Equal(expected.name, actual.name);
             Assert.Equal(expected.count, actual.count);
+        }
+
+        public static void Equal(Message expected, Message actual)
+        {
+            Assert.Equal(expected.from, actual.from, ignoreCase: true);
+            Assert.Equal(expected.to, actual.to, ignoreCase: true);
+            Assert.Equal(expected.subject, actual.subject, ignoreCase: true);
+            Assert.Equal(expected.rept, actual.rept);
+            Assert.Equal(expected.message, actual.message);
+            Assert.Equal(expected.part, actual.part);
+            Assert.True(actual.id.HasValue);
         }
     }
 }

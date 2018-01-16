@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using System;
 using System.Collections.Concurrent;
@@ -37,7 +38,7 @@ namespace Unlimitedinf.Apis.Server.Controllers.v1
         {
             this.TableStorage = ts;
         }
-        
+
         /// <summary>
         /// Get my messages (based on user token).
         /// Optionally get all emails include read ones.
@@ -50,11 +51,11 @@ namespace Unlimitedinf.Apis.Server.Controllers.v1
             if (unreadOnly)
                 msgQry = new TableQuery<MessageEntity>().Where(
                     TableQuery.CombineFilters(
-                        TableQuery.GenerateFilterCondition(C.TS.PK, QueryComparisons.Equal, this.User.Identity.Name),
+                        TableQuery.GenerateFilterCondition(C.TS.PK, QueryComparisons.Equal, this.User.Identity.Name.ToLowerInvariant()),
                         TableOperators.And,
                         TableQuery.GenerateFilterConditionForBool(nameof(MessageEntity.Read), QueryComparisons.Equal, false)));
             else
-                msgQry = new TableQuery<MessageEntity>().Where(TableQuery.GenerateFilterCondition(C.TS.PK, QueryComparisons.Equal, this.User.Identity.Name));
+                msgQry = new TableQuery<MessageEntity>().Where(TableQuery.GenerateFilterCondition(C.TS.PK, QueryComparisons.Equal, this.User.Identity.Name.ToLowerInvariant()));
 
             // Get the results
             var msgs = new List<Message>();
@@ -82,6 +83,8 @@ namespace Unlimitedinf.Apis.Server.Controllers.v1
             // Post the message
             var insert = TableOperation.Insert(new MessageEntity(message), true);
             var result = await TableStorage.Messages.ExecuteAsync(insert);
+
+            var ent = (MessageEntity)result.Result;
 
             return this.TableResultStatus(result.HttpStatusCode, (Message)(MessageEntity)result.Result);
         }
@@ -117,11 +120,19 @@ namespace Unlimitedinf.Apis.Server.Controllers.v1
         public async Task<IActionResult> Delete(Guid id)
         {
             // Remove
-            var msgEnt = new MessageEntity() { PartitionKey = this.User.Identity.Name, RowKey = id.ToString(), ETag = "*" };
+            var msgEnt = new MessageEntity() { PartitionKey = this.User.Identity.Name.ToLowerInvariant(), RowKey = id.ToString(), ETag = "*" };
             var op = TableOperation.Delete(msgEnt);
-            var result = await TableStorage.Messages.ExecuteAsync(op);
+            try
+            {
+                var result = await TableStorage.Messages.ExecuteAsync(op);
 
-            return this.TableResultStatus(result.HttpStatusCode, (Message)(MessageEntity)result.Result);
+                // Since we're issuing a request to just delete it, we'll get nothing back. So just forward through the 204.
+                return this.StatusCode(result.HttpStatusCode);
+            }
+            catch (StorageException ex)
+            {
+                return this.StatusCode(ex.RequestInformation.HttpStatusCode);
+            }
         }
 
         /// <summary>
@@ -131,22 +142,23 @@ namespace Unlimitedinf.Apis.Server.Controllers.v1
         [HttpDelete]
         public async Task<IActionResult> Delete([FromQuery] List<Guid> ids)
         {
-            var results = new ConcurrentDictionary<Guid, HttpStatusCode>();
+            var results = new ConcurrentDictionary<Guid, int>();
 
             // Concurrently delete everything asked for.
             var deletes = ids.Select(async id =>
             {
                 // Remove
-                var msgEnt = new MessageEntity() { PartitionKey = this.User.Identity.Name, RowKey = id.ToString(), ETag = "*" };
+                var msgEnt = new MessageEntity() { PartitionKey = this.User.Identity.Name.ToLowerInvariant(), RowKey = id.ToString(), ETag = "*" };
                 var op = TableOperation.Delete(msgEnt);
-                var result = await TableStorage.Messages.ExecuteAsync(op);
-
-                // Annoying
-                var returnCode = (HttpStatusCode)result.HttpStatusCode;
-                if (returnCode == HttpStatusCode.NoContent)
-                    returnCode = HttpStatusCode.OK;
-
-                results[id] = returnCode;
+                try
+                {
+                    var result = await TableStorage.Messages.ExecuteAsync(op);
+                    results[id] = result.HttpStatusCode;
+                }
+                catch (StorageException ex)
+                {
+                    results[id] = ex.RequestInformation.HttpStatusCode;
+                }
             }).ToList();
 
             await Task.WhenAll(deletes);

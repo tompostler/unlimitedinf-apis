@@ -71,7 +71,7 @@ namespace Unlimitedinf.Apis.Server.Models
 
         public static TableOperation GetExistingOperation(string username, Guid messageId)
         {
-            return TableOperation.Retrieve<MessageEntity>(username, messageId.ToString());
+            return TableOperation.Retrieve<MessageEntity>(username.ToLowerInvariant(), messageId.ToString());
         }
     }
 }

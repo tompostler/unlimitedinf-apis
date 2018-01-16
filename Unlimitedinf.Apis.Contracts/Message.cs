@@ -39,7 +39,7 @@ namespace Unlimitedinf.Apis.Contracts
         /// <summary>
         /// The creation timestamp. Assigned by the server.
         /// </summary>
-        public DateTimeOffset timestamp { get; internal set; }
+        public DateTimeOffset timestamp { get; set; }
 
         /// <summary>
         /// The message content.
@@ -61,6 +61,6 @@ namespace Unlimitedinf.Apis.Contracts
         /// <summary>
         /// Set by the server.
         /// </summary>
-        public Guid? id { get; internal set; }
+        public Guid? id { get; set; }
     }
 }
