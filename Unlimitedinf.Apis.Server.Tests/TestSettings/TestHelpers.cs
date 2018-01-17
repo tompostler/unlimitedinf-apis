@@ -15,14 +15,14 @@ namespace Unlimitedinf.Apis.Server.IntTests
     {
         private static readonly HttpClient client = new HttpClient();
 
-        public static string CreateUniqueAccountName([CallerMemberName] string callerName = "")
+        public static string CreateUniqueAccountName()
         {
-            return $"{callerName.Substring(0, Math.Min(callerName.Length, 16))}_{DateTime.Now.ToString("MMdd_HHmmss_fff")}";
+            return $"test_{DateTime.Now.ToString("MMdd_HHmmss_fff")}_{Tools.GenerateRandom.HexToken(10)}";
         }
 
-        public static string CreateUniqueTokenName([CallerMemberName] string callerName = "")
+        public static string CreateUniqueTokenName()
         {
-            return $"{callerName.Substring(0, Math.Min(callerName.Length, 48))}_{DateTime.Now.ToString("MMdd_HHmmss_fff")}";
+            return $"test_{DateTime.Now.ToString("MMdd_HHmmss_fff")}_{Tools.GenerateRandom.HexToken(10)}";
         }
 
         public static string CreateUniqueName([CallerMemberName] string callerName = "")

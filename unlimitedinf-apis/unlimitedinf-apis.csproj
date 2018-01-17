@@ -183,12 +183,10 @@
   <ItemGroup>
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\v1\CatansController.cs" />
-    <Compile Include="Controllers\v1\ReposController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Catan.cs" />
-    <Compile Include="Models\Repo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\Unlimitedinf.Apis.Contracts\Properties\LocalAssemblyInfo.cs">
       <Link>Properties\LocalAssemblyInfo.cs</Link>

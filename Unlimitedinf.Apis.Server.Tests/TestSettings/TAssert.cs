@@ -98,5 +98,14 @@ namespace Unlimitedinf.Apis.Server.IntTests
             Assert.Equal(expected.part, actual.part);
             Assert.True(actual.id.HasValue);
         }
+
+        public static void Equal(Repo expected, Repo actual)
+        {
+            Assert.Equal(expected.username, actual.username, ignoreCase: true);
+            Assert.Equal(expected.name, actual.name);
+            Assert.Equal(expected.repo.AbsoluteUri, actual.repo.AbsoluteUri);
+            Assert.Equal(expected.gitusername, actual.gitusername);
+            Assert.Equal(expected.gituseremail, actual.gituseremail);
+        }
     }
 }

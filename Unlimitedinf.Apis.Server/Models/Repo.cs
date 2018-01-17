@@ -2,7 +2,7 @@
 using System;
 using Unlimitedinf.Apis.Contracts;
 
-namespace Unlimitedinf.Apis.Models
+namespace Unlimitedinf.Apis.Server.Models
 {
     public class RepoEntity : TableEntity
     {
@@ -63,7 +63,7 @@ namespace Unlimitedinf.Apis.Models
         }
     }
 
-    public static class VersionExtensions
+    public static class RepoExtensions
     {
         public static TableOperation GetExistingOperation(this Repo repo)
         {

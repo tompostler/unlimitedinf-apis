@@ -23,6 +23,8 @@
 
             public static readonly string Random = BaseUrl + "/random";
 
+            public static readonly string Repo = BaseUrl + "/repos";
+
             public static readonly string Teapot = BaseUrl + "/teapot";
 
             private static readonly string VeBase = BaseUrl + "/versioning";

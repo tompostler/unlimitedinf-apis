@@ -1,20 +1,27 @@
-﻿using Microsoft.Web.Http;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.WindowsAzure.Storage.Table;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
-using System.Web.Http;
-using Unlimitedinf.Apis.Auth;
 using Unlimitedinf.Apis.Contracts;
-using Unlimitedinf.Apis.Models;
+using Unlimitedinf.Apis.Server.Auth;
+using Unlimitedinf.Apis.Server.Filters;
+using Unlimitedinf.Apis.Server.Models;
+using Unlimitedinf.Apis.Server.Util;
 
-namespace Unlimitedinf.Apis.Controllers.v1
+namespace Unlimitedinf.Apis.Server.Controllers.v1
 {
-    [RequireHttps, ApiVersion("1.0")]
-    [RoutePrefix("repos")]
-    public class ReposController : BaseController
+    [RequireHttpsNonLocalhostAttribute, ApiVersion("1.0")]
+    [Route("repos"), TokenWall]
+    public class ReposController : Controller
     {
+        private TableStorage TableStorage;
+        public ReposController(TableStorage ts)
+        {
+            this.TableStorage = ts;
+        }
+
         private async Task<List<Repo>> GetRepoList()
         {
             // Only a user can get their own list of repos
@@ -25,38 +32,42 @@ namespace Unlimitedinf.Apis.Controllers.v1
             return repos;
         }
 
-        [Route, HttpGet, TokenWall]
-        public async Task<IHttpActionResult> GetRepos()
+        [HttpGet]
+        public async Task<IActionResult> GetRepos()
         {
             return Ok(await this.GetRepoList());
         }
 
-        [Route, HttpPost, TokenWall]
-        public async Task<IHttpActionResult> InsertRepo(Repo repo)
+        [HttpPost]
+        public async Task<IActionResult> InsertRepo([FromBody] Repo repo)
         {
             // Check username
-            if (repo.username != this.User.Identity.Name)
+            if (!repo.username.Equals(this.User.Identity.Name, StringComparison.OrdinalIgnoreCase))
                 return this.Unauthorized();
 
             // Add the repo
             var insert = TableOperation.Insert(new RepoEntity(repo), true);
             var result = await TableStorage.Repos.ExecuteAsync(insert);
 
-            return Content((HttpStatusCode)result.HttpStatusCode, (Repo)(RepoEntity)result.Result);
+            return this.TableResultStatus(result.HttpStatusCode, (Repo)(RepoEntity)result.Result);
         }
 
-        [Route, HttpPut, TokenWall]
-        public async Task<IHttpActionResult> UpdateRepo(Repo repo)
+        [HttpPut("{repoName}")]
+        public async Task<IActionResult> UpdateRepo(string repoName, [FromBody] Repo repo)
         {
+            // Check repo name
+            if (!repoName.Equals(repo.name))
+                return this.BadRequest();
+
             // Check username
-            if (repo.username != this.User.Identity.Name)
+            if (!repo.username.Equals(this.User.Identity.Name, StringComparison.OrdinalIgnoreCase))
                 return this.Unauthorized();
 
             // Get the existing repo
             var result = await TableStorage.Repos.ExecuteAsync(repo.GetExistingOperation());
             var repoEntity = (RepoEntity)result.Result;
             if (repoEntity == null)
-                return StatusCode((HttpStatusCode)result.HttpStatusCode);
+                return this.NotFound();
 
             repoEntity.Uri = repo.repo.AbsoluteUri;
             repoEntity.GitUserName = repo.gitusername;
@@ -66,38 +77,28 @@ namespace Unlimitedinf.Apis.Controllers.v1
             var replace = TableOperation.Replace(repoEntity);
             result = await TableStorage.Repos.ExecuteAsync(replace);
 
-            // Annoying
-            var returnCode = (HttpStatusCode)result.HttpStatusCode;
-            if (returnCode == HttpStatusCode.NoContent)
-                returnCode = HttpStatusCode.OK;
-
-            return Content(returnCode, (Repo)(RepoEntity)result.Result);
+            return this.TableResultStatus(result.HttpStatusCode, (Repo)(RepoEntity)result.Result);
         }
 
-        [Route, HttpDelete, TokenWall]
-        public async Task<IHttpActionResult> RemoveRepo(string repoName)
+        [HttpDelete("{repoName}")]
+        public async Task<IActionResult> RemoveRepo(string repoName)
         {
             // Get
             var retrieve = TableOperation.Retrieve<RepoEntity>(this.User.Identity.Name, repoName.ToLowerInvariant());
             var result = await TableStorage.Repos.ExecuteAsync(retrieve);
             var repoEntity = (RepoEntity)result.Result;
             if (repoEntity == null)
-                return StatusCode((HttpStatusCode)result.HttpStatusCode);
+                return this.NotFound();
 
             // Remove
             var delete = TableOperation.Delete(repoEntity);
             result = await TableStorage.Repos.ExecuteAsync(delete);
 
-            // Annoying
-            var returnCode = (HttpStatusCode)result.HttpStatusCode;
-            if (returnCode == HttpStatusCode.NoContent)
-                returnCode = HttpStatusCode.OK;
-
-            return Content(returnCode, (Repo)(RepoEntity)result.Result);
+            return this.TableResultStatus(result.HttpStatusCode, (Repo)(RepoEntity)result.Result);
         }
 
-        [Route("ps-script"), HttpGet, TokenWall]
-        public async Task<IHttpActionResult> GetRepoPsScript()
+        [HttpGet("ps-script")]
+        public async Task<IActionResult> GetRepoPsScript()
         {
             var repos = await this.GetRepoList();
             if (repos.Count == 0)
