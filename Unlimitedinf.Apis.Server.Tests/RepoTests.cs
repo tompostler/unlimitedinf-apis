@@ -45,5 +45,28 @@ namespace Unlimitedinf.Apis.Server.IntTests
         {
             await this.CreateRepoForTest();
         }
+
+        [Fact]
+        public async Task CreateBadUsername()
+        {
+            var tok = await H.T.Create();
+
+            var rep = new Repo
+            {
+                username = H.CreateUniqueAccountName(),
+                name = H.CreateUniqueName(),
+                repo = new Uri("https://github.com/tompostler/unlimitedinf-apis.git"),
+                gitusername = "Tom Postler",
+                gituseremail = "tom@postler.me"
+            };
+
+            var req = new HttpRequestMessage(HttpMethod.Post, C.U.Repo)
+            {
+                Content = H.JsonContent(rep)
+            };
+            req.AddAuthorization(tok.token);
+            var res = await client.SendAsync(req);
+            Assert.Equal(HttpStatusCode.Unauthorized, res.StatusCode);
+        }
     }
 }

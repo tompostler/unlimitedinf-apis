@@ -52,34 +52,6 @@ namespace Unlimitedinf.Apis.Server.Controllers.v1
             return this.TableResultStatus(result.HttpStatusCode, (Repo)(RepoEntity)result.Result);
         }
 
-        [HttpPut("{repoName}")]
-        public async Task<IActionResult> UpdateRepo(string repoName, [FromBody] Repo repo)
-        {
-            // Check repo name
-            if (!repoName.Equals(repo.name))
-                return this.BadRequest();
-
-            // Check username
-            if (!repo.username.Equals(this.User.Identity.Name, StringComparison.OrdinalIgnoreCase))
-                return this.Unauthorized();
-
-            // Get the existing repo
-            var result = await TableStorage.Repos.ExecuteAsync(repo.GetExistingOperation());
-            var repoEntity = (RepoEntity)result.Result;
-            if (repoEntity == null)
-                return this.NotFound();
-
-            repoEntity.Uri = repo.repo.AbsoluteUri;
-            repoEntity.GitUserName = repo.gitusername;
-            repoEntity.GitUserEmail = repo.gituseremail;
-
-            // Replace
-            var replace = TableOperation.Replace(repoEntity);
-            result = await TableStorage.Repos.ExecuteAsync(replace);
-
-            return this.TableResultStatus(result.HttpStatusCode, (Repo)(RepoEntity)result.Result);
-        }
-
         [HttpDelete("{repoName}")]
         public async Task<IActionResult> RemoveRepo(string repoName)
         {
