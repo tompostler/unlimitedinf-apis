@@ -35,7 +35,7 @@ namespace Unlimitedinf.Apis.Server.Controllers.v1.Versioning
         public async Task<IActionResult> GetCounts(string username)
         {
             // All counts are publicly gettable
-            var countEntitiesQuery = new TableQuery<CountEntity>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, username.ToLowerInvariant() + CountEntity.PartitionKeySuffix));
+            var countEntitiesQuery = new TableQuery<CountEntity>().Where(TableQuery.GenerateFilterCondition(C.TS.PK, QueryComparisons.Equal, username.ToLowerInvariant() + CountEntity.PartitionKeySuffix));
             var counts = new List<Count>();
             foreach (CountEntity countEntity in await TableStorage.Versioning.ExecuteQueryAsync(countEntitiesQuery))
                 counts.Add(countEntity);
@@ -51,7 +51,7 @@ namespace Unlimitedinf.Apis.Server.Controllers.v1.Versioning
         public async Task<IActionResult> InsertCount([FromBody] Count count)
         {
             // Check username
-            if (count.username != this.User.Identity.Name)
+            if (this.IsBadUsername(count.username))
                 return this.Unauthorized();
 
             // Add the count
@@ -65,7 +65,7 @@ namespace Unlimitedinf.Apis.Server.Controllers.v1.Versioning
         public async Task<IActionResult> UpdateCount(string username, string countName, [FromBody] CountChange countChange)
         {
             // Check username
-            if (!username.Equals(this.User.Identity.Name, System.StringComparison.OrdinalIgnoreCase))
+            if (this.IsBadUsername(username))
                 return this.Unauthorized();
 
             // Get the existing count
@@ -101,7 +101,7 @@ namespace Unlimitedinf.Apis.Server.Controllers.v1.Versioning
         public async Task<IActionResult> RemoveCount(string username, string countName)
         {
             // Check username
-            if (!username.Equals(this.User.Identity.Name, System.StringComparison.OrdinalIgnoreCase))
+            if (this.IsBadUsername(username))
                 return this.Unauthorized();
 
             // Get

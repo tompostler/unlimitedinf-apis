@@ -90,7 +90,7 @@ namespace Unlimitedinf.Apis.Server.Controllers.v1.Auth
         public async Task<IActionResult> DeleteAccount(string username, [FromBody] AccountDelete account)
         {
             // Verify token matches username
-            if (!this.User.Identity.Name.Equals(username, StringComparison.OrdinalIgnoreCase))
+            if (this.IsBadUsername(username))
                 return this.BadRequest("'username' does not match the token.");
 
             // Get/Check for existence

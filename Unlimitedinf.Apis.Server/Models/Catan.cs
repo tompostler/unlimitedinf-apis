@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using Unlimitedinf.Apis.Contracts;
 
-namespace Unlimitedinf.Apis.Models
+namespace Unlimitedinf.Apis.Server.Models
 {
     public class CatanEntity : TableEntity
     {

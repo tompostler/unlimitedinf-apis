@@ -73,7 +73,7 @@ namespace Unlimitedinf.Apis.Server.Controllers.v1
         public async Task<IActionResult> SendMessage([FromBody] Message message)
         {
             // Check from username
-            if (!message.from.Equals(this.User.Identity.Name, StringComparison.OrdinalIgnoreCase))
+            if (this.IsBadUsername(message.from))
                 return this.Unauthorized();
 
             // Check to username

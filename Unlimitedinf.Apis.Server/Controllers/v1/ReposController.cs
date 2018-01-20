@@ -42,7 +42,7 @@ namespace Unlimitedinf.Apis.Server.Controllers.v1
         public async Task<IActionResult> InsertRepo([FromBody] Repo repo)
         {
             // Check username
-            if (!repo.username.Equals(this.User.Identity.Name, StringComparison.OrdinalIgnoreCase))
+            if (this.IsBadUsername(repo.username))
                 return this.Unauthorized();
 
             // Add the repo

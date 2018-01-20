@@ -52,7 +52,7 @@ namespace Unlimitedinf.Apis.Server.Controllers.v1.Versioning
         public async Task<IActionResult> InsertVersion([FromBody] Version version)
         {
             // Check username
-            if (!version.username.Equals(this.User.Identity.Name, System.StringComparison.OrdinalIgnoreCase))
+            if (this.IsBadUsername(version.username))
                 return this.Unauthorized();
 
             // Only keep the major.minor.patch
@@ -69,7 +69,7 @@ namespace Unlimitedinf.Apis.Server.Controllers.v1.Versioning
         public async Task<IActionResult> UpdateVersion(string username, string versionName, [FromBody] VersionIncrement versionIncrement)
         {
             // Check username
-            if (!username.Equals(this.User.Identity.Name, System.StringComparison.OrdinalIgnoreCase))
+            if (this.IsBadUsername(username))
                 return this.Unauthorized();
 
             // Get the existing version
@@ -111,7 +111,7 @@ namespace Unlimitedinf.Apis.Server.Controllers.v1.Versioning
         public async Task<IActionResult> RemoveVersion(string username, string versionName)
         {
             // Check username
-            if (!username.Equals(this.User.Identity.Name, System.StringComparison.OrdinalIgnoreCase))
+            if (this.IsBadUsername(username))
                 return this.Unauthorized();
 
             // Get
