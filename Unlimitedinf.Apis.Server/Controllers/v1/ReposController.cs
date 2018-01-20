@@ -56,7 +56,7 @@ namespace Unlimitedinf.Apis.Server.Controllers.v1
         public async Task<IActionResult> RemoveRepo(string repoName)
         {
             // Get
-            var retrieve = TableOperation.Retrieve<RepoEntity>(this.User.Identity.Name, repoName.ToLowerInvariant());
+            var retrieve = TableOperation.Retrieve<RepoEntity>(this.User.Identity.Name.ToLowerInvariant(), repoName);
             var result = await TableStorage.Repos.ExecuteAsync(retrieve);
             var repoEntity = (RepoEntity)result.Result;
             if (repoEntity == null)

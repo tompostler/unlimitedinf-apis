@@ -67,6 +67,11 @@ namespace Unlimitedinf.Apis.Server.IntTests
             }
         }
 
+        internal static void Equal(Repo rep1, object single)
+        {
+            throw new NotImplementedException();
+        }
+
         public static void Equal(TokenDelete expected, Token actual)
         {
             Assert.Equal(expected.username, actual.username);
