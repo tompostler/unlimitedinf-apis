@@ -1,105 +1,35 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D0AEB875-6D3D-4053-ABAF-12DE9D4DDE2E}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Unlimitedinf.Apis.Contracts</RootNamespace>
+    <TargetFrameworks>net47;net462;net46;net45;net40</TargetFrameworks>
     <AssemblyName>Unlimitedinf.Apis.Contracts</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-  </PropertyGroup>
-  <PropertyGroup>
+    <RootNamespace>Unlimitedinf.Apis.Contracts</RootNamespace>
     <ApplicationIcon>..\unlimitedinf.ico</ApplicationIcon>
+    <DocumentationFile>$(BaseOutputPath)\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+    <Authors>UnlimitedInf</Authors>
+    <Company>UnlimitedInf</Company>
+    <Product>UnlimitedInf Tools</Product>
+    <Copyright>Copyright © UnlimitedInf (Tom Postler) 2018</Copyright>
+    <PackageLicenseUrl>https://github.com/tompostler/unlimitedinf-apis/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/tompostler/unlimitedinf-apis</PackageProjectUrl>
+    <PackageIconUrl>https://unlimitedinf.com/files/unlimitedinf/unlimitedinf.ico</PackageIconUrl>
+    <RepositoryUrl>https://github.com/tompostler/unlimitedinf-apis</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>unlimitedinf apis</PackageTags>
+    <Description>The C# contracts used by the APIs.</Description>
+    <Version>4.0.0</Version>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+    <PackageReleaseNotes>4.0.0
+  - Move to .NET Core. Broke apart packages, rewrote APIs.
+    </PackageReleaseNotes>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>..\noglob.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin\Debug\Unlimitedinf.Apis.Contracts.XML</DocumentationFile>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>..\noglob.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin\Release\Unlimitedinf.Apis.Contracts.XML</DocumentationFile>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
+    <PackageReference Include="Unlimitedinf.Tools" Version="3.6.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Caching" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-    <Reference Include="Unlimitedinf.Tools, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unlimitedinf.Tools.3.5.2\lib\net46\Unlimitedinf.Tools.dll</HintPath>
-    </Reference>
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Auth\Account.cs" />
-    <Compile Include="Auth\Token.cs" />
-    <Compile Include="Axioms\AxiomBase.cs" />
-    <Compile Include="CustomValidators\KeyFieldValidator.cs" />
-    <Compile Include="CustomValidators\AccountValidator.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Message.cs" />
-    <Compile Include="Catan.cs" />
-    <Compile Include="Repo.cs" />
-    <Compile Include="Versioning\Count.cs" />
-    <Compile Include="Versioning\Version.cs" />
-    <!--<Compile Include="Properties\LocalAssemblyInfo.cs" />-->
-    <Compile Include="..\CommonAssemblyInfo.cs">
-      <Link>Properties\CommonAssemblyInfo.cs</Link>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\unlimitedinf.ico">
-      <Link>Properties\unlimitedinf.ico</Link>
-    </None>
-    <None Include="..\noglob.ruleset">
-      <Link>Properties\noglob.ruleset</Link>
-    </None>
-    <CodeAnalysisDictionary Include="..\CustomDictionary.xml">
-      <Link>Properties\CustomDictionary.xml</Link>
-    </CodeAnalysisDictionary>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <!--<PreBuildEvent>powershell "$(SolutionDir)LocalAssemblyInfo.ps1 $(ProjectDir) $(AssemblyName) Unlimitedinf.Apis"</PreBuildEvent>-->
-  </PropertyGroup>
-  <Import Project="..\packages\NuProj.Common.0.20.4-beta\build\dotnet\NuProj.Common.targets" Condition="Exists('..\packages\NuProj.Common.0.20.4-beta\build\dotnet\NuProj.Common.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\NuProj.Common.0.20.4-beta\build\dotnet\NuProj.Common.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NuProj.Common.0.20.4-beta\build\dotnet\NuProj.Common.targets'))" />
-  </Target>
+
 </Project>
