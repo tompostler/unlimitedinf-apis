@@ -2,6 +2,7 @@
 
 namespace Unlimitedinf.Apis.Server.Controllers
 {
+    [Route("")]
     [Route("ping")]
     public class PingController : Controller
     {
