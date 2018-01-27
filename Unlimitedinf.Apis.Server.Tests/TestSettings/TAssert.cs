@@ -112,5 +112,19 @@ namespace Unlimitedinf.Apis.Server.IntTests
             Assert.Equal(expected.gitusername, actual.gitusername);
             Assert.Equal(expected.gituseremail, actual.gituseremail);
         }
+
+        public static void Equal(Catan expected, Catan actual)
+        {
+            Assert.Equal(expected.username, actual.username, ignoreCase: true);
+            Assert.Equal(expected.name, actual.name);
+
+            Assert.Equal(expected.rolls.Count, actual.rolls.Count);
+            for (int i = 0; i < expected.rolls.Count; i++)
+            {
+                Assert.Equal(expected.rolls[i].r, actual.rolls[i].r);
+                Assert.Equal(expected.rolls[i].y, actual.rolls[i].y);
+                Assert.InRange(actual.rolls[i].d, expected.rolls[i].d.AddMilliseconds(-1), expected.rolls[i].d.AddMilliseconds(1));
+            }
+        }
     }
 }

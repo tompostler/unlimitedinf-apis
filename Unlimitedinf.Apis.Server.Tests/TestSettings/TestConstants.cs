@@ -15,6 +15,8 @@
 
             public static readonly string Axiom = BaseUrl + "/axioms";
 
+            public static readonly string Catan = BaseUrl + "/catans";
+
             public static readonly string DateTime = BaseUrl + "/datetime";
 
             public static readonly string Message = BaseUrl + "/messages";

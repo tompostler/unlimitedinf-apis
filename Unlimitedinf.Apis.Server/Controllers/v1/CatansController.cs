@@ -69,19 +69,18 @@ namespace Unlimitedinf.Apis.Server.Controllers.v1
         [HttpDelete("{catanName}"), TokenWall]
         public async Task<IActionResult> RemoveCatan(string catanName)
         {
-            var catEnt = new CatanEntity() { PartitionKey = this.User.Identity.Name.ToLowerInvariant(), RowKey = catanName, ETag = "*" };
-            var op = TableOperation.Delete(catEnt);
-            try
-            {
-                var result = await TableStorage.Messages.ExecuteAsync(op);
+            // Get
+            var retrieve = TableOperation.Retrieve<CatanEntity>(this.User.Identity.Name.ToLowerInvariant(), catanName);
+            var result = await TableStorage.Catans.ExecuteAsync(retrieve);
+            var catanEntity = (CatanEntity)result.Result;
+            if (catanEntity == null)
+                return this.NotFound();
 
-                // Since we're issuing a request to just delete it, we'll get nothing back. So just forward through the 204.
-                return this.StatusCode(result.HttpStatusCode);
-            }
-            catch (StorageException ex)
-            {
-                return this.StatusCode(ex.RequestInformation.HttpStatusCode);
-            }
+            // Remove
+            var delete = TableOperation.Delete(catanEntity);
+            result = await TableStorage.Catans.ExecuteAsync(delete);
+
+            return this.TableResultStatus(result.HttpStatusCode, (Catan)(CatanEntity)result.Result);
         }
 
         [HttpGet("{username}/{catanName}/stats")]
