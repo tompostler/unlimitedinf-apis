@@ -23,6 +23,19 @@ namespace Unlimitedinf.Apis.Server.IntTests
         }
 
         [Theory]
+        [InlineData("GET")]
+        [InlineData("HEAD")]
+        [InlineData("OPTIONS")]
+        public async Task PingRoot(string smethod)
+        {
+            var method = new HttpMethod(smethod);
+            var req = new HttpRequestMessage(method, S.I.BaseUri);
+            var res = await client.SendAsync(req);
+
+            Assert.Equal(HttpStatusCode.OK, res.StatusCode);
+        }
+
+        [Theory]
         [InlineData("DELETE")]
         [InlineData("GET")]
         [InlineData("HEAD")]
