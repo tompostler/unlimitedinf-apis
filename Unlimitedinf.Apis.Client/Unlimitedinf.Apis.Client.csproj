@@ -1,134 +1,49 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D0ECFAF4-9E33-4AB3-AC95-E67E0547F22D}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Unlimitedinf.Apis.Client</RootNamespace>
+    <TargetFrameworks>net47;net462;net46;net45</TargetFrameworks>
     <AssemblyName>Unlimitedinf.Apis.Client</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-  </PropertyGroup>
-  <PropertyGroup>
+    <RootNamespace>Unlimitedinf.Apis.Client</RootNamespace>
+    <OutputType>Exe</OutputType>
     <ApplicationIcon>..\unlimitedinf.ico</ApplicationIcon>
+    <DocumentationFile>$(BaseOutputPath)\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+    <Authors>UnlimitedInf</Authors>
+    <Company>UnlimitedInf</Company>
+    <Product>UnlimitedInf Tools</Product>
+    <Copyright>Copyright © UnlimitedInf (Tom Postler) 2018</Copyright>
+    <PackageLicenseUrl>https://github.com/tompostler/unlimitedinf-apis/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/tompostler/unlimitedinf-apis</PackageProjectUrl>
+    <PackageIconUrl>https://unlimitedinf.com/files/unlimitedinf/unlimitedinf.ico</PackageIconUrl>
+    <RepositoryUrl>https://github.com/tompostler/unlimitedinf-apis</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>unlimitedinf apis client</PackageTags>
+    <Description>A client for the apis. The exe can also be used as a consumable library.</Description>
+    <Version>4.0.0</Version>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+    <PackageReleaseNotes>
+      4.0.0
+      - Move to .NET Core. Broke apart packages, rewrote APIs.
+    </PackageReleaseNotes>
+    <StartupObject />
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>..\noglob.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>
-    </DocumentationFile>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>..\noglob.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>
-    </DocumentationFile>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
+    <PackageReference Include="Unlimitedinf.Tools" Version="3.6.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Unlimitedinf.Apis.Contracts\Unlimitedinf.Apis.Contracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Caching" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-    <Reference Include="Unlimitedinf.Tools, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unlimitedinf.Tools.3.6.1\lib\net46\Unlimitedinf.Tools.dll</HintPath>
-    </Reference>
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="ApiClient_Axioms.cs" />
-    <Compile Include="ApiClient_Messages.cs" />
-    <Compile Include="ApiClient_Repos.cs" />
-    <Compile Include="ApiClient_Catans.cs" />
-    <Compile Include="ApiClient_Versioning.cs" />
-    <Compile Include="ApiClient.cs" />
-    <Compile Include="ApiClientAuth.cs" />
-    <Compile Include="Exceptions.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="HttpCommunicators.cs" />
-    <Compile Include="Program\AxBase.cs" />
-    <Compile Include="Program\CatanProgram.cs" />
-    <Compile Include="Program\MessageProgram.cs" />
-    <Compile Include="Program\Versioning\CountProgram.cs" />
-    <Compile Include="Program\RepoProgram.cs" />
-    <Compile Include="Program\Versioning\VersionProgram.cs" />
-    <Compile Include="Program\Auth\TokenProgram.cs" />
-    <Compile Include="Program\Auth\AccountProgram.cs" />
-    <Compile Include="Program\Input.cs" />
-    <Compile Include="Program\App.cs" />
-    <Compile Include="Properties\LocalAssemblyInfo.cs" />
-    <Compile Include="..\CommonAssemblyInfo.cs">
-      <Link>Properties\CommonAssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
-    <Compile Include="Settings.cs" />
-    <Compile Include="UrlConstants.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
-    <None Include="Properties\Settings.settings">
+    <None Update="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\unlimitedinf.ico">
-      <Link>Properties\unlimitedinf.ico</Link>
-    </None>
-    <None Include="..\noglob.ruleset">
-      <Link>Properties\noglob.ruleset</Link>
-    </None>
-    <CodeAnalysisDictionary Include="..\CustomDictionary.xml">
-      <Link>Properties\CustomDictionary.xml</Link>
-    </CodeAnalysisDictionary>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Unlimitedinf.Apis.Contracts\Unlimitedinf.Apis.Contracts.csproj">
-      <Project>{d0aeb875-6d3d-4053-abaf-12de9d4dde2e}</Project>
-      <Name>Unlimitedinf.Apis.Contracts</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PreBuildEvent>powershell "$(SolutionDir)LocalAssemblyInfo.ps1 $(ProjectDir) $(AssemblyName) Unlimitedinf.Apis"</PreBuildEvent>
-  </PropertyGroup>
-  <Import Project="..\packages\NuProj.Common.0.20.4-beta\build\dotnet\NuProj.Common.targets" Condition="Exists('..\packages\NuProj.Common.0.20.4-beta\build\dotnet\NuProj.Common.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\NuProj.Common.0.20.4-beta\build\dotnet\NuProj.Common.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NuProj.Common.0.20.4-beta\build\dotnet\NuProj.Common.targets'))" />
-  </Target>
+
 </Project>

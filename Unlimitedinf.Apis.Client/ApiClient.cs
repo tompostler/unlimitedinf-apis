@@ -27,9 +27,21 @@ namespace Unlimitedinf.Apis.Client
             this.Versioning = new ApiClient_Versioning(this.Communicator);
         }
 
+        /// <summary>
+        /// Message client.
+        /// </summary>
         public ApiClient_Messages Messages { get; set; }
+        /// <summary>
+        /// Catan client.
+        /// </summary>
         public ApiClient_Catans Catans { get; }
+        /// <summary>
+        /// Repo client.
+        /// </summary>
         public ApiClient_Repos Repos { get; }
+        /// <summary>
+        /// Versioning client.
+        /// </summary>
         public ApiClient_Versioning Versioning { get; }
     }
 }

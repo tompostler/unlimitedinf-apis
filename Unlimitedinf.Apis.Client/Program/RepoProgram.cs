@@ -22,8 +22,6 @@ namespace Unlimitedinf.Apis.Client.Program
                     return RepoProgram.Read();
                 case "readps":
                     return RepoProgram.ReadPsScript();
-                case "update":
-                    return RepoProgram.Update(rargs);
                 case "delete":
                     return RepoProgram.Delete(rargs);
 
@@ -65,24 +63,6 @@ namespace Unlimitedinf.Apis.Client.Program
 
             var result = client.Repos.ReadPsScript().GetAwaiter().GetResult();
             Log.Inf(result);
-            return ExitCode.Success;
-        }
-
-        private static int Update(string[] args)
-        {
-            Repo repo = null;
-            string token = null;
-            if (args.Length == 1)
-                repo = args[0].Deserialize<Repo>(out token);
-            else
-                repo = Input.Get<Repo>(out token);
-            Input.Validate(repo, token);
-
-            var client = new ApiClient(token);
-
-            var version = client.Repos.Update(repo).GetAwaiter().GetResult();
-            Log.Inf(JsonConvert.SerializeObject(version, Formatting.Indented));
-
             return ExitCode.Success;
         }
 

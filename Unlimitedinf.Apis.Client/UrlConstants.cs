@@ -15,7 +15,6 @@
         internal const string AxBase = BaseUrl + "/axioms";
 
         internal const string Catan = BaseUrl + "/catans";
-        internal const string CatanStats = Catan + "/stats";
 
         internal const string Message = BaseUrl + "/messages";
 
