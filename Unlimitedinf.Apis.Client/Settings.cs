@@ -1,28 +1,38 @@
-﻿namespace Unlimitedinf.Apis.Client.Properties {
-    
-    
-    // This class allows you to handle specific events on the settings class:
-    //  The SettingChanging event is raised before a setting's value is changed.
-    //  The PropertyChanged event is raised after a setting's value is changed.
-    //  The SettingsLoaded event is raised after the setting values are loaded.
-    //  The SettingsSaving event is raised before the setting values are saved.
-    internal sealed partial class Settings {
-        
-        public Settings() {
-            // // To add event handlers for saving and changing settings, uncomment the lines below:
-            //
-            // this.SettingChanging += this.SettingChangingEventHandler;
-            //
-            // this.SettingsSaving += this.SettingsSavingEventHandler;
-            //
+﻿using Newtonsoft.Json;
+using System;
+using System.IO;
+using Unlimitedinf.Tools;
+
+namespace Unlimitedinf.Apis.Client
+{
+    class Settings
+    {
+        private static Settings i;
+        [JsonIgnore]
+        public static Settings I
+        {
+            get
+            {
+                if (i == null)
+                    if (SettingsFile.Exists)
+                        i = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(SettingsFile.FullName));
+                    else
+                        i = new Settings();
+                return i;
+            }
         }
-        
-        private void SettingChangingEventHandler(object sender, System.Configuration.SettingChangingEventArgs e) {
-            // Add code to handle the SettingChangingEvent event here.
-        }
-        
-        private void SettingsSavingEventHandler(object sender, System.ComponentModel.CancelEventArgs e) {
-            // Add code to handle the SettingsSaving event here.
+
+        public string Username { get; set; }
+        public string Token { get; set; }
+
+        private static readonly FileInfo SettingsFile = new FileInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "UnlimitedInf", "Apis", "client.config"));
+
+        public static void Save()
+        {
+            if (!SettingsFile.Exists)
+                Directory.CreateDirectory(SettingsFile.Directory.FullName);
+            File.WriteAllText(SettingsFile.FullName, JsonConvert.SerializeObject(I, new JsonSerializerSettings { Formatting = Formatting.Indented, NullValueHandling = NullValueHandling.Ignore }));
+            Log.Ver("Saved settings.");
         }
     }
 }
