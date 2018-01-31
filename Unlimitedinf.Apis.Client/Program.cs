@@ -7,9 +7,17 @@ namespace Unlimitedinf.Apis.Client
     {
         public static void Main(string[] args)
         {
+#if DEBUG
+            Log.Verbosity = Log.VerbositySetting.Verbose;
+#endif // DEBUG
             Log.PrintVerbosityLevel = false;
 
-            // TODO: Parse options here
+            switch (Options.Options.Parse(args))
+            {
+                case Options.Module.Help:
+                    Log.Inf(Options.Options.BaseHelpText);
+                    return;
+            }
 
             Log.Ver("Settings: " + JsonConvert.SerializeObject(Settings.I));
             JsonConvert.DefaultSettings = () => new JsonSerializerSettings { Formatting = Formatting.Indented, NullValueHandling = NullValueHandling.Ignore };
