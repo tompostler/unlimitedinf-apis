@@ -5,6 +5,7 @@
     <AssemblyName>Unlimitedinf.Apis.Client</AssemblyName>
     <RootNamespace>Unlimitedinf.Apis.Client</RootNamespace>
     <OutputType>Exe</OutputType>
+    <LangVersion>latest</LangVersion>
     <ApplicationIcon>..\unlimitedinf.ico</ApplicationIcon>
     <DocumentationFile>$(BaseOutputPath)\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
     <Authors>UnlimitedInf</Authors>
@@ -25,10 +26,6 @@
       - Move to .NET Core. Broke apart packages, rewrote APIs.
     </PackageReleaseNotes>
     <StartupObject />
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net47|AnyCPU'">
-    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
