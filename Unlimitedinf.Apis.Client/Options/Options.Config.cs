@@ -49,13 +49,20 @@ namespace Unlimitedinf.Apis.Client.Options
 
             if (config.Help)
             {
-                Log.Inf(string.Format(Options.OptionsBaseHelpText, "config"));
+                Log.Inf(string.Format(Options.OptionsBaseHelpText, "config", ConfigHelpText));
                 optset.WriteOptionDescriptions(Console.Out);
                 U.Exit();
             }
 
             return config;
         }
+
+        private const string ConfigHelpText = @"
+If a username or token is found in the settings during the execution of this
+program, then it will preempt any time that the username or token is required
+for input.
+";
+//345678901234567890123456789012345678901234567890123456789012345678901234567890
 
         internal class ConfigOptions : ModuleOptions
         {

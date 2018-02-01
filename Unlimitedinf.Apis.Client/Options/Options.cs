@@ -21,6 +21,8 @@ namespace Unlimitedinf.Apis.Client.Options
             {
                 case "config":
                     return (Module.Config, ParseConfig(rargs));
+                case "auth":
+                    return (Module.Auth, ParseAuth(rargs));
                 default:
                     return (Module.Help, null);
             }
@@ -31,7 +33,8 @@ namespace Unlimitedinf.Apis.Client.Options
 Usage: Unlimitedinf.Apis.Client.exe MODULE [OPTIONS]*
 
 A console application to communicate with the APIs. The executable is broken up
-by various modules, of which each may be handled differently.
+by various modules, of which each may be handled differently. Specifying
+multiple logical operations per module is unsupported and unguarded. Have fun!
 
 MODULES:
     help        Prints this helptext. For detailed help on a specific module,
@@ -47,7 +50,7 @@ Usage: Unlimitedinf.Apis.Client.exe {{0}} [OPTIONS]*
 A console application to communicate with the APIs. The executable is broken up
 by various modules, of which each may be handled differently. Below are the
 options available for the {{0}} module.
-
+{{1}}
 OPTIONS:";
 
         public abstract class ModuleOptions

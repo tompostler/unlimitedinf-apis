@@ -11,7 +11,7 @@ namespace Unlimitedinf.Apis.Contracts.Auth
         /// <summary>
         /// The secret used to protect the account.
         /// </summary>
-        [Required, StringLength(100)]
+        [Required, StringLength(100), InputOrder(1)]
         public string secret { get; set; }
     }
 
@@ -23,13 +23,13 @@ namespace Unlimitedinf.Apis.Contracts.Auth
         /// <summary>
         /// Unique identifier.
         /// </summary>
-        [Required, StringLength(32), CustomValidation(typeof(AccountValidator), nameof(AccountValidator.UsernameValidation))]
+        [Required, StringLength(32), CustomValidation(typeof(AccountValidator), nameof(AccountValidator.UsernameValidation)), InputOrder(0)]
         public string username { get; set; }
 
         /// <summary>
         /// Point of contact.
         /// </summary>
-        [Required, EmailAddress]
+        [Required, EmailAddress, InputOrder(2)]
         public string email { get; set; }
     }
 
@@ -41,7 +41,7 @@ namespace Unlimitedinf.Apis.Contracts.Auth
         /// <summary>
         /// The old secret used to protect the account.
         /// </summary>
-        [Required, StringLength(100)]
+        [Required, StringLength(100), InputOrder(3)]
         public string oldsecret { get; set; }
     }
 }
