@@ -1,24 +1,58 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace Unlimitedinf.Apis.Client.Options
 {
-    internal static class Options
+    internal static partial class Options
     {
         public static bool Verbose { get; set; }
         public static Module Module { get; set; } = Module.Help;
 
-        public static Module Parse(string[] args)
+        public static (Module, ModuleOptions) Parse(string[] args)
         {
             if (args == null || args.Length == 0 || new HashSet<string> { "--help", "-h", "help", "/?", "/help", "/h" }.Contains(args[0].ToLowerInvariant()))
-                return Module;
+                return (Module.Help, null);
 
-            return Module;
+            var rargs = new string[args.Length - 1];
+            Array.Copy(args, 1, rargs, 0, args.Length - 1);
+
+            switch (args[0])
+            {
+                case "config":
+                    return (Module.Config, ParseConfig(rargs));
+                default:
+                    return (Module.Help, null);
+            }
         }
 
-        public static readonly string BaseHelpText = $@"
-Unlimitedinf.Apis.Client.exe v{FileVersionInfo.GetVersionInfo(typeof(Options).Assembly.Location).FileVersion}
+        public static readonly string BaseHelpText = $@"Unlimitedinf.Apis.Client.exe v{FileVersionInfo.GetVersionInfo(typeof(Options).Assembly.Location).FileVersion}
+
+Usage: Unlimitedinf.Apis.Client.exe MODULE [OPTIONS]*
+
+A console application to communicate with the APIs. The executable is broken up
+by various modules, of which each may be handled differently.
+
+MODULES:
+    help        Prints this helptext. For detailed help on a specific module,
+                select that module and pass the '--help' option.
+    config      Enables saving of some settings between executions of this
+                program. Currently can save/delete a username and token.
 ";
 //345678901234567890123456789012345678901234567890123456789012345678901234567890
+        public static readonly string OptionsBaseHelpText = $@"Unlimitedinf.Apis.Client.exe v{FileVersionInfo.GetVersionInfo(typeof(Options).Assembly.Location).FileVersion}
+
+Usage: Unlimitedinf.Apis.Client.exe {{0}} [OPTIONS]*
+
+A console application to communicate with the APIs. The executable is broken up
+by various modules, of which each may be handled differently. Below are the
+options available for the {{0}} module.
+
+OPTIONS:";
+
+        public abstract class ModuleOptions
+        {
+            public bool Help { get; set; }
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Unlimitedinf.Apis.Client.Options;
 using Unlimitedinf.Tools;
 
 namespace Unlimitedinf.Apis.Client
@@ -11,16 +12,19 @@ namespace Unlimitedinf.Apis.Client
             Log.Verbosity = Log.VerbositySetting.Verbose;
 #endif // DEBUG
             Log.PrintVerbosityLevel = false;
+            JsonConvert.DefaultSettings = () => new JsonSerializerSettings { Formatting = Formatting.Indented, NullValueHandling = NullValueHandling.Ignore };
+            Log.Ver("CONFIG: " + JsonConvert.SerializeObject(Settings.I));
 
-            switch (Options.Options.Parse(args))
+            (var module, var options) = Options.Options.Parse(args);
+            switch (module)
             {
-                case Options.Module.Help:
+                case Module.Help:
                     Log.Inf(Options.Options.BaseHelpText);
                     return;
+                case Module.Config:
+                    Modules.Config.Run(options);
+                    return;
             }
-
-            Log.Ver("Settings: " + JsonConvert.SerializeObject(Settings.I));
-            JsonConvert.DefaultSettings = () => new JsonSerializerSettings { Formatting = Formatting.Indented, NullValueHandling = NullValueHandling.Ignore };
         }
     }
 }

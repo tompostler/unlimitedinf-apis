@@ -31,8 +31,8 @@ namespace Unlimitedinf.Apis.Client
         {
             if (!SettingsFile.Exists)
                 Directory.CreateDirectory(SettingsFile.Directory.FullName);
-            File.WriteAllText(SettingsFile.FullName, JsonConvert.SerializeObject(I, new JsonSerializerSettings { Formatting = Formatting.Indented, NullValueHandling = NullValueHandling.Ignore }));
-            Log.Ver("Saved settings.");
+            File.WriteAllText(SettingsFile.FullName, JsonConvert.SerializeObject(I));
+            Log.Ver("Saved configuration.");
         }
     }
 }

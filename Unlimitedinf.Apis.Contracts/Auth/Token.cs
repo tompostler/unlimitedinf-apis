@@ -69,7 +69,7 @@ namespace Unlimitedinf.Apis.Contracts.Auth
         }
 
         /// <summary>
-        /// Without hitting the servie, get the username from a token.
+        /// Without hitting the servie, get the username from a token. Will be the normalized username.
         /// </summary>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
