@@ -1,8 +1,11 @@
 ﻿using Newtonsoft.Json;
+using System;
+using System.Globalization;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Unlimitedinf.Apis.Contracts.Auth;
+using Unlimitedinf.Tools;
 using Xunit;
 
 namespace Unlimitedinf.Apis.Server.IntTests
@@ -241,11 +244,7 @@ namespace Unlimitedinf.Apis.Server.IntTests
             // Need to create a token that can be deleted separate from the rest of the tests
             var tok = await H.T.CreateNew();
 
-            var req = new HttpRequestMessage(HttpMethod.Delete, C.U.AuToken)
-            {
-                Content = H.JsonContent(tok as TokenDelete)
-            };
-            var res = await client.SendAsync(req);
+            var res = await client.DeleteAsync($"{C.U.AuToken}/{tok.token}");
             Assert.Equal(HttpStatusCode.OK, res.StatusCode);
 
             var con = await res.Content.ReadAsStringAsync();
@@ -256,14 +255,17 @@ namespace Unlimitedinf.Apis.Server.IntTests
         [Fact]
         public async Task TokenDeleteUsernameNotFound()
         {
-            var tok = await H.T.CreateNew();
-            tok.username = H.CreateUniqueAccountName();
+            // <datetime string> <username> <hex fill to 96 chars>
+            // Since usernames cannot contain whitespace, this will work
+            var token = string.Format(
+                CultureInfo.InvariantCulture,
+                "{0} {1} {2}",
+                DateTime.Now.AddDays(1).ToString(Token.DateTimeFmt),
+                H.CreateUniqueAccountName(),
+                GenerateRandom.HexToken(96)
+                ).Chop(96).ToBase64String();
 
-            var req = new HttpRequestMessage(HttpMethod.Delete, C.U.AuToken)
-            {
-                Content = H.JsonContent(tok as TokenDelete)
-            };
-            var res = await client.SendAsync(req);
+            var res = await client.DeleteAsync($"{C.U.AuToken}/{token}");
             Assert.Equal(HttpStatusCode.NotFound, res.StatusCode);
         }
 
@@ -271,13 +273,17 @@ namespace Unlimitedinf.Apis.Server.IntTests
         public async Task TokenDeleteTokenNotFound()
         {
             var tok = await H.T.CreateNew();
-            tok.token = tok.token.Substring(0, tok.token.Length - 1);
+            // <datetime string> <username> <hex fill to 96 chars>
+            // Since usernames cannot contain whitespace, this will work
+            var token = string.Format(
+                CultureInfo.InvariantCulture,
+                "{0} {1} {2}",
+                DateTime.Now.AddDays(1).ToString(Token.DateTimeFmt),
+                tok.username,
+                GenerateRandom.HexToken(96)
+                ).Chop(96).ToBase64String();
 
-            var req = new HttpRequestMessage(HttpMethod.Delete, C.U.AuToken)
-            {
-                Content = H.JsonContent(tok as TokenDelete)
-            };
-            var res = await client.SendAsync(req);
+            var res = await client.DeleteAsync($"{C.U.AuToken}/{token}");
             Assert.Equal(HttpStatusCode.NotFound, res.StatusCode);
         }
 

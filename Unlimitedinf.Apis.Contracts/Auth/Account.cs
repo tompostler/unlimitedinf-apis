@@ -41,7 +41,7 @@ namespace Unlimitedinf.Apis.Contracts.Auth
         /// <summary>
         /// The old secret used to protect the account.
         /// </summary>
-        [Required, StringLength(100), InputOrder(3)]
+        [Required, StringLength(100), InputOrder(0)]
         public string oldsecret { get; set; }
     }
 }

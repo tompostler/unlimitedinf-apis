@@ -34,13 +34,15 @@ Usage: Unlimitedinf.Apis.Client.exe MODULE [OPTIONS]*
 
 A console application to communicate with the APIs. The executable is broken up
 by various modules, of which each may be handled differently. Specifying
-multiple logical operations per module is unsupported and unguarded. Have fun!
+multiple logical operations per module is unsupported and unguarded. Whenever an
+input is followed by a '?', then it is optional. Good luck and have fun!
 
 MODULES:
     help        Prints this helptext. For detailed help on a specific module,
                 select that module and pass the '--help' option.
     config      Enables saving of some settings between executions of this
                 program. Currently can save/delete a username and token.
+    auth        Create, read, update, or delete accounts and tokens.
 ";
 //345678901234567890123456789012345678901234567890123456789012345678901234567890
         public static readonly string OptionsBaseHelpText = $@"Unlimitedinf.Apis.Client.exe v{FileVersionInfo.GetVersionInfo(typeof(Options).Assembly.Location).FileVersion}

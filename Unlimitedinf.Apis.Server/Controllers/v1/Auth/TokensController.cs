@@ -44,20 +44,23 @@ namespace Unlimitedinf.Apis.Server.Controllers.v1.Auth
             return this.TableResultStatus(result.HttpStatusCode, (Token)(TokenEntity)result.Result);
         }
 
-        [HttpDelete]
-        public async Task<IActionResult> DeleteToken([FromBody] TokenDelete token)
+        [HttpDelete("{token?}")]
+        public async Task<IActionResult> DeleteToken(string token)
         {
+            // Get user from token
+            var username = Token.GetUsernameFrom(token);
+
             // Validate user
-            var result = await this.TableStorage.Auth.ExecuteAsync(AccountExtensions.GetExistingOperation(token.username));
+            var result = await this.TableStorage.Auth.ExecuteAsync(AccountExtensions.GetExistingOperation(username));
             if (result.Result == null)
                 return this.NotFound();
 
             // Get existing
-            var existing = await this.TableStorage.Auth.ExecuteAsync(TokenExtensions.GetExistingOperation(token.username, token.token));
+            var existing = await this.TableStorage.Auth.ExecuteAsync(TokenExtensions.GetExistingOperation(username, token));
             if (existing.Result == null)
                 return this.NotFound();
             var entity = (TokenEntity)existing.Result;
-            if (entity.Username != token.username)
+            if (entity.Username != username)
                 return this.Unauthorized();
 
             // Delete

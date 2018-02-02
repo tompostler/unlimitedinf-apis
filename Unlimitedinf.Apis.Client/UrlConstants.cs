@@ -5,20 +5,28 @@
         private const string BaseUrl = "https://unlimitedinf-apis.azurewebsites.net";
 
         private const string AuBase = BaseUrl + "/auth";
-        internal const string AuAccount = AuBase + "/accounts";
-        internal const string AuToken = AuBase + "/tokens";
+        public const string AuAccount = AuBase + "/accounts";
+        public const string AuToken = AuBase + "/tokens";
 
-        private const string VBase = BaseUrl + "/versioning";
-        internal const string VVersion = VBase + "/versions";
-        internal const string VCount = VBase + "/counts";
+        public const string Axiom = BaseUrl + "/axioms";
 
-        internal const string AxBase = BaseUrl + "/axioms";
+        public const string Catan = BaseUrl + "/catans";
 
-        internal const string Catan = BaseUrl + "/catans";
+        public const string DateTime = BaseUrl + "/datetime";
 
-        internal const string Message = BaseUrl + "/messages";
+        public const string Message = BaseUrl + "/messages";
 
-        internal const string Repo = BaseUrl + "/repos";
-        internal const string RepoPsScript = Repo + "/ps-script";
+        public const string Ping = BaseUrl + "/ping";
+
+        public const string Random = BaseUrl + "/random";
+
+        public const string Repo = BaseUrl + "/repos";
+        public const string RepoPsScript = Repo + "/ps-script";
+
+        public const string Teapot = BaseUrl + "/teapot";
+
+        private const string VeBase = BaseUrl + "/versioning";
+        public const string VeCount = VeBase + "/counts";
+        public const string VeVersion = VeBase + "/versions";
     }
 }

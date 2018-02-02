@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.WindowsAzure.Storage.Table;
-using System;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Unlimitedinf.Apis.Contracts.Auth;
@@ -86,7 +84,7 @@ namespace Unlimitedinf.Apis.Server.Controllers.v1.Auth
             return this.TableResultStatus(result.HttpStatusCode, upserted);
         }
 
-        [Route("{username?}"), HttpDelete, TokenWall]
+        [Route("{username?}"), HttpDelete]
         public async Task<IActionResult> DeleteAccount(string username, [FromBody] AccountDelete account)
         {
             // Verify token matches username

@@ -18,14 +18,19 @@ namespace Unlimitedinf.Apis.Client
 
             foreach (var arg in args)
             {
-                Console.Write($"{arg}: ");
-                var value = Console.ReadLine().Trim();
+                var value = Get(arg);
                 if (string.IsNullOrWhiteSpace(value))
                     return null;
                 results.Add(arg, value);
             }
 
             return results;
+        }
+
+        internal static string Get(string thingToGet)
+        {
+            Console.Write($"{thingToGet}: ");
+            return Console.ReadLine().Trim();
         }
 
         internal static T Deserialize<T>(this string obj, out string token)
@@ -64,7 +69,9 @@ namespace Unlimitedinf.Apis.Client
 
             foreach (var property in properties)
             {
-                Console.Write($"{property.Name}: ");
+                var r = property.GetCustomAttribute<RequiredAttribute>() == null ? "?" : string.Empty;
+
+                Console.Write($"{property.Name}{r}: ");
                 var value = Console.ReadLine().Trim();
                 if (!string.IsNullOrWhiteSpace(value))
                 {

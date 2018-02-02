@@ -17,7 +17,7 @@ namespace Unlimitedinf.Apis.Client
             StaticClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        internal static async Task<TResult> Post<TContent, TResult>(string url, TContent content)
+        internal static async Task<TResult> Post<TResult>(string url, object content)
         {
             var sontent = JsonConvert.SerializeObject(content);
             Log.Ver($"{nameof(url)}: POST {url}");
@@ -28,7 +28,7 @@ namespace Unlimitedinf.Apis.Client
             return JsonConvert.DeserializeObject<TResult>(rontent);
         }
 
-        internal static async Task Put<TContent>(string url, TContent content)
+        internal static async Task Put(string url, object content)
         {
             var sontent = JsonConvert.SerializeObject(content);
             Log.Ver($"{nameof(url)}: PUT {url}");
@@ -38,7 +38,18 @@ namespace Unlimitedinf.Apis.Client
             ExceptionCreator.ThrowMaybe(response.StatusCode, rontent);
         }
 
-        internal static async Task Delete<TContent>(string url, TContent content)
+        internal static async Task<TResult> Put<TResult>(string url, object content)
+        {
+            var sontent = JsonConvert.SerializeObject(content);
+            Log.Ver($"{nameof(url)}: PUT {url}");
+            Log.Ver($"{nameof(content)}: {sontent}");
+            HttpResponseMessage response = await StaticClient.PutAsync(url, new StringContent(sontent, Encoding.UTF8, "application/json"));
+            string rontent = await response.Content.ReadAsStringAsync();
+            ExceptionCreator.ThrowMaybe(response.StatusCode, rontent);
+            return JsonConvert.DeserializeObject<TResult>(rontent);
+        }
+
+        internal static async Task Delete(string url, object content)
         {
             var sontent = JsonConvert.SerializeObject(content);
             Log.Ver($"{nameof(url)}: DELETE {url}");
@@ -50,6 +61,30 @@ namespace Unlimitedinf.Apis.Client
             HttpResponseMessage response = await StaticClient.SendAsync(request);
             string rontent = await response.Content.ReadAsStringAsync();
             ExceptionCreator.ThrowMaybe(response.StatusCode, rontent);
+        }
+
+        internal static async Task<TResult> Delete<TResult>(string url)
+        {
+            Log.Ver($"{nameof(url)}: DELETE {url}");
+            HttpResponseMessage response = await StaticClient.DeleteAsync(url);
+            string rontent = await response.Content.ReadAsStringAsync();
+            ExceptionCreator.ThrowMaybe(response.StatusCode, rontent);
+            return JsonConvert.DeserializeObject<TResult>(rontent);
+        }
+
+        internal static async Task<TResult> Delete<TResult>(string url, object content)
+        {
+            var sontent = JsonConvert.SerializeObject(content);
+            Log.Ver($"{nameof(url)}: DELETE {url}");
+            Log.Ver($"{nameof(content)}: {sontent}");
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Delete, url)
+            {
+                Content = new StringContent(sontent, Encoding.UTF8, "application/json")
+            };
+            HttpResponseMessage response = await StaticClient.SendAsync(request);
+            string rontent = await response.Content.ReadAsStringAsync();
+            ExceptionCreator.ThrowMaybe(response.StatusCode, rontent);
+            return JsonConvert.DeserializeObject<TResult>(rontent);
         }
 
         internal static async Task<TResult> Get<TResult>(string url)
@@ -72,7 +107,7 @@ namespace Unlimitedinf.Apis.Client
             this.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", token);
         }
 
-        internal async Task<TResult> Post<TContent, TResult>(string url, TContent content)
+        internal async Task<TResult> Post<TResult>(string url, object content)
         {
             var sontent = JsonConvert.SerializeObject(content);
             Log.Ver($"{nameof(url)}: POST {url}");
@@ -94,7 +129,7 @@ namespace Unlimitedinf.Apis.Client
             return JsonConvert.DeserializeObject<TResult>(rontent);
         }
 
-        internal async Task<TResult> Put<TContent, TResult>(string url, TContent content)
+        internal async Task<TResult> Put<TResult>(string url, object content)
         {
             var sontent = JsonConvert.SerializeObject(content);
             Log.Ver($"{nameof(url)}: PUT {url}");
@@ -105,7 +140,7 @@ namespace Unlimitedinf.Apis.Client
             return JsonConvert.DeserializeObject<TResult>(rontent);
         }
 
-        internal async Task Delete<TContent>(string url, TContent content)
+        internal async Task Delete(string url, object content)
         {
             var sontent = JsonConvert.SerializeObject(content);
             Log.Ver($"{nameof(url)}: DELETE {url}");
@@ -119,7 +154,7 @@ namespace Unlimitedinf.Apis.Client
             ExceptionCreator.ThrowMaybe(response.StatusCode, rontent);
         }
 
-        internal async Task<TResult> Delete<TContent, TResult>(string url, TContent content)
+        internal async Task<TResult> Delete<TResult>(string url, object content)
         {
             var sontent = JsonConvert.SerializeObject(content);
             Log.Ver($"{nameof(url)}: DELETE {url}");

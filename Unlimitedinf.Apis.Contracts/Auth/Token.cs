@@ -14,37 +14,55 @@ namespace Unlimitedinf.Apis.Contracts.Auth
         /// <summary>
         /// Unique identifier.
         /// </summary>
-        [Required, StringLength(32), CustomValidation(typeof(AccountValidator), nameof(AccountValidator.UsernameValidation))]
+        [Required, StringLength(32), CustomValidation(typeof(AccountValidator), nameof(AccountValidator.UsernameValidation)), InputOrder(0)]
         public string username { get; set; }
 
         /// <summary>
         /// The secret used to protect the account.
         /// </summary>
-        [Required, StringLength(100)]
+        [Required, StringLength(100), InputOrder(1)]
         public string secret { get; set; }
 
         /// <summary>
         /// Give a friendly name to the token. Required if you want multiple tokens.
         /// </summary>
-        [StringLength(64)]
+        [StringLength(64), InputOrder(3)]
         public string name { get; set; }
 
         /// <summary>
         /// How long-lived you want the token to be.
         /// </summary>
-        [Required]
+        [Required, InputOrder(2)]
         public TokenExpiration expire { get; set; }
     }
 
     /// <summary>
     /// Representing a token. A single account can have unlimited tokens.
     /// </summary>
-    public class Token : TokenDelete
+    public class Token
     {
+        /// <summary>
+        /// Unique identifier.
+        /// </summary>
+        [Required, StringLength(32), CustomValidation(typeof(AccountValidator), nameof(AccountValidator.UsernameValidation)), InputOrder(0)]
+        public string username { get; set; }
+
+        /// <summary>
+        /// The Base64 token.
+        /// </summary>
+        [Required, StringLength(128), InputOrder(1)]
+        public string token { get; set; }
+
+        /// <summary>
+        /// Give a friendly name to the token. Required if you want multiple tokens.
+        /// </summary>
+        [StringLength(64), InputOrder(3)]
+        public string name { get; set; }
+        
         /// <summary>
         /// When this token expires.
         /// </summary>
-        [Required]
+        [Required, InputOrder(2)]
         public DateTimeOffset expiration { get; set; }
 
         internal const string DateTimeFmt = "yyyyMMddHHmmss";
@@ -81,30 +99,6 @@ namespace Unlimitedinf.Apis.Contracts.Auth
             token = token.FromBase64String();
             return token.Split(' ')[1];
         }
-    }
-
-    /// <summary>
-    /// Representing what is needed to delete a token.
-    /// </summary>
-    public class TokenDelete
-    {
-        /// <summary>
-        /// Unique identifier.
-        /// </summary>
-        [Required, StringLength(32), CustomValidation(typeof(AccountValidator), nameof(AccountValidator.UsernameValidation))]
-        public string username { get; set; }
-
-        /// <summary>
-        /// Give a friendly name to the token. Required if you want multiple tokens.
-        /// </summary>
-        [StringLength(64)]
-        public string name { get; set; }
-
-        /// <summary>
-        /// The Base64 token.
-        /// </summary>
-        [Required, StringLength(128)]
-        public string token { get; set; }
     }
 
     /// <summary>
