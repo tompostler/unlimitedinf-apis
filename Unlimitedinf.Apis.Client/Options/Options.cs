@@ -24,7 +24,7 @@ namespace Unlimitedinf.Apis.Client.Options
                 case "auth":
                     return (Module.Auth, ParseAuth(rargs));
                 default:
-                    return (Module.Help, null);
+                    throw new TomIsLazyException();
             }
         }
 

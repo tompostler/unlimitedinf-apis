@@ -18,7 +18,7 @@ namespace Unlimitedinf.Apis.Contracts
         /// <summary>
         /// The unique name for this repo. Also used when cloning the repo.
         /// </summary>
-        [Required, StringLength(100)]
+        [Required, StringLength(100), CustomValidation(typeof(KeyFieldValidator), nameof(KeyFieldValidator.KeyFieldValidation))]
         public string name { get; set; }
 
         /// <summary>

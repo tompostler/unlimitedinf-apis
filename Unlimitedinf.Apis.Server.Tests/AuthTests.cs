@@ -291,7 +291,6 @@ namespace Unlimitedinf.Apis.Server.IntTests
         public async Task AccountDelete()
         {
             var acc = await H.A.CreateNew();
-            var tok = await H.T.CreateNew(acc);
             var accDel = new AccountDelete
             {
                 secret = acc.secret
@@ -301,7 +300,6 @@ namespace Unlimitedinf.Apis.Server.IntTests
             {
                 Content = H.JsonContent(accDel)
             };
-            req.AddAuthorization(tok.token);
             var res = await client.SendAsync(req);
             Assert.Equal(HttpStatusCode.OK, res.StatusCode);
 
@@ -313,7 +311,6 @@ namespace Unlimitedinf.Apis.Server.IntTests
         public async Task AccountDeleteTokenDoesntMatch()
         {
             var acc = await H.A.Create();
-            var tok = await H.T.Create();
             var accDel = new AccountDelete
             {
                 secret = acc.secret
@@ -323,16 +320,14 @@ namespace Unlimitedinf.Apis.Server.IntTests
             {
                 Content = H.JsonContent(accDel)
             };
-            req.AddAuthorization(tok.token);
             var res = await client.SendAsync(req);
-            Assert.Equal(HttpStatusCode.BadRequest, res.StatusCode);
+            Assert.Equal(HttpStatusCode.NotFound, res.StatusCode);
         }
 
         [Fact]
         public async Task AccountDeleteBadAccountSecret()
         {
             var acc = await H.A.Create();
-            var tok = await H.T.Create();
             var accDel = new AccountDelete
             {
                 secret = acc.secret + "1"
@@ -342,7 +337,6 @@ namespace Unlimitedinf.Apis.Server.IntTests
             {
                 Content = H.JsonContent(accDel)
             };
-            req.AddAuthorization(tok.token);
             var res = await client.SendAsync(req);
             Assert.Equal(HttpStatusCode.Unauthorized, res.StatusCode);
         }

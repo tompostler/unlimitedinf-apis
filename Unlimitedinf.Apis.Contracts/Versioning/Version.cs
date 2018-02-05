@@ -18,7 +18,7 @@ namespace Unlimitedinf.Apis.Contracts.Versioning
         /// <summary>
         /// The unique name for this version.
         /// </summary>
-        [Required, StringLength(100)]
+        [Required, StringLength(100), CustomValidation(typeof(KeyFieldValidator), nameof(KeyFieldValidator.KeyFieldValidation))]
         public string name { get; set; }
 
         /// <summary>

@@ -20,7 +20,7 @@ namespace Unlimitedinf.Apis.Contracts
         /// usernames, friendly names, etc. at some point in the future. Right now, it has to target another existing
         /// username. The server will force this to lower case, and yes you can send messages to yourself.
         /// </summary>
-        [Required, StringLength(100), CustomValidation(typeof(KeyFieldValidator), nameof(KeyFieldValidator.KeyFieldValidation))]
+        [Required, StringLength(100), CustomValidation(typeof(AccountValidator), nameof(AccountValidator.UsernameValidation))]
         public string to { get; set; }
 
         /// <summary>
