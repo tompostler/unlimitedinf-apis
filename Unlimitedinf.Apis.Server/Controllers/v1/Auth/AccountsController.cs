@@ -87,10 +87,6 @@ namespace Unlimitedinf.Apis.Server.Controllers.v1.Auth
         [Route("{username?}"), HttpDelete]
         public async Task<IActionResult> DeleteAccount(string username, [FromBody] AccountDelete account)
         {
-            // Verify token matches username
-            if (this.IsBadUsername(username))
-                return this.BadRequest("'username' does not match the token.");
-
             // Get/Check for existence
             var result = await this.TableStorage.Auth.ExecuteAsync(AccountExtensions.GetExistingOperation(username));
             if (result.Result == null)
