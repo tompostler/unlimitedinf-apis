@@ -31,9 +31,7 @@ namespace Unlimitedinf.Apis.Client.Modules
             }
 
             if (!string.IsNullOrWhiteSpace(opts.ReadAccount))
-            {
                 Log.Inf(await StaticHttpCommunicator.Get<Account>($"{Curl.AuAccount}/{opts.ReadAccount}"));
-            }
 
             if (opts.CreateToken)
             {
@@ -42,9 +40,7 @@ namespace Unlimitedinf.Apis.Client.Modules
             }
 
             if (!string.IsNullOrWhiteSpace(opts.DeleteToken))
-            {
                 Log.Inf(await StaticHttpCommunicator.Delete<Token>($"{Curl.AuToken}/{opts.DeleteToken}"));
-            }
         }
     }
 }

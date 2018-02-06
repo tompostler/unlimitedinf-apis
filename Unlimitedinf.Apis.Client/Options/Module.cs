@@ -4,6 +4,7 @@
     {
         Help,
         Config,
-        Auth
+        Auth,
+        Repo
     }
 }

@@ -45,6 +45,9 @@ namespace Unlimitedinf.Apis.Client
                     case Module.Auth:
                         await Modules.Auth.Run(options);
                         return;
+                    case Module.Repo:
+                        await Modules.Repo.Run(options);
+                        return;
                 }
             }
             catch (Exception e)

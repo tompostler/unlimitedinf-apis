@@ -69,6 +69,13 @@ namespace Unlimitedinf.Apis.Client
 
             foreach (var property in properties)
             {
+                if (property.Name.Equals("username", StringComparison.OrdinalIgnoreCase) && !string.IsNullOrWhiteSpace(Settings.I.Username))
+                {
+                    property.SetValue(result, Settings.I.Username);
+                    Log.Ver("Retrieved username from settings.");
+                    continue;
+                }
+
                 var r = property.GetCustomAttribute<RequiredAttribute>() == null ? "?" : string.Empty;
 
                 Console.Write($"{property.Name}{r}: ");

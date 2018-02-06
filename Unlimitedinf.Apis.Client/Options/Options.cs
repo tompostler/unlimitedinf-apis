@@ -23,6 +23,8 @@ namespace Unlimitedinf.Apis.Client.Options
                     return (Module.Config, ParseConfig(rargs));
                 case "auth":
                     return (Module.Auth, ParseAuth(rargs));
+                case "repo":
+                    return (Module.Repo, ParseRepo(rargs));
                 default:
                     throw new TomIsLazyException();
             }
@@ -43,6 +45,8 @@ MODULES:
     config      Enables saving of some settings between executions of this
                 program. Currently can save/delete a username and token.
     auth        Create, read, update, or delete accounts and tokens.
+    repo        Create, read, delete, and generate a script from a list of
+                repositories. Secured per user.
 ";
 //345678901234567890123456789012345678901234567890123456789012345678901234567890
         public static readonly string OptionsBaseHelpText = $@"Unlimitedinf.Apis.Client.exe v{FileVersionInfo.GetVersionInfo(typeof(Options).Assembly.Location).FileVersion}
