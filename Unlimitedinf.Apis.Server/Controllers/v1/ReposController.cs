@@ -122,14 +122,21 @@ for ($i=0; $i -lt $grepos.length; $i++) {
     $loc = $grepo.Path
     if ([string]::IsNullOrEmpty($grepo.Path)) { $loc = $grepo.Name }
     $topbot = ('#'*150).SubString(0, $loc.Length + 10)
-    Write-Host -ForegroundColor White -BackgroundColor Blue $topbot
-    Write-Host -ForegroundColor White -BackgroundColor Blue ('# Clone ' + $loc + ' #')
-    Write-Host -ForegroundColor White -BackgroundColor Blue $topbot
-    git clone $grepo.RepoUri $loc
-    Push-Location $loc
-    git config --local user.name $grepo.Gitusername
-    git config --local user.email $grepo.Gituseremail
-    Pop-Location
+    if (-not (Test-Path $loc)) {
+        Write-Host -ForegroundColor White -BackgroundColor Blue $topbot
+        Write-Host -ForegroundColor White -BackgroundColor Blue ('# Clone ' + $loc + ' #')
+        Write-Host -ForegroundColor White -BackgroundColor Blue $topbot
+        git clone --recursive $grepo.RepoUri $loc
+        Push-Location $loc
+        git config --local user.name $grepo.Gitusername
+        git config --local user.email $grepo.Gituseremail
+        Pop-Location
+    } else {
+        Write-Host -ForegroundColor DarkGray -BackgroundColor Blue $topbot
+        Write-Host -ForegroundColor DarkGray -BackgroundColor Blue ('# Exist ' + $loc + ' #')
+        Write-Host -ForegroundColor DarkGray -BackgroundColor Blue $topbot
+    }
+    Write-Host
 }
 ");
         }
