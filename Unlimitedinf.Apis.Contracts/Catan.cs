@@ -35,16 +35,16 @@ namespace Unlimitedinf.Apis.Contracts
         public class Roll
         {
             /// <summary>
-            /// Value of the yellow die.
-            /// </summary>
-            [Required, Range(1, 6)]
-            public int y { get; set; }
-
-            /// <summary>
             /// Value of the red die.
             /// </summary>
             [Required, Range(1, 6)]
             public int r { get; set; }
+
+            /// <summary>
+            /// Value of the yellow die.
+            /// </summary>
+            [Required, Range(1, 6)]
+            public int y { get; set; }
 
             /// <summary>
             /// When the die were rolled. Usually set on instance creation.
@@ -67,10 +67,10 @@ namespace Unlimitedinf.Apis.Contracts
         public double[] Prb = new double[13];
 
         // Counts for the individual die
-        public int[] YCnt = new int[7];
         public int[] RCnt = new int[7];
-        public double[] YPrb = new double[7];
+        public int[] YCnt = new int[7];
         public double[] RPrb = new double[7];
+        public double[] YPrb = new double[7];
 
         /// <summary>
         /// Constructor. Put all the logic to calculate probabilities right in here because why not!
@@ -86,19 +86,19 @@ namespace Unlimitedinf.Apis.Contracts
             // First sum up all the rolls
             foreach (var roll in this.catan.rolls)
             {
-                this.Cnt[roll.y + roll.r]++;
-                this.YCnt[roll.y]++;
+                this.Cnt[roll.r + roll.y]++;
                 this.RCnt[roll.r]++;
+                this.YCnt[roll.y]++;
             }
 
             // Next, probability out of 100 for rolls
             for (int i = 2; i < this.Cnt.Length; i++)
                 this.Prb[i] = this.Cnt[i] * 100d / this.catan.rolls.Count;
             // Probability out of 100 for each die
-            for (int i = 1; i < this.YCnt.Length; i++)
+            for (int i = 1; i < this.RCnt.Length; i++)
             {
-                this.YPrb[i] = this.YCnt[i] * 100d / this.catan.rolls.Count;
                 this.RPrb[i] = this.RCnt[i] * 100d / this.catan.rolls.Count;
+                this.YPrb[i] = this.YCnt[i] * 100d / this.catan.rolls.Count;
             }
         }
 
@@ -121,19 +121,19 @@ namespace Unlimitedinf.Apis.Contracts
             sb.AppendLine();
             sb.AppendLine();
 
-            sb.AppendLine("Fairness of YELLOW die.");
-            sb.AppendLine($"Expected {1 / 6d * this.catan.rolls.Count:0.#} ({1 / 6d:P1}) rolls of each number.");
-            sb.AppendLine("RL  ACT#  ACT%  VISUALIZATION");
-            for (int i = 1; i < 7; i++)
-                sb.AppendLine($"{i,2}  {this.YCnt[i],4}  {this.YPrb[i],4:0.0}  {Visualize(100 / 6d, this.YPrb[i])}");
-            sb.AppendLine();
-            sb.AppendLine();
-
             sb.AppendLine("Fairness of RED die.");
             sb.AppendLine($"Expected {1 / 6d * this.catan.rolls.Count:0.#} ({1 / 6d:P1}) rolls of each number.");
             sb.AppendLine("RL  ACT#  ACT%  VISUALIZATION");
             for (int i = 1; i < 7; i++)
                 sb.AppendLine($"{i,2}  {this.RCnt[i],4}  {this.RPrb[i],4:0.0}  {Visualize(100 / 6d, this.RPrb[i])}");
+            sb.AppendLine();
+            sb.AppendLine();
+
+            sb.AppendLine("Fairness of YELLOW die.");
+            sb.AppendLine($"Expected {1 / 6d * this.catan.rolls.Count:0.#} ({1 / 6d:P1}) rolls of each number.");
+            sb.AppendLine("RL  ACT#  ACT%  VISUALIZATION");
+            for (int i = 1; i < 7; i++)
+                sb.AppendLine($"{i,2}  {this.YCnt[i],4}  {this.YPrb[i],4:0.0}  {Visualize(100 / 6d, this.YPrb[i])}");
 
             return sb.ToString();
         }

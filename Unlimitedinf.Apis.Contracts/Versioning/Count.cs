@@ -11,19 +11,19 @@ namespace Unlimitedinf.Apis.Contracts.Versioning
         /// <summary>
         /// <see cref="Auth.Account.username"/>.
         /// </summary>
-        [Required, StringLength(100), CustomValidation(typeof(AccountValidator), nameof(AccountValidator.UsernameValidation))]
+        [Required, StringLength(100), CustomValidation(typeof(AccountValidator), nameof(AccountValidator.UsernameValidation)), InputOrder(0)]
         public string username { get; set; }
 
         /// <summary>
         /// The unique name for this count.
         /// </summary>
-        [Required, StringLength(100), CustomValidation(typeof(KeyFieldValidator), nameof(KeyFieldValidator.KeyFieldValidation))]
+        [Required, StringLength(100), CustomValidation(typeof(KeyFieldValidator), nameof(KeyFieldValidator.KeyFieldValidation)), InputOrder(1)]
         public string name { get; set; }
 
         /// <summary>
         /// The actual count.
         /// </summary>
-        [Required]
+        [Required, InputOrder(2)]
         public long count { get; set; } = 0;
     }
 
