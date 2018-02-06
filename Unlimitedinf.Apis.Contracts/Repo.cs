@@ -22,6 +22,13 @@ namespace Unlimitedinf.Apis.Contracts
         public string name { get; set; }
 
         /// <summary>
+        /// If specified, will be used for cloning the repo instead of the repo name. Note: this field is not checked
+        /// for uniqueness, and should use forward slashes as directory separators. Spaces are also inadvisable.
+        /// </summary>
+        [StringLength(128)]
+        public string path { get; set; }
+
+        /// <summary>
         /// The repo URI.
         /// </summary>
         [Required]

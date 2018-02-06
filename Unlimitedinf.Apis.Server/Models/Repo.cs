@@ -32,6 +32,7 @@ namespace Unlimitedinf.Apis.Server.Models
             }
         }
 
+        public string Path { get; set; }
         public string Uri { get; set; }
         public string GitUserName { get; set; }
         public string GitUserEmail { get; set; }
@@ -42,6 +43,7 @@ namespace Unlimitedinf.Apis.Server.Models
         {
             this.Username = repo.username;
             this.Name = repo.name;
+            this.Path = repo.path;
             this.Uri = repo.repo.AbsoluteUri;
             this.GitUserName = repo.gitusername;
             this.GitUserEmail = repo.gituseremail;
@@ -56,6 +58,7 @@ namespace Unlimitedinf.Apis.Server.Models
             {
                 username = entity.Username,
                 name = entity.Name,
+                path = entity.Path,
                 repo = new Uri(entity.Uri),
                 gitusername = entity.GitUserName,
                 gituseremail = entity.GitUserEmail

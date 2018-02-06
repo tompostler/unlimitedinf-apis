@@ -18,10 +18,15 @@ namespace Unlimitedinf.Apis.Server.IntTests
         {
             var tok = await H.T.Create();
 
+            var name = H.CreateUniqueName();
             var rep = new Repo
             {
                 username = tok.username,
-                name = H.CreateUniqueName(),
+                name = name,
+                path = H.CreateUniqueName().Substring(0,24) + "/"
+                    + H.CreateUniqueName().Substring(0, 24) + "/"
+                    + H.CreateUniqueName().Substring(0, 24) + "/"
+                    + name,
                 repo = new Uri("https://github.com/tompostler/unlimitedinf-apis.git"),
                 gitusername = "Tom Postler",
                 gituseremail = "tom@postler.me"

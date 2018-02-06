@@ -86,6 +86,7 @@ Add-Type -Language CSharp @""
 public class Repo
 {
     public string Name;
+    public string Path;
     public string RepoUri;
     public string Gitusername;
     public string Gituseremail;
@@ -95,19 +96,21 @@ function New-Repo {
     param
     (
         [string]$Name,
+        [string]$Path,
         [string]$RepoUri,
         [string]$Gitusername,
         [string]$Gituseremail
     )
     $repo = New-Object Repo
     $repo.Name = $Name
+    $repo.Path = $Path
     $repo.RepoUri = $RepoUri
     $repo.Gitusername = $Gitusername
     $repo.Gituseremail = $Gituseremail
     return $repo
 }
 $grepos = @(
-    " + string.Join(",\r\n    ", repos.Select(_ => $"(New-Repo '{_.name}' '{_.repo.AbsoluteUri}' '{_.gitusername}' '{_.gituseremail}')")) + @"
+    " + string.Join(",\r\n    ", repos.Select(_ => $"(New-Repo '{_.name}' '{_.path}' '{_.repo.AbsoluteUri}' '{_.gitusername}' '{_.gituseremail}')")) + @"
 )
 
 # Need git > 2.15?
@@ -116,8 +119,14 @@ $env:GIT_REDIRECT_STDERR = '2>&1'
 # git clone all the grepos
 for ($i=0; $i -lt $grepos.length; $i++) {
     $grepo = $grepos[$i]
-    git clone $grepo.RepoUri $grepo.Name
-    Push-Location $grepo.Name
+    $loc = $grepo.Path
+    if ([string]::IsNullOrEmpty($grepo.Path)) { $loc = $grepo.Name }
+    $topbot = ('#'*150).SubString(0, $loc.Length + 10)
+    Write-Host -ForegroundColor White -BackgroundColor Blue $topbot
+    Write-Host -ForegroundColor White -BackgroundColor Blue ('# Clone ' + $loc + ' #')
+    Write-Host -ForegroundColor White -BackgroundColor Blue $topbot
+    git clone $grepo.RepoUri $loc
+    Push-Location $loc
     git config --local user.name $grepo.Gitusername
     git config --local user.email $grepo.Gituseremail
     Pop-Location
