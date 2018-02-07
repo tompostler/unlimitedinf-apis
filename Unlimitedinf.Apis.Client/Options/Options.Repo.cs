@@ -21,22 +21,22 @@ namespace Unlimitedinf.Apis.Client.Options
                     v => config.Help = true
                 },
                 {
-                    "create-repo",
+                    "c|create-repo",
                     "Begins the interactive process of creating a repo.",
                     v => config.Repo = CRUD.Create
                 },
                 {
-                    "read-repos",
+                    "r|read-repos",
                     "Fetch list of all exisiting repos.",
                     v => config.Repo = CRUD.Read
                 },
                 {
-                    "read-ps",
+                    "p|read-ps",
                     "Fetch the PowerShell script to create all the repos under the ~/Source/Repos directory. Built for Windows, and expects git to already be installed.",
                     v => config.Powershell = true
                 },
                 {
-                    "delete-repo",
+                    "d|delete-repo",
                     "Begins the interactive process of deleting a repo.",
                     v => config.Repo = CRUD.Delete
                 }

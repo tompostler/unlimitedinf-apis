@@ -48,6 +48,9 @@ namespace Unlimitedinf.Apis.Client
                     case Module.Repo:
                         await Modules.Repo.Run(options);
                         return;
+                    case Module.Axiom:
+                        await Modules.Axiom.Run(options);
+                        return;
                 }
             }
             catch (Exception e)

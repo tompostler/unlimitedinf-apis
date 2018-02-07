@@ -21,32 +21,32 @@ namespace Unlimitedinf.Apis.Client.Options
                     v => config.Help = true
                 },
                 {
-                    "create-account",
+                    "c|create-account",
                     "Begins the interactive process of creating an account.",
                     v => config.Account = CRUD.Create
                 },
                 {
-                    "read-account=",
+                    "r|read-account=",
                     "Fetch information about an exisitng account, by username.",
                     v => config.ReadAccount = v
                 },
                 {
-                    "update-account",
+                    "u|update-account",
                     "Begins the interactive process of updating an account.",
                     v => config.Account = CRUD.Update
                 },
                 {
-                    "delete-account",
+                    "d|delete-account",
                     "Begins the interactive process of deleting an account.",
                     v => config.Account = CRUD.Delete
                 },
                 {
-                    "create-token",
+                    "t|create-token",
                     "Begins the interactive process of creating a token.",
                     v => config.CreateToken = true
                 },
                 {
-                    "delete-token=",
+                    "x|delete-token=",
                     "Delete the token.",
                     v => config.DeleteToken = v
                 }

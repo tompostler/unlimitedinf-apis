@@ -25,6 +25,8 @@ namespace Unlimitedinf.Apis.Client.Options
                     return (Module.Auth, ParseAuth(rargs));
                 case "repo":
                     return (Module.Repo, ParseRepo(rargs));
+                case "axiom":
+                    return (Module.Axiom, ParseAxiom(rargs));
                 default:
                     throw new TomIsLazyException();
             }
@@ -47,6 +49,7 @@ MODULES:
     auth        Create, read, update, or delete accounts and tokens.
     repo        Create, read, delete, and generate a script from a list of
                 repositories. Secured per user.
+    axiom       Read axioms, aka sources of truth that can be updated from afar.
 ";
 //345678901234567890123456789012345678901234567890123456789012345678901234567890
         public static readonly string OptionsBaseHelpText = $@"Unlimitedinf.Apis.Client.exe v{FileVersionInfo.GetVersionInfo(typeof(Options).Assembly.Location).FileVersion}
