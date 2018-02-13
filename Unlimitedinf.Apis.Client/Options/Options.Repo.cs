@@ -67,11 +67,6 @@ repositories at once with the use of a PowerShell script.
         {
             public CRUD Repo { get; set; }
             public bool Powershell { get; set; }
-
-            public override string ToString()
-            {
-                return JsonConvert.SerializeObject(this);
-            }
         }
     }
 }

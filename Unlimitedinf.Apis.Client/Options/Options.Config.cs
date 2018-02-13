@@ -76,11 +76,6 @@ for input.
             public string Username { get; set; }
             public string Token { get; set; }
             public bool? VerboseInput { get; set; }
-
-            public override string ToString()
-            {
-                return JsonConvert.SerializeObject(this, Formatting.Indented);
-            }
         }
     }
 }

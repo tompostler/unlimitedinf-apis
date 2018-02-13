@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -28,7 +29,12 @@ namespace Unlimitedinf.Apis.Client
 #endif // DEBUG
 
             Log.PrintVerbosityLevel = false;
-            JsonConvert.DefaultSettings = () => new JsonSerializerSettings { Formatting = Formatting.Indented, NullValueHandling = NullValueHandling.Ignore };
+            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented,
+                NullValueHandling = NullValueHandling.Ignore,
+                Converters = new List<JsonConverter> { new StringEnumConverter() }
+            };
             Log.Ver("CONFIG: " + JsonConvert.SerializeObject(Settings.I));
 
             try
@@ -53,6 +59,9 @@ namespace Unlimitedinf.Apis.Client
                         return;
                     case Module.Versioning:
                         await Modules.Versioning.Run(options);
+                        return;
+                    case Module.Catan:
+                        await Modules.Catan.Run(options);
                         return;
                 }
             }

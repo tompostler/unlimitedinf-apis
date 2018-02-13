@@ -74,11 +74,6 @@ evolve. Always hit the APIs to make sure the latest version is acquired.
             public int? Http { get; set; } = null;
             public string Type { get; set; }
             public string Id { get; set; }
-
-            public override string ToString()
-            {
-                return JsonConvert.SerializeObject(this);
-            }
         }
     }
 }

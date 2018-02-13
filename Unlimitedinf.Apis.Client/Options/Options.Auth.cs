@@ -80,11 +80,6 @@ for input (with the exception being the execution of the auth module).
             public string ReadAccount { get; set; }
             public bool CreateToken { get; set; }
             public string DeleteToken { get; set; }
-
-            public override string ToString()
-            {
-                return JsonConvert.SerializeObject(this);
-            }
         }
     }
 }

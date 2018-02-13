@@ -8,6 +8,7 @@
         Auth,
         Repo,
         Axiom,
-        Versioning
+        Versioning,
+        Catan
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -29,6 +30,8 @@ namespace Unlimitedinf.Apis.Client.Options
                     return (Module.Axiom, ParseAxiom(rargs));
                 case "ver":
                     return (Module.Versioning, ParseVersioning(rargs));
+                case "catan":
+                    return (Module.Catan, ParseCatan(rargs));
                 default:
                     throw new TomIsLazyException();
             }
@@ -56,6 +59,8 @@ MODULES:
                 repositories. Secured per user.
     axiom       Read axioms, aka sources of truth that can be updated from afar.
     ver         Create, read, update, or delete versions and counts.
+    catan       Create, read, update, or delete records of dice rolls for games
+                of Catan.
 ";
 //345678901234567890123456789012345678901234567890123456789012345678901234567890
         public static readonly string OptionsBaseHelpText = $@"Unlimitedinf.Apis.Client.exe v{FileVersionInfo.GetVersionInfo(typeof(Options).Assembly.Location).FileVersion}
@@ -71,6 +76,11 @@ OPTIONS:";
         public abstract class ModuleOptions
         {
             public bool Help { get; set; }
+
+            public override string ToString()
+            {
+                return JsonConvert.SerializeObject(this);
+            }
         }
     }
 }

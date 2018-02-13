@@ -92,11 +92,6 @@ personal projects).
             public CRUD Version { get; set; }
             public string ReadCount { get; set; }
             public string ReadVersion { get; set; }
-
-            public override string ToString()
-            {
-                return JsonConvert.SerializeObject(this);
-            }
         }
     }
 }
