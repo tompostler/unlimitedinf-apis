@@ -51,7 +51,15 @@ namespace Unlimitedinf.Apis.Client
                     case Module.Axiom:
                         await Modules.Axiom.Run(options);
                         return;
+                    case Module.Versioning:
+                        await Modules.Versioning.Run(options);
+                        return;
                 }
+            }
+            catch (ApiException e)
+            {
+                Log.Err($"{e.GetType().FullName} {e.Message}");
+                U.Exit();
             }
             catch (Exception e)
             {

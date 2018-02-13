@@ -39,6 +39,11 @@ namespace Unlimitedinf.Apis.Client.Options
                     "t|token=",
                     "Sets a token in the configuration.",
                     v => config.Token = v
+                },
+                {
+                    "v|verbose=",
+                    "Will set a flag in the configuration which cause executions to provide additional assistance when asking for non-string inputs. Accepted values are anything that works with Boolean.Parse()",
+                    v => config.VerboseInput = Boolean.Parse(v)
                 }
             };
 
@@ -70,6 +75,7 @@ for input.
             public bool Clear { get; set; }
             public string Username { get; set; }
             public string Token { get; set; }
+            public bool? VerboseInput { get; set; }
 
             public override string ToString()
             {

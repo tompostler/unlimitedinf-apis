@@ -24,6 +24,7 @@ namespace Unlimitedinf.Apis.Client
 
         public string Username { get; set; }
         public string Token { get; set; }
+        public bool VerboseInput { get; set; }
 
         private static readonly FileInfo SettingsFile = new FileInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "UnlimitedInf", "Apis", "client.config"));
 

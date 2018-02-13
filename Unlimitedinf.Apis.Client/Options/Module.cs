@@ -7,6 +7,7 @@
         Config,
         Auth,
         Repo,
-        Axiom
+        Axiom,
+        Versioning
     }
 }

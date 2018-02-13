@@ -38,6 +38,13 @@ namespace Unlimitedinf.Apis.Client.Modules
                 if (Token.IsTokenExpired(opts.Token))
                     Log.Wrn("However, token is not valid.");
             }
+
+            if (opts.VerboseInput.HasValue)
+            {
+                Settings.I.VerboseInput = opts.VerboseInput.Value;
+                Settings.Save();
+                Log.Inf("Updated verbose input option.");
+            }
         }
     }
 }

@@ -129,6 +129,22 @@ namespace Unlimitedinf.Apis.Client
             return JsonConvert.DeserializeObject<TResult>(rontent);
         }
 
+        internal async Task<TResult> Patch<TResult>(string url, object content)
+        {
+            var sontent = JsonConvert.SerializeObject(content);
+            Log.Ver($"{nameof(url)}: PATCH {url}");
+            Log.Ver($"{nameof(content)}: {sontent}");
+            HttpMethod method = new HttpMethod("PATCH");
+            HttpRequestMessage request = new HttpRequestMessage(method, url)
+            {
+                Content = new StringContent(sontent, Encoding.UTF8, "application/json")
+            };
+            HttpResponseMessage response = await this.Client.SendAsync(request);
+            string rontent = await response.Content.ReadAsStringAsync();
+            ExceptionCreator.ThrowMaybe(response.StatusCode, rontent);
+            return JsonConvert.DeserializeObject<TResult>(rontent);
+        }
+
         internal async Task<TResult> Put<TResult>(string url, object content)
         {
             var sontent = JsonConvert.SerializeObject(content);

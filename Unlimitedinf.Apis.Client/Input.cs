@@ -27,8 +27,17 @@ namespace Unlimitedinf.Apis.Client
             return results;
         }
 
-        internal static string Get(string thingToGet)
+        internal static string Get(string thingToGet, bool useConfig = true)
         {
+            if (useConfig)
+            {
+                if (thingToGet.Equals("username", StringComparison.OrdinalIgnoreCase) && !string.IsNullOrWhiteSpace(Settings.I.Username))
+                {
+                    Log.Ver("Retrieved username from settings.");
+                    return Settings.I.Username;
+                }
+            }
+
             Console.Write($"{thingToGet}: ");
             return Console.ReadLine().Trim();
         }
@@ -69,17 +78,20 @@ namespace Unlimitedinf.Apis.Client
 
             foreach (var property in properties)
             {
-                if (property.Name.Equals("username", StringComparison.OrdinalIgnoreCase) && !string.IsNullOrWhiteSpace(Settings.I.Username))
+                var r = property.GetCustomAttribute<RequiredAttribute>() == null ? "?" : string.Empty;
+                var v = string.Empty;
+                if (Settings.I.VerboseInput)
                 {
-                    property.SetValue(result, Settings.I.Username);
-                    Log.Ver("Retrieved username from settings.");
-                    continue;
+                    // Added as deemed necessary for assistance
+                    if (property.PropertyType.IsEnum)
+                        v = $" [{string.Join(",", Enum.GetNames(property.PropertyType))}]";
+                    else if (property.PropertyType == typeof(Boolean))
+                        v = " [true,false]";
+                    else if (property.PropertyType == typeof(Guid))
+                        v = " [<guid>]";
                 }
 
-                var r = property.GetCustomAttribute<RequiredAttribute>() == null ? "?" : string.Empty;
-
-                Console.Write($"{property.Name}{r}: ");
-                var value = Console.ReadLine().Trim();
+                var value = Get($"{property.Name}{r}{v}");
                 if (!string.IsNullOrWhiteSpace(value))
                 {
                     // Unfortunately, I have yet to find a better way to do this
@@ -107,7 +119,7 @@ namespace Unlimitedinf.Apis.Client
                         property.SetValue(result, new Uri(value));
 
                     else
-                        throw new NotImplementedException($"Property '{property.Name}' of type '{property.PropertyType}' does not have a valid conversion defined.");
+                        throw new TomIsLazyException($"Property '{property.Name}' of type '{property.PropertyType}' does not have a valid conversion defined.");
                 }
             }
 

@@ -27,6 +27,8 @@ namespace Unlimitedinf.Apis.Client.Options
                     return (Module.Repo, ParseRepo(rargs));
                 case "axiom":
                     return (Module.Axiom, ParseAxiom(rargs));
+                case "ver":
+                    return (Module.Versioning, ParseVersioning(rargs));
                 default:
                     throw new TomIsLazyException();
             }
@@ -39,7 +41,10 @@ Usage: Unlimitedinf.Apis.Client.exe MODULE [OPTIONS]*
 A console application to communicate with the APIs. The executable is broken up
 by various modules, of which each may be handled differently. Specifying
 multiple logical operations per module is unsupported and unguarded. Whenever an
-input is followed by a '?', then it is optional. Good luck and have fun!
+input is followed by a '?', then it is optional. Also, consistency among the
+different modules varies wildly based on the consistency of the controllers...
+
+Good luck and have fun!
 
 MODULES:
     help        Prints this helptext. For detailed help on a specific module,
@@ -50,6 +55,7 @@ MODULES:
     repo        Create, read, delete, and generate a script from a list of
                 repositories. Secured per user.
     axiom       Read axioms, aka sources of truth that can be updated from afar.
+    ver         Create, read, update, or delete versions and counts.
 ";
 //345678901234567890123456789012345678901234567890123456789012345678901234567890
         public static readonly string OptionsBaseHelpText = $@"Unlimitedinf.Apis.Client.exe v{FileVersionInfo.GetVersionInfo(typeof(Options).Assembly.Location).FileVersion}
