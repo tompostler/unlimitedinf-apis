@@ -91,6 +91,7 @@ namespace BatchDelete
                 }
                 catch (Exception ex)
                 {
+                    Log.Err(ex.ToString());
                     if (Debugger.IsAttached)
                         Debugger.Break();
                     throw;
