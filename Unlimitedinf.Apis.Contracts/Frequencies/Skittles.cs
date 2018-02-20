@@ -9,7 +9,7 @@ namespace Unlimitedinf.Apis.Contracts.Frequencies
     /// Representing a bag of skittles.
     /// </summary>
     /// <remarks>
-    /// Partition Key will be frequency type, subtype, and size. E.g. skittles_classic_fun
+    /// PartitionKey will be frequency type then username. e.g. skittles_unlimitedinf
     /// RowKey will just be some guid
     /// </remarks>
     public class Skittles
