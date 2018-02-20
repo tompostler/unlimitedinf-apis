@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using Unlimitedinf.Apis.Contracts.CustomValidators;
@@ -26,7 +28,7 @@ namespace Unlimitedinf.Apis.Contracts.Frequencies
         public string id { get; protected set; }
 
         /// <summary>
-        /// The type of bag of skittles.
+        /// The type of the bag of skittles.
         /// </summary>
         [Required]
         public SkittleType type { get; set; }
@@ -139,7 +141,15 @@ namespace Unlimitedinf.Apis.Contracts.Frequencies
             sb.AppendLine();
             sb.AppendLine();
 
-
+            sb.AppendLine($"Distribution of all {this.skittles.colors.total} skittles.");
+            sb.AppendLine("COLOR  EXP#  ACT#  EXP%  ACT%  VISUALIZATION");
+            switch (this.skittles.colors)
+            {
+                case Skittles.SkittleColorClassic scc:
+                    sb.Append($"{nameof(scc.purple).Substring(0, Math.Min(nameof(scc.purple).Length, 6)).PadRight(6)}  ");
+                    sb.AppendLine($"{scc.total / 5.0:#0.#}  {scc.purple,4}  {25:0.0}  {100d * scc.purple / scc.total:0.0}  {Visualize(25, 100d * scc.purple / scc.total)}");
+                    break;
+            }
 
             return sb.ToString();
         }
@@ -169,5 +179,35 @@ namespace Unlimitedinf.Apis.Contracts.Frequencies
                 return new string(ex, (int)Math.Round(actual * scaleFactor)) + new string(shrt, (int)Math.Round((expected - actual) / 2));
             }
         }
+    }
+
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+    public sealed class SkittlesConverter : JsonConverter
+    {
+        public override bool CanConvert(Type objectType)
+        {
+            return objectType == typeof(Skittles);
+        }
+
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            var jo = JObject.Load(reader);
+            var skit = jo.ToObject<Skittles>();
+            switch (skit.type)
+            {
+                case Skittles.SkittleType.classic:
+                    skit.colors = jo[nameof(Skittles.colors)].ToObject<Skittles.SkittleColorClassic>();
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+            return skit;
+        }
+
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            serializer.Serialize(writer, value.ToString());
+        }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     }
 }
