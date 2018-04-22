@@ -16,6 +16,7 @@ namespace Unlimitedinf.Apis.Server
         public CloudTable Auth { get; }
         public CloudTable Catans { get; }
         public CloudTable Messages { get; }
+        public CloudTable Frequencies { get; }
         public CloudTable Repos { get; }
         public CloudTable Versioning { get; }
 
@@ -31,6 +32,7 @@ namespace Unlimitedinf.Apis.Server
             this.Axioms = this.TableClient.GetTableReference("apisaxiom");
             this.Auth = this.TableClient.GetTableReference("apisauth");
             this.Catans = this.TableClient.GetTableReference("apiscatans");
+            this.Frequencies = this.TableClient.GetTableReference("apisfrequencies");
             this.Messages = this.TableClient.GetTableReference("apismessages");
             this.Repos = this.TableClient.GetTableReference("apisrepos");
             this.Versioning = this.TableClient.GetTableReference("apisversion");
@@ -39,6 +41,7 @@ namespace Unlimitedinf.Apis.Server
                 this.Axioms.CreateIfNotExistsAsync(),
                 this.Auth.CreateIfNotExistsAsync(),
                 this.Catans.CreateIfNotExistsAsync(),
+                this.Frequencies.CreateIfNotExistsAsync(),
                 this.Messages.CreateIfNotExistsAsync(),
                 this.Repos.CreateIfNotExistsAsync(),
                 this.Versioning.CreateIfNotExistsAsync()

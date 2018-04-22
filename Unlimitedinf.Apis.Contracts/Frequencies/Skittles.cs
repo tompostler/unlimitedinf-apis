@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -17,6 +18,11 @@ namespace Unlimitedinf.Apis.Contracts.Frequencies
     public class Skittles
     {
         /// <summary>
+        /// Maximum count for a color of skittles. Why would there be more than this in one object?
+        /// </summary>
+        public const int MaximumColorCount = 1000;
+
+        /// <summary>
         /// <see cref="Auth.Account.username"/>.
         /// </summary>
         [Required, StringLength(100), CustomValidation(typeof(AccountValidator), nameof(AccountValidator.UsernameValidation))]
@@ -25,18 +31,18 @@ namespace Unlimitedinf.Apis.Contracts.Frequencies
         /// <summary>
         /// The unique identifier for this bag of skittles. Set by the server.
         /// </summary>
-        public string id { get; protected set; }
+        public string id { get; internal set; }
 
         /// <summary>
         /// The type of the bag of skittles.
         /// </summary>
-        [Required]
+        [Required, JsonConverter(typeof(StringEnumConverter))]
         public SkittleType type { get; set; }
 
         /// <summary>
         /// The size of the bag of skittles.
         /// </summary>
-        [Required]
+        [Required, JsonConverter(typeof(StringEnumConverter))]
         public SkittleSize size { get; set; }
 
         /// <summary>
@@ -83,7 +89,11 @@ namespace Unlimitedinf.Apis.Contracts.Frequencies
             /// <summary>
             /// Total count of the skittles.
             /// </summary>
-            public int total { get; protected set; }
+            /// <remarks>
+            /// AFAIK, there isn't a type of skittles with more than 5 colors in it.
+            /// </remarks>
+            [Required, Range(0, Skittles.MaximumColorCount * 5)]
+            public int total { get; set; }
         }
 
         /// <summary>
@@ -94,22 +104,27 @@ namespace Unlimitedinf.Apis.Contracts.Frequencies
             /// <summary>
             /// Purple (grape) skittle count.
             /// </summary>
+            [Required, Range(0, Skittles.MaximumColorCount)]
             public int purple { get; set; }
             /// <summary>
             /// Red (strawberry) skittle count.
             /// </summary>
+            [Required, Range(0, Skittles.MaximumColorCount)]
             public int red { get; set; }
             /// <summary>
             /// Yellow (lemon) skittle count.
             /// </summary>
+            [Required, Range(0, Skittles.MaximumColorCount)]
             public int yellow { get; set; }
             /// <summary>
             /// Orange (orange) skittle count.
             /// </summary>
+            [Required, Range(0, Skittles.MaximumColorCount)]
             public int orange { get; set; }
             /// <summary>
             /// Green (apple) skittle count.
             /// </summary>
+            [Required, Range(0, Skittles.MaximumColorCount)]
             public int green { get; set; }
         }
     }
@@ -148,7 +163,18 @@ namespace Unlimitedinf.Apis.Contracts.Frequencies
                 case Skittles.SkittleColorClassic scc:
                     sb.Append($"{nameof(scc.purple).Substring(0, Math.Min(nameof(scc.purple).Length, 6)).PadRight(6)}  ");
                     sb.AppendLine($"{scc.total / 5.0:#0.#}  {scc.purple,4}  {25:0.0}  {100d * scc.purple / scc.total:0.0}  {Visualize(25, 100d * scc.purple / scc.total)}");
+                    sb.Append($"{nameof(scc.red).Substring(0, Math.Min(nameof(scc.red).Length, 6)).PadRight(6)}  ");
+                    sb.AppendLine($"{scc.total / 5.0:#0.#}  {scc.red,4}  {25:0.0}  {100d * scc.red / scc.total:0.0}  {Visualize(25, 100d * scc.red / scc.total)}");
+                    sb.Append($"{nameof(scc.yellow).Substring(0, Math.Min(nameof(scc.yellow).Length, 6)).PadRight(6)}  ");
+                    sb.AppendLine($"{scc.total / 5.0:#0.#}  {scc.yellow,4}  {25:0.0}  {100d * scc.yellow / scc.total:0.0}  {Visualize(25, 100d * scc.yellow / scc.total)}");
+                    sb.Append($"{nameof(scc.orange).Substring(0, Math.Min(nameof(scc.orange).Length, 6)).PadRight(6)}  ");
+                    sb.AppendLine($"{scc.total / 5.0:#0.#}  {scc.orange,4}  {25:0.0}  {100d * scc.orange / scc.total:0.0}  {Visualize(25, 100d * scc.orange / scc.total)}");
+                    sb.Append($"{nameof(scc.green).Substring(0, Math.Min(nameof(scc.green).Length, 6)).PadRight(6)}  ");
+                    sb.AppendLine($"{scc.total / 5.0:#0.#}  {scc.green,4}  {25:0.0}  {100d * scc.green / scc.total:0.0}  {Visualize(25, 100d * scc.green / scc.total)}");
                     break;
+
+                default:
+                    throw new NotImplementedException();
             }
 
             return sb.ToString();
