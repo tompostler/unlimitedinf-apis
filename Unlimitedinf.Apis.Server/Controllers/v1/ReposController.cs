@@ -124,7 +124,7 @@ for ($i=0; $i -lt $grepos.length; $i++) {
     $topbot = ('#'*150).SubString(0, $loc.Length + 16)
     if (-not (Test-Path $loc)) {
         Write-Host -ForegroundColor White -BackgroundColor Blue $topbot
-        Write-Host -ForegroundColor White -BackgroundColor Blue ('# Clone ' + $i.ToString().PadLeft(2) + '/' + $grepos.Length.ToString().PadRight(2) + ' ' + $loc + ' #')
+        Write-Host -ForegroundColor White -BackgroundColor Blue ('# Clone ' + ($i+1).ToString().PadLeft(2) + '/' + $grepos.Length.ToString().PadRight(2) + ' ' + $loc + ' #')
         Write-Host -ForegroundColor White -BackgroundColor Blue $topbot
         git clone --recursive $grepo.RepoUri $loc
         Push-Location $loc
@@ -133,7 +133,7 @@ for ($i=0; $i -lt $grepos.length; $i++) {
         Pop-Location
     } else {
         Write-Host -ForegroundColor DarkGray -BackgroundColor Blue $topbot
-        Write-Host -ForegroundColor DarkGray -BackgroundColor Blue ('# Exist ' + $i.ToString().PadLeft(2) + '/' + $grepos.Length.ToString().PadRight(2) + ' '  + $loc + ' #')
+        Write-Host -ForegroundColor DarkGray -BackgroundColor Blue ('# Exist ' + ($i+1).ToString().PadLeft(2) + '/' + $grepos.Length.ToString().PadRight(2) + ' '  + $loc + ' #')
         Write-Host -ForegroundColor DarkGray -BackgroundColor Blue $topbot
     }
     Write-Host
